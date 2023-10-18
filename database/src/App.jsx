@@ -3,6 +3,7 @@ import './App.css';
 import {  BrowserRouter as Router,  Routes,  Route} from "react-router-dom";
 import { useState, useEffect } from 'react';
 import FrontPage from './Pages/FrontPage';
+import Admission from './Pages/Admission';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<FrontPage />} />
+          <Route path="/admission" element={<Admission />} />
         </Routes>
       </Router>
     </div>

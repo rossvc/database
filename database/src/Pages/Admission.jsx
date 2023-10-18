@@ -27,7 +27,7 @@ function Copyright() {
   );
 }
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const cards = [1, 2, 3];
 
 let theme = createTheme({  });
 theme = createTheme(theme, {
@@ -41,13 +41,12 @@ theme = createTheme(theme, {
   },
 });
 
-export default function FrontPage() {
+export default function Admission() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <DefaultAppBar/>
       <main>
-        {/* Hero unit */}
         <Box
           sx={{
             bgcolor: 'background.paper',
@@ -63,12 +62,10 @@ export default function FrontPage() {
               color="salmon"
               gutterBottom
             >
-              Album layout
+              Admissions
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Something short and leading about the collection below—its contents,
-              the creator, etc. Make it short and sweet, but not too short so folks
-              don&apos;t simply skip over it entirely.
+              Talk about exhibits
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -99,16 +96,15 @@ export default function FrontPage() {
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      Admission Name
                     </Typography>
                     <Typography>
-                      This is a media card. You can use this section to describe the
-                      content.
+                      Description of admissions
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
+                    <Button size="small">Adult</Button>
+                    <Button size="small">Child</Button>
                   </CardActions>
                 </Card>
               </Grid>
