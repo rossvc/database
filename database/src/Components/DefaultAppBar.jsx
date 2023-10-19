@@ -4,51 +4,59 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-export default function DefaultAppBar() {
-  let theme = createTheme({  });
-  theme = createTheme(theme, {
-    palette: {
-      salmon: theme.palette.augmentColor({
-        color: {
-          main: '#FF5733',
-        },
-        name: 'salmon',
-      }),
-    },
-  });
+// This is the app/nav bar the public can view, for all customers
 
+export default function DefaultAppBar(props) {
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar color='salmon'>
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}>
-              Houston Museum of Fine Arts
-            </Typography>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar>
+        <Toolbar>
+        <Button
+        href="/"
+        sx={{
+          '&:hover': {
+            backgroundColor: 'inherit',
+          },
+          'color': "white",
+        }}>
+          <Typography variant="h6" component="div" sx={{
+            mr: 2,
+            display: { xs: 'none', md: 'flex' },
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '.3rem',
+            color: 'inherit',
+            textDecoration: 'none',
+          }}>
+            Houston Museum of Fine Arts
+          </Typography></Button>
 
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          </Box>
 
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              <Button href="/admission" color="inherit">Admission</Button>
-              <Button color="inherit">Link 2</Button>
-              <Button color="inherit">Link 3</Button>
-              <Button color="inherit">Link 4</Button>
-            </Box>
-          </Toolbar>
-        </AppBar>
-      </Box>
-    </ThemeProvider>
+          <Box sx={{
+            flexGrow: 0,
+          }}>
+            <Button href="/admission" color="inherit">Admission</Button>
+            <Button color="inherit">Link 2</Button>
+            <Button color="inherit">Link 3</Button>
+            <Button color="inherit">Link 4</Button>
+            <Button
+              variant="outlined"
+              color="inherit"
+              onClick={props.onLogin} // TODO: add login logic
+              sx={{
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 191, 255, 0.3)',
+                },
+              }}
+            >
+              Employee Login
+            </Button>
+          </Box>
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 }
