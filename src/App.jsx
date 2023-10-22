@@ -7,6 +7,7 @@ import Admission from './Pages/Admission';
 import Login from './Components/Login';
 import Footer from './Components/Footer';
 import DefaultAppBar from './Components/DefaultAppBar';
+import NotFound from './Pages/NotFound';
 
 //This is app, this shows the website, in order for the website to be viewed you must include it in this file
 
@@ -64,6 +65,7 @@ function App() {
             <Routes> {/*TODO: Add user auth in element sections*/}
               <Route path="/" element={<FrontPage />} /> 
               <Route path="/admission" element={<Admission />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Router>
         <Footer/>
