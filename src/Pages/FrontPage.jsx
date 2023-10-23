@@ -42,7 +42,7 @@ export default function FrontPage() {
       </Box>
 
       {/*Upcoming events*/}
-      <Container sx={{ py: 8 }} maxWidth="md">
+      <Container maxWidth="md">
         <Typography variant="h5" color="salmon" paragraph>
           Upcoming Events
         </Typography>

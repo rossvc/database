@@ -42,16 +42,9 @@ export default function Admission() {
             Explore the main campus of the Museum of Fine Arts, Houston, housing permanent 
             collections of art from every era of history and all seven continents, plus special exhibitions.
           </Typography>
-          <Stack
-            sx={{ pt: 4 }}
-            direction="row"
-            spacing={2}
-            justifyContent="center"
-          >
-          </Stack>
         </Container>
       </Box>
-      <Container sx={{ py: 8 }} maxWidth="md">
+      <Container maxWidth="md">
         {/* Here we map all of the avaliable tickets, hard code it into App */}
         <Grid container spacing={4}>
           {cards.map((card) => (
