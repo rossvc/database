@@ -10,11 +10,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-//Admissions page, should show ticket info and other stuff
+// Admissions page, should show ticket info and other stuff
 
-//We will hard code admission ticket details into code, add it to database, can add database logic on another file
+// We will hard code admission ticket details into code, add it to database, can add database logic on another file
 
-//User can click on ticket, get sent to checkout page, will only be able to pay for one exhbit at a time
+// User can click on ticket, get sent to checkout page, will only be able to pay for one exhbit at a time
 
 const cards = [1, 2, 3];
 
