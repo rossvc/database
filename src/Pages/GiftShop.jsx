@@ -16,6 +16,7 @@ import Container from '@mui/material/Container';
 // At the top of the page, there should be a button for users to checkout, taking them to the checkout page
 // When go to checkout is click, Checkout page is shown, user must input valid data then 
 // After checkout, go to confirmation page
+// Users can edit the items in their cart when they checkout
 
 const cards = [1, 2, 3];
 

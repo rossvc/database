@@ -19,7 +19,7 @@ export default function Footer() {
 			<Typography variant="body2" color="text.secondary" align="center">
 					{'Copyright © '}
 					<Link color="inherit" href="/">
-					Musuem
+					MFAH
 					</Link>{' '}
 					{new Date().getFullYear()}
 					{'. The Museum of Fine Arts, Houston. All rights reserved.'}
