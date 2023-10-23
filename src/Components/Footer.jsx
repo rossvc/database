@@ -5,7 +5,7 @@ export default function Footer() {
 	return (
 		<Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
 			<Typography variant="h6" align="center" gutterBottom>
-			Footer
+			MFAH
 			</Typography>
 			<Typography
 			variant="subtitle1"
@@ -13,7 +13,8 @@ export default function Footer() {
 			color="text.secondary"
 			component="p"
 			>
-			More information about the Musuem 
+			Main Address: 1001 Bissonnet, Houston, Texas 77005 |
+			MFAH Information Line: 713.639.7300
 			</Typography>
 			<Typography variant="body2" color="text.secondary" align="center">
 					{'Copyright © '}
@@ -21,7 +22,7 @@ export default function Footer() {
 					Musuem
 					</Link>{' '}
 					{new Date().getFullYear()}
-					{'.'}
+					{'. The Museum of Fine Arts, Houston. All rights reserved.'}
 			</Typography>
 		</Box>
 	);

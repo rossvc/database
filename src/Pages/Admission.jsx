@@ -10,7 +10,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-//Admissions page, should show ticket info and other stuff
+// Admissions page, should show ticket info and other stuff
+
+// We will hard code admission ticket details into code, add it to database, can add database logic on another file
+
+// User can click on ticket, get sent to checkout page, will only be able to pay for one exhbit at a time
 
 const cards = [1, 2, 3];
 
@@ -24,7 +28,7 @@ export default function Admission() {
           pb: 6,
         }}
       >
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
           <Typography
             component="h1"
             variant="h2"
@@ -35,7 +39,8 @@ export default function Admission() {
             Admissions
           </Typography>
           <Typography variant="h5" align="center" color="text.secondary" paragraph>
-            Talk about exhibits
+            Explore the main campus of the Museum of Fine Arts, Houston, housing permanent 
+            collections of art from every era of history and all seven continents, plus special exhibitions.
           </Typography>
           <Stack
             sx={{ pt: 4 }}
@@ -47,7 +52,7 @@ export default function Admission() {
         </Container>
       </Box>
       <Container sx={{ py: 8 }} maxWidth="md">
-        {/* End hero unit */}
+        {/* Here we map all of the avaliable tickets, hard code it into App */}
         <Grid container spacing={4}>
           {cards.map((card) => (
             <Grid item key={card} xs={12} sm={6} md={4}>

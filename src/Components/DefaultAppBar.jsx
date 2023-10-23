@@ -29,7 +29,7 @@ export default function DefaultAppBar(props) {
             color: 'inherit',
             textDecoration: 'none',
           }}>
-            Houston Museum of Fine Arts
+            Museum of Fine Arts Houston
           </Typography></Button>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
