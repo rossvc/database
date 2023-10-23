@@ -39,7 +39,7 @@ export default function DefaultAppBar(props) {
             flexGrow: 0,
           }}>
             <Button href="/admission" color="inherit">Admission</Button>
-            <Button color="inherit">Link 2</Button>
+            <Button href="/giftshop" color="inherit">Gift Shop</Button>
             <Button color="inherit">Link 3</Button>
             <Button color="inherit">Link 4</Button>
             <Button

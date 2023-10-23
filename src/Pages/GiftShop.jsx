@@ -10,15 +10,16 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-// Admissions page, should show ticket info and other stuff
+// Gift shop page, users can buy gifts
 
-// We will hard code admission ticket details into code, add it to database, can add database logic on another file
-
-// User can click on ticket, get sent to checkout page, will only be able to pay for one exhbit at a time
+// When a user clicks add to cart, their cart will update to the number of items 
+// At the top of the page, there should be a button for users to checkout, taking them to the checkout page
+// When go to checkout is click, Checkout page is shown, user must input valid data then 
+// After checkout, go to confirmation page
 
 const cards = [1, 2, 3];
 
-export default function Admission() {
+export default function GiftShop() {
   return (
     <main>
       <Box
@@ -36,11 +37,10 @@ export default function Admission() {
             color="salmon"
             gutterBottom
           >
-            Admissions
+            Gift Shop 
           </Typography>
           <Typography variant="h5" align="center" color="text.secondary" paragraph>
-            Explore the main campus of the Museum of Fine Arts, Houston, housing permanent 
-            collections of art from every era of history and all seven continents, plus special exhibitions.
+            Take a piece of the Museum of Fine Arts, Houston home with you!
           </Typography>
           <Stack
 						sx={{ pt: 4 }}
@@ -56,7 +56,7 @@ export default function Admission() {
         </Container>
       </Box>
       <Container maxWidth="md">
-        {/* Here we map all of the avaliable tickets, hard code it into App */}
+        {/* Here we map all of the avaliable Items */}
         <Grid container spacing={4}>
           {cards.map((card) => (
             <Grid item key={card} xs={12} sm={6} md={4}>
@@ -73,15 +73,14 @@ export default function Admission() {
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Admission Name
+                    Item name
                   </Typography>
                   <Typography>
-                    Description of admissions
+                    Description of Item
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small">Adult</Button>
-                  <Button size="small">Child</Button>
+                  <Button size="small">Add to cart</Button>
                 </CardActions>
               </Card>
             </Grid>
