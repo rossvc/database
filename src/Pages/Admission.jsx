@@ -13,6 +13,8 @@ import Container from '@mui/material/Container';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 // Admissions page, should show ticket info and other stuff
 
@@ -23,7 +25,8 @@ import ListItemText from '@mui/material/ListItemText';
 // After checkout, go to confirmation page
 // Users can edit the items in their cart when they checkout
 
-//TODO LATER: Once database logic is in. Fix this to include database data
+// TODO LATER: Once database logic is in. Fix this to include database data
+// TODO: Add email entry(Cannot checkout until it is selected), add email confirmation function, add database logic, copy and paste for giftshop
 
 const cards = [1, 2, 3, 4]; 
 const cardContent = {
@@ -61,6 +64,12 @@ export default function Admission() {
       setState("confirmation");
       //console.log(state);
     }
+  };
+
+  const deleteItem = async (key) => {
+    console.log(cart.key = key);
+    const updatedCart = cart.filter(item => item.key !== key);
+    setCart(updatedCart);
   };
 
   if(state === "default"){
@@ -161,6 +170,9 @@ export default function Admission() {
                 <ListItem key={item.key} sx={{ py: 1, px: 0 }}>
                   <ListItemText primary={item.title} secondary={item.type}/>
                   <Typography variant="body2">{item.price}</Typography>
+                  <IconButton onClick={() => {deleteItem(item.key)}}>
+                    <DeleteIcon />
+                  </IconButton>
                 </ListItem>
               ))}
               <ListItem sx={{ py: 1, px: 0 }}>
@@ -254,5 +266,4 @@ export default function Admission() {
       </main>
     );
   }
-
 }
