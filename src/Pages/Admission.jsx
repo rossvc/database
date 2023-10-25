@@ -15,6 +15,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import TextField from '@mui/material/TextField';
 
 // Admissions page, should show ticket info and other stuff
 
@@ -25,8 +26,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 // After checkout, go to confirmation page
 // Users can edit the items in their cart when they checkout
 
-// TODO LATER: Once database logic is in. Fix this to include database data
-// TODO: Add email entry(Cannot checkout until it is selected), add email confirmation function, add database logic, copy and paste for giftshop
+// TODO LATER: Once database logic is in. Fix this to include database data, Add email confirmation function
+// TODO: add database logic, copy and paste for giftshop
 
 const cards = [1, 2, 3, 4]; 
 const cardContent = {
@@ -44,12 +45,14 @@ export default function Admission() {
   console.log('render');
   const [cart, setCart] = useState([]); // Stores items in cart
   const [state, setState] = useState("default"); // handles what view we have, default, checkout, confirmation
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState(false);
   
   const onClickButton = async (card, type) => {
     // Store each ticket in cart, be lazy, just store each one and price, add up price at checkout 
     //console.log(card, type);
     setCart([...cart, {key:cart.length, title:cardContent[card]["title"], type:type, price:cardContent[card][type]}]);
-    console.log(cart);
+    // console.log(cart);
   };
 
   const onClickCheckout = async () => {
@@ -60,10 +63,14 @@ export default function Admission() {
   };
 
   const onClickConfirmation = async () => {
-    if(cart.length !== 0){
+    setError(false);
+    var validRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    if(email !== "" && validRegex.test(email)){
+      // console.log(cart);
       setState("confirmation");
       //console.log(state);
     }
+    else{ setError(true); }
   };
 
   const deleteItem = async (key) => {
@@ -178,10 +185,24 @@ export default function Admission() {
               <ListItem sx={{ py: 1, px: 0 }}>
                 <ListItemText primary="Total" />
                 <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                  {cart.reduce((n, {price}) => n + price, 0)}
+                  ${cart.reduce((n, {price}) => n + price, 0)}
                 </Typography>
               </ListItem>
+              <br/><br/>
+              <ListItem sx={{ py: 1, px: 0 }}>
+                <Grid container spacing={3}>
+                <Grid item xs={12} md={4} lg={3}>
+                  <ListItemText primary="Email" secondary={error === true? "Please input a valid email":""}/>
+                </Grid>
+                <Grid item xs={12} md={8} lg={9}>
+                  <TextField required id="outlined-basic" label="Email" variant="outlined" type="email" fullWidth
+                              error={error === true? true:false} placeholder={error === true? "Please input a valid email":""} 
+                              value={email} onChange={(event)=>{setEmail(event.target.value)}} />
+                </Grid>
+                </Grid>
+              </ListItem>
             </List>
+            <br/>
             <Button onClick={() => { onClickConfirmation() }} variant="contained">Confirm</Button>
           </Container>
         </Box>
