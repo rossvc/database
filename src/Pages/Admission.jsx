@@ -18,16 +18,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 
 // Admissions page, should show ticket info and other stuff
-
-// We will hard code admission ticket details into code, add it to database, can add database logic on another file
-
-// At the top of the page, there should be a button for users to checkout, taking them to the checkout page
-// When go to checkout is click, Checkout page is shown, user must input valid data then 
-// After checkout, go to confirmation page
-// Users can edit the items in their cart when they checkout
+// 3 stages:
+// Store front: users can buy different tickets, add them to cart
+// Checkout: Users can delete items the no longer want, must input email to recieve recipt
+// Confirmation: If all goes well, user will see a confirmation page that will redirect them to the front page, else, they will get an error page
 
 // TODO LATER: Once database logic is in. Fix this to include database data, Add email confirmation function
-// TODO: add database logic, copy and paste for giftshop
+// TODO: add database logic, add order getter page to allow users to get orders 
 
 const cards = [1, 2, 3, 4]; 
 const cardContent = {
@@ -42,7 +39,7 @@ const cardContent = {
 };
 
 export default function Admission() {
-  console.log('render');
+  //console.log('render');
   const [cart, setCart] = useState([]); // Stores items in cart
   const [state, setState] = useState("default"); // handles what view we have, default, checkout, confirmation
   const [email, setEmail] = useState("");
