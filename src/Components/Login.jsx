@@ -45,7 +45,7 @@ const LoginModal = ({ open, onClose, onLogin }) => {
           fullWidth
           margin="normal"
         />
-        <Button variant="contained" color="primary" onClick={handleLogin}>
+        <Button href='/employeelanding' variant="contained" color="primary" onClick={handleLogin}>
           Login
         </Button>
       </DialogContent>

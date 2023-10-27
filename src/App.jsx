@@ -9,6 +9,7 @@ import Login from './Components/Login';
 import Footer from './Components/Footer';
 import DefaultAppBar from './Components/DefaultAppBar';
 import NotFound from './Pages/NotFound';
+import EmployeeLanding from './Pages/EmployeeLanding';
 
 //This is app, this shows the website, in order for the website to be viewed you must include it in this file
 
@@ -68,6 +69,7 @@ function App() {
               <Route path="/admission" element={<Admission />} />
               <Route path="/giftshop" element={<GiftShop />} />
               <Route path="*" element={<NotFound />} />
+              <Route path="/employeelanding" element={<EmployeeLanding />} />
             </Routes>
           </Router>
         <Footer/>
