@@ -228,7 +228,7 @@ export default function Admission() {
               Success!
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Checkout your email inbox for ticket receipt. See you soon!
+              Check out your email inbox for your ticket receipt. See you soon!
             </Typography>
             <Stack
               sx={{ pt: 4 }}

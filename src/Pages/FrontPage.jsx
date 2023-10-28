@@ -16,7 +16,7 @@ const cards = [1, 2, 3];
 export default function FrontPage() {
   return (
     <main>
-      <Box
+      `<Box
         sx={{
           bgcolor: 'background.paper',
           pt: 12,
@@ -31,7 +31,7 @@ export default function FrontPage() {
             color="salmon"
             gutterBottom
           >
-            Welcome to Musuem of Fine Arts Houston
+            Welcome to Museum of Fine Arts Houston
           </Typography>
           <Typography variant="h5" align="center" color="text.secondary" paragraph>
             Welcome to the Museum of Fine Arts, Houston. I hope you find mfah.org an inspiring guide 
@@ -45,7 +45,7 @@ export default function FrontPage() {
       <Container maxWidth="md">
         <Typography variant="h5" color="salmon" paragraph>
           Upcoming Events
-        </Typography>
+        </Typography>`
         <Grid container spacing={4}>
           {cards.map((card) => (
             <Grid item key={card} xs={12} sm={6} md={4}>

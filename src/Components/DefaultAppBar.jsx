@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 
 export default function DefaultAppBar(props) {
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, zIndex: "5" }}>
       <AppBar>
         <Toolbar>
         <Button
