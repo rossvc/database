@@ -143,8 +143,8 @@ export default function Admission() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button onClick={() => { onClickButton(card, "adult") }} size="small">Adult</Button>
-                    <Button onClick={() => { onClickButton(card, "child") }} size="small">Child</Button>
+                    <Button onClick={() => { onClickButton(card, "adult") }} size="small">Adult - ${cardContent[card]["adult"]}</Button>
+                    <Button onClick={() => { onClickButton(card, "child") }} size="small">Child - ${cardContent[card]["child"]}</Button>
                   </CardActions>
                 </Card>
               </Grid>

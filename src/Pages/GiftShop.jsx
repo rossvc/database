@@ -136,7 +136,7 @@ export default function GiftShop() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button onClick={() => { onClickButton(card, cardContent[card]["price"]) }} size="small">Add to Cart</Button>
+                    <Button onClick={() => { onClickButton(card, cardContent[card]["price"]) }} size="small">${cardContent[card]["price"]} - Add to Cart</Button>
                   </CardActions>
                 </Card>
               </Grid>
