@@ -5,6 +5,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FrontPage from './Pages/FrontPage';
 import Admission from './Pages/Admission';
 import GiftShop from './Pages/GiftShop';
+import Exhibition from './Pages/Exhibition';
+import Artworks from './Pages/Artworks';
 import Login from './Components/Login';
 import Footer from './Components/Footer';
 import DefaultAppBar from './Components/DefaultAppBar';
@@ -68,6 +70,8 @@ function App() {
               <Route path="/" element={<FrontPage />} /> 
               <Route path="/admission" element={<Admission />} />
               <Route path="/giftshop" element={<GiftShop />} />
+              <Route path="/exhibition" element={<Exhibition />} />
+              <Route path="/artworks" element={<Artworks />} />
               <Route path="*" element={<NotFound />} />
               <Route path="/employeelanding" element={<EmployeeLanding />} />
             </Routes>
