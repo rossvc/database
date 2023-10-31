@@ -17,39 +17,39 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 
-// Admissions page, should show ticket info and other stuff
+// Gift shop page, users can buy gifts
 // 3 stages:
-// Store front: users can buy different tickets, add them to cart
+// Store front: users can buy different items, add them to cart
 // Checkout: Users can delete items the no longer want, must input email to recieve recipt
 // Confirmation: If all goes well, user will see a confirmation page that will redirect them to the front page, else, they will get an error page
 
 // TODO LATER: Once database logic is in. Fix this to include database data, Add email confirmation function
 // TODO: add database logic, add order getter page to allow users to get orders 
 
-const cards = [1, 2, 3, 4]; 
+const cards = [1, 2, 3, 4];
 const cardContent = {
-  1:{"title": "General Admission", "description":"Get access to select pieces housed at MFAH", "adult":12, "child":8, 
-    "image":"https://www.gallerysystems.com/wp-content/uploads/MFAH.Beck-View-S-Interior.jpg" },
-  2:{"title": "Christmas Exhibit", "description":"Get access to general admission and the Christmas Exhibit", "adult":16, "child":11, 
-    "image":"https://images.squarespace-cdn.com/content/v1/586d154f03596e5605562ea7/1576587435737-35YCMHJC3F16V823WDX8/DSvh004915-JPG-Powerpoint-1500px-300dpi.jpg?format=2500w"},
-  3:{"title": "Bayou Bend Exhibit", "description":"Get access to general admission and the Bayou Bend Exhibit", "adult":16, "child":11, 
-    "image":"https://static.mfah.com/images/bayou-bend.13352912055242948009.jpg?width=1024"},
-  4:{"title": "All Exhibits", "description":"Get access to general admission and all exhibits at MFAH", "adult":25, "child":18, 
-    "image":"https://assets.simpleviewinc.com/simpleview/image/upload/crm/houston/Audrey-Jones-Beck-Building-interior-Photo-by-Jenny-Antill-0d329b5e9dae462_0d329dda-95cb-6317-c3eb33fa87f570b0.jpg"}
+  1:{"title": "Book about art", "description":"Learn more about art", "price":10, 
+    "image":"https://www.sup.org/img/covers/large/pid_26885.jpg" },
+  2:{"title": "Greek Statue Figurine", "description":"Cool a greek statue figurine, perfect for decorating ","price":15, 
+    "image":"https://m.media-amazon.com/images/I/51D6yD7C5yL._AC_UF894,1000_QL80_.jpg"},
+  3:{"title": "Print of creation of adam", "description":"Take this iconic 20\"x20\"piece home", "price":20, 
+    "image":"https://upload.wikimedia.org/wikipedia/commons/5/5b/Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg"},
+  4:{"title": "Keychain", "description":"Keychain!", "price":6, 
+    "image":"https://m.media-amazon.com/images/I/41lgBnemM7L.jpg"}
 };
 
-export default function Admission() {
+export default function GiftShop() {
   //console.log('render');
   const [cart, setCart] = useState([]); // Stores items in cart
   const [state, setState] = useState("default"); // handles what view we have, default, checkout, confirmation
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
   
-  const onClickButton = async (card, type) => {
+  const onClickButton = async (card, price) => {
     // Store each ticket in cart, be lazy, just store each one and price, add up price at checkout 
     //console.log(card, type);
-    setCart([...cart, {key:cart.length, title:cardContent[card]["title"], type:type, price:cardContent[card][type]}]);
-    // console.log(cart);
+    setCart([...cart, {key:cart.length, title:cardContent[card]["title"], price:price }]);
+    //console.log(cart);
   };
 
   const onClickCheckout = async () => {
@@ -87,39 +87,32 @@ export default function Admission() {
           }}
         >
           <Container maxWidth="md">
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="salmon"
-              gutterBottom
-            >
-              Admissions
-            </Typography>
+          <Typography
+            component="h1"
+            variant="h2"
+            align="center"
+            color="salmon"
+            gutterBottom
+          >
+            Gift Shop 
+          </Typography>
+          <Typography variant="h5" align="center" color="text.secondary" paragraph>
+            Take a piece of the Museum of Fine Arts, Houston home with you!
+          </Typography>
+          <Stack
+            sx={{ pt: 4 }}
+            direction="row"
+            spacing={2}
+            justifyContent="center"
+          >
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Explore the main campus of the Museum of Fine Arts, Houston, housing permanent 
-              collections of art from every era of history and all seven continents, plus special exhibitions.
+              Items in cart: {cart.length}
             </Typography>
-            <br/>
-            <Typography variant="h6" align="center" color="text.secondary">
-              Click either Adult or Child to add a ticket to your cart, you can edit your selections at checkout
-            </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                Items in cart: {cart.length}
-              </Typography>
-              <Button onClick={() => { onClickCheckout() }} variant="contained">Proceed to Checkout</Button>
-            </Stack>
-            
+            <Button onClick={() => { onClickCheckout() }} variant="contained">Proceed to Checkout</Button>
+          </Stack>
           </Container>
         </Box>
         <Container maxWidth="md">
-          {/* Here we map all of the avaliable tickets, hard code it into App */}
           <Grid container spacing={4}>
             {cards.map((card) => (
               <Grid item key={card} xs={12} sm={6} md={4}>
@@ -143,8 +136,7 @@ export default function Admission() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button onClick={() => { onClickButton(card, "adult") }} size="small">Adult - ${cardContent[card]["adult"]}</Button>
-                    <Button onClick={() => { onClickButton(card, "child") }} size="small">Child - ${cardContent[card]["child"]}</Button>
+                    <Button onClick={() => { onClickButton(card, cardContent[card]["price"]) }} size="small">${cardContent[card]["price"]} - Add to Cart</Button>
                   </CardActions>
                 </Card>
               </Grid>
@@ -228,7 +220,7 @@ export default function Admission() {
               Success!
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Check out your email inbox for your ticket receipt. See you soon!
+              Checkout your email inbox for ticket receipt. Come back soon!
             </Typography>
             <Stack
               sx={{ pt: 4 }}

@@ -3,7 +3,7 @@ import { Typography, Link, Box } from "@mui/material";
 
 export default function Footer() {
 	return (
-		<Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
+		<Box sx={{ bgcolor: 'background.paper', p: 6}} component="footer">
 			<Typography variant="h6" align="center" gutterBottom>
 			MFAH
 			</Typography>
@@ -19,7 +19,7 @@ export default function Footer() {
 			<Typography variant="body2" color="text.secondary" align="center">
 					{'Copyright © '}
 					<Link color="inherit" href="/">
-					Musuem
+					MFAH
 					</Link>{' '}
 					{new Date().getFullYear()}
 					{'. The Museum of Fine Arts, Houston. All rights reserved.'}

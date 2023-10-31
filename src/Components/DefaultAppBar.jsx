@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 
 export default function DefaultAppBar(props) {
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, zIndex: "5" }}>
       <AppBar>
         <Toolbar>
         <Button
@@ -39,9 +39,9 @@ export default function DefaultAppBar(props) {
             flexGrow: 0,
           }}>
             <Button href="/admission" color="inherit">Admission</Button>
-            <Button color="inherit">Link 2</Button>
-            <Button color="inherit">Link 3</Button>
-            <Button color="inherit">Link 4</Button>
+            <Button href="/giftshop" color="inherit">Gift Shop</Button>
+            <Button href="/exhibition" color="inherit">Exhibitions</Button>
+            <Button href="/artworks" color="inherit">Artworks</Button>
             <Button
               variant="outlined"
               color="inherit"
@@ -50,6 +50,8 @@ export default function DefaultAppBar(props) {
                 '&:hover': {
                   backgroundColor: 'rgba(0, 191, 255, 0.3)',
                 },
+                marginLeft: 1,
+                marginBottom: "2px"
               }}
             >
               Employee Login
