@@ -15,29 +15,35 @@ export const getAllGiftShopItems = async () => {
 };
 
 
-export const getGiftShopItem = async(item) => {
-    try{
+export const getGiftShopItem = async (item) => {
+    try {
         const response = await fetch(baseURL+"api/search/giftshopitems?itemName="+item);
-        console.log(response);
-        return response;
-    }
-    catch(error){
-        console.error('Error getting user:', error);
+        if (!response.ok) {
+            throw new Error(`Fetch error: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.data;
+    } catch (error) {
+        console.error('Error getting gift shop item:', error);
+        throw error;
     }
 };
 
-export const updateGiftShopItem = async(itemBody) => {
-    try{
+export const updateGiftShopItem = async (itemBody) => {
+    try {
         const requestOptions = {
-            method: "PUT",
+            method: 'PUT',
             headers: {'Content-Type':'application/json'},
-            body: itemBody
+            body: JSON.stringify(itemBody)
         }
         const response = await fetch(baseURL+"api/giftshop/update", requestOptions);
-        console.log(response);
-        return response;
-    }
-    catch(error){
-        console.error('Error updating user:', error);
+        if (!response.ok) {
+            throw new Error(`Fetch error: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.data;
+    } catch (error) {
+        console.error('Error updating gift shop item:', error);
+        throw error;
     }
 };
