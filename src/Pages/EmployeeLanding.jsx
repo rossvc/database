@@ -43,6 +43,38 @@ export default function EmployeeLanding() {
     setState("employeeGiftShop");
   };
 
+  const columns = [
+    { field: 'ItemID', headerName: 'Item ID', width: 90 },
+    {
+      field: 'ItemName',
+      headerName: 'Item Name',
+      width: 150,
+      editable: false,
+    },
+    {
+      field: 'Price',
+      headerName: 'Price',
+      width: 150,
+      editable: false,
+    },
+    {
+      field: 'Stock',
+      headerName: 'Stock',
+      type: 'number',
+      width: 110,
+      editable: false,
+    },
+    {
+      field: 'Image',
+      headerName: 'Image',
+      sortable: false,
+      width: 160,
+      valueGetter: (params) =>
+        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    },
+  ];
+  
+
   if (state === "employeelanding") {
     return (
       <main>
@@ -1040,6 +1072,7 @@ export default function EmployeeLanding() {
               >
                 View All Items
               </Typography>
+              
 
             </Box>
 
