@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchExhibitions } from './connection.api'; // Updated import for the API file
+import { fetchExhibitions } from 'backend/connection.Api'; // Updated import for the API file
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
