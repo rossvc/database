@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchArtworks } from './connection.api'; // Import the API function
+import { fetchArtworks } from 'backend/connection.Api'; // Import the API function
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
