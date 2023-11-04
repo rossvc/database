@@ -41,17 +41,21 @@ export default function AdminPage() {
     fetchEmployees();
   }, []);
 
-  const fetchEmployees = () => {
-    axios
-      .get("/api/employees")
+ const fetchEmployees = () => {
+    fetch("/api/employees")
       .then((response) => {
-        setEmployees(response.data.data);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setEmployees(data.data);
       })
       .catch((error) => {
         console.error("Failed to fetch employees", error);
       });
   };
-
   const toggleAddForm = () => {
     setShowAddForm(!showAddForm);
     setNewEmployee({
@@ -145,56 +149,71 @@ export default function AdminPage() {
 
   const addEmployee = () => {
     if (validateForm()) {
-      axios
-        .post("/api/employees", newEmployee)
-        .then((response) => {
-          if (response.status === 200) {
-            fetchEmployees();
-            toggleAddForm();
-          } else if (response.status === 409) {
-            setErrors({ ...errors, Email: "Employee already exists" });
-          } else {
-            console.error("Failed to add employee");
-          }
-        })
-        .catch((error) => {
-          console.error("Failed to add employee", error);
-        });
+      fetch("/api/employees", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newEmployee)
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else if (response.status === 409) {
+          throw new Error('Employee already exists');
+        } else {
+          throw new Error('Failed to add employee');
+        }
+      })
+      .then(data => {
+        fetchEmployees();
+        toggleAddForm();
+      })
+      .catch((error) => {
+        console.error(error.message);
+        setErrors(prevErrors => ({ ...prevErrors, Email: error.message }));
+      });
     }
   };
 
-  const updateEmployee = (employeeToUpdate) => {
-    axios
-      .put(`/api/employees/${employeeToUpdate.id}`, employeeToUpdate)
-      .then((response) => {
-        if (response.status === 200) {
-          fetchEmployees();
-        } else if (response.status === 404) {
-          console.error("Employee not found");
-        } else {
-          console.error("Failed to update employee");
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to update employee", error);
-      });
+   const updateEmployee = (employeeToUpdate) => {
+    fetch(`/api/employees/${employeeToUpdate.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(employeeToUpdate)
+    })
+    .then(response => {
+      if (response.ok) {
+        fetchEmployees();
+      } else if (response.status === 404) {
+        throw new Error('Employee not found');
+      } else {
+        throw new Error('Failed to update employee');
+      }
+    })
+    .catch((error) => {
+      console.error(error.message);
+    });
   };
 
   const removeEmployee = (employeeToRemove) => {
-    axios
-      .delete(`/api/employees/${employeeToRemove.id}`)
-      .then((response) => {
-        if (response.status === 200) {
-          fetchEmployees();
-        } else if (response.status === 404) {
-          console.error("Employee not found");
-        } else {
-          console.error("Failed to remove employee");
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to remove employee", error);
-      });
+    fetch(`/api/employees/${employeeToRemove.id}`, {
+      method: 'DELETE'
+    })
+    .then(response => {
+      if (response.ok) {
+        fetchEmployees();
+      } else if (response.status === 404) {
+        throw new Error('Employee not found');
+      } else {
+        throw new Error('Failed to remove employee');
+      }
+    })
+    .catch((error) => {
+      console.error(error.message);
+    });
   };
 
   return (
