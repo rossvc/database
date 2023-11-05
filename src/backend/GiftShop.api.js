@@ -2,7 +2,7 @@ const baseURL = "https://ross.fail:3001/";
 
 export const getAllGiftShopItems = async () => {
     try {
-        const response = await fetch(baseURL + "api/giftshop/items");
+        const response = await fetch(baseURL + "api/giftshop");
         if (!response.ok) {
             throw new Error(`Fetch error: ${response.status}`);
         }
@@ -15,9 +15,9 @@ export const getAllGiftShopItems = async () => {
 };
 
 
-export const getGiftShopItem = async (item) => {
+export const getGiftShopItem = async (itemID) => {
     try {
-        const response = await fetch(baseURL+"api/search/giftshopitems?itemName="+item);
+        const response = await fetch(baseURL+"api/giftshop/"+itemID);
         if (!response.ok) {
             throw new Error(`Fetch error: ${response.status}`);
         }
