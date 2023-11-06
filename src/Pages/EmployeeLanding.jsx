@@ -13,11 +13,14 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ShopIcon from '@mui/icons-material/Shop';
 import TextField from '@mui/material/TextField'
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { getAllGiftShopItems, addGiftShopItem, updateGiftShopItem } from '../backend/Giftshop.api';
+import { getAllEmployeeInfo } from '../backend/Employee.api';
+import '../styles/EmployeeLandingStyles.css'
 
 //rows for displaying giftshop table
 var giftshoprow = await getAllGiftShopItems();
+var employeeinforow = await getAllEmployeeInfo();
 
 //this is the page where the employees can access the different functions that they are allowed to modify the database with
 export default function EmployeeLanding() {
@@ -107,26 +110,97 @@ const onClickUpdateGiftShopItem = () => {
   console.log('updated');
 };
 
+  const employeecolumns = [
+    { field: 'EmployeeID', headerName: 'ID', flex: 1 },
+    {
+      field: 'FirstName',
+      headerName: 'First Name',
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: 'LastName',
+      headerName: 'Last Name',
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: 'PhoneNumber',
+      headerName: 'Phone Number',
+      flex: 1,
+      type: 'number',
+      editable: false,
+    },
+    {
+      field: 'Wage',
+      headerName: 'Wage',
+      flex: 1,
+      type: 'number',
+      editable: false,
+    },
+    {
+      field: 'DateHired',
+      headerName: 'Date Hired',
+      flex: 1,
+      type: 'number',
+      editable: false,
+    },
+    {
+      field: 'Position',
+      headerName: 'Position',
+      flex: 1,
+      type: 'number',
+      editable: false,
+    },
+    {
+      field: 'Email',
+      headerName: 'Email',
+      flex: 1,
+      type: 'number',
+      editable: false,
+    },
+    {
+      field: 'Username',
+      headerName: 'Username',
+      flex: 1,
+      type: 'number',
+      editable: false,
+    },
+    {
+      field: 'Password',
+      headerName: 'Password',
+      flex: 1,
+      type: 'number',
+      editable: false,
+    },
+    {
+      field: 'isAdmin',
+      headerName: 'Admin?',
+      flex: 1,
+      type: 'number',
+      editable: false,
+    }
+  ];
 
-  const columns = [
+  const giftshopcolumns = [
     { field: 'ItemID', headerName: 'Item ID', width: 200 },
     {
       field: 'ItemName',
       headerName: 'Item Name',
-      width: 200,
+      flex: 1,
       editable: false,
     },
     {
       field: 'Price',
       headerName: 'Price',
-      width: 200,
+      flex: 1,
       editable: false,
     },
     {
       field: 'Stock',
       headerName: 'Stock',
       type: 'number',
-      width: 200,
+      flex: 1,
       editable: false,
     }
   ];
@@ -305,6 +379,28 @@ const onClickUpdateGiftShopItem = () => {
               >
                 View Employee Information
               </Typography>
+
+              <DataGrid
+              rows={employeeinforow}
+              getRowId={(employeeinforow) => employeeinforow.EmployeeID}
+              columns={employeecolumns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 10,
+                  },
+                },
+              }}
+              pageSizeOptions={[10]}
+              disableRowSelectionOnClick
+              getRowHeight={() => 'auto'}
+              sx={{
+                [`& .${gridClasses.cell}`]: {
+                  py: 1,
+                },
+              }}
+              > 
+              </DataGrid>
             </Box>
 
           </Box>
@@ -1133,7 +1229,7 @@ const onClickUpdateGiftShopItem = () => {
               <DataGrid
               rows={giftshoprow}
               getRowId={(giftshoprow) => giftshoprow.ItemID}
-              columns={columns}
+              columns={giftshopcolumns}
               initialState={{
                 pagination: {
                   paginationModel: {
@@ -1142,7 +1238,13 @@ const onClickUpdateGiftShopItem = () => {
                 },
               }}
               pageSizeOptions={[10]}
-              disableRowSelectionOnClick> 
+              disableRowSelectionOnClick
+              getRowHeight={() => 'auto'}
+              sx={{
+                [`& .${gridClasses.cell}`]: {
+                  py: 1,
+                },
+              }}> 
               </DataGrid>
             </Box>
 
