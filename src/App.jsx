@@ -12,6 +12,11 @@ import Footer from './Components/Footer';
 import DefaultAppBar from './Components/DefaultAppBar';
 import NotFound from './Pages/NotFound';
 import EmployeeLanding from './Pages/EmployeeLanding';
+import EmployeeInfo from './Pages/EmployeeInfo';
+import EmployeeArtworks from './Pages/EmployeeArtworks';
+import EmployeeArtCollections from './Pages/EmployeeArtCollections';
+import EmployeeExhibitions from './Pages/EmployeeExhibitions';
+import EmployeeGiftShop from './Pages/EmployeeGiftShop';
 
 //This is app, this shows the website, in order for the website to be viewed you must include it in this file
 
@@ -74,6 +79,12 @@ function App() {
               <Route path="/artworks" element={<Artworks />} />
               <Route path="*" element={<NotFound />} />
               <Route path="/employeelanding" element={<EmployeeLanding />} />
+              <Route path='/employeeinfo' element={<EmployeeInfo />}></Route>
+              <Route path='/employeeartworks' element={<EmployeeArtworks />}></Route>
+              <Route path='/employeeartcollections' element={<EmployeeArtCollections />}></Route>
+              <Route path='/employeeexhibitions' element={<EmployeeExhibitions />}></Route>
+              <Route path='/employeegiftshop' element={<EmployeeGiftShop />}></Route>
+
             </Routes>
           </Router>
         <Footer/>

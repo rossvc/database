@@ -12,6 +12,7 @@ export const addExhibition = async (itemBody) => {
             throw new Error( `Fetch error: ${response.status}` )
         }
         const data = await response.json();
+        console.log(data.data)
         return data.data;
     } catch (error) {
         console.error('Error adding exhibition:', error);
@@ -19,7 +20,7 @@ export const addExhibition = async (itemBody) => {
     }
 };
 
-export const getExhbitions = async () => {
+export const getAllExhibitions = async () => {
     try {
         const response = await fetch(baseURL+"api/exhibitions");
         if (!response.ok) {
