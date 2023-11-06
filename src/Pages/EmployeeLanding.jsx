@@ -13,14 +13,15 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ShopIcon from '@mui/icons-material/Shop';
 import TextField from '@mui/material/TextField'
+import { DataGrid } from '@mui/x-data-grid';
+import { getAllGiftShopItems, addGiftShopItem, updateGiftShopItem } from '../backend/Giftshop.api';
 
-
-
+//rows for displaying giftshop table
+var giftshoprow = await getAllGiftShopItems();
 
 //this is the page where the employees can access the different functions that they are allowed to modify the database with
-
 export default function EmployeeLanding() {
-
+  //state loading different employee pages
   const [state, setState] = useState("employeelanding"); // handles what view we have, employeeLanding, employeeInfo, employeeArtworks, employeeArtcollections, employeeExhibitions, employeeGiftShop
 
   const onClickEmployeeInfo = async () => {
@@ -42,38 +43,93 @@ export default function EmployeeLanding() {
   const OnClickEmployeeGiftShop = async () => {
     setState("employeeGiftShop");
   };
+//hooks for adding giftshop item
+const [itemAddGSName, setItemAddGSName] = useState('');
+const [itemAddGSPrice, setItemAddGSPrice] = useState('');
+const [itemAddGSStock, setItemAddGSStock] = useState('');
+const [itemAddGSImageURL, setItemAddGSImageURL] = useState('');
+
+const handleAddGSNameChange = (event) => {
+setItemAddGSName(event.target.value);
+};
+ 
+const handleAddGSPriceChange = (event) => {
+setItemAddGSPrice(event.target.value);
+};
+
+const handleAddGSStockChange = (event) => {
+setItemAddGSStock(event.target.value);
+};
+
+const handleAddGSImageURLChange = (event) => {
+setItemAddGSImageURL(event.target.value);
+};
+//add giftshop item button click
+const onClickAddGiftShopItem = () => {
+  const newGSItem = {
+    ItemName: itemAddGSName,
+    Price: itemAddGSPrice,
+    Stock: itemAddGSStock,
+    Image: itemAddGSImageURL,
+  }
+addGiftShopItem(newGSItem);
+};
+//hooks for updating giftshop item
+const [itemUpdateGSID, setItemUpdateGSID] = useState('');
+const [itemUpdateGSName, setItemUpdateGSName] = useState('');
+const [itemUpdateGSPrice, setItemUpdateGSPrice] = useState('');
+const [itemUpdateGSStock, setItemUpdateGSStock] = useState('');
+
+const handleUpdateGSNameChange = (event) => {
+setItemUpdateGSName(event.target.value);
+};
+ 
+const handleUpdateGSPriceChange = (event) => {
+setItemUpdateGSPrice(event.target.value);
+};
+
+const handleUpdateGSStockChange = (event) => {
+setItemUpdateGSStock(event.target.value);
+};
+
+const handleUpdateGSIDChange = (event) => {
+setItemUpdateGSID(event.target.value);
+};
+//Update giftshop item button click
+const onClickUpdateGiftShopItem = () => {
+  const ItemID = itemUpdateGSID;
+  const updatedGSItem = {
+    ItemName: itemUpdateGSName,
+    Price: itemUpdateGSPrice,
+    Stock: itemUpdateGSStock,
+  }
+  updateGiftShopItem(ItemID, updatedGSItem);
+  console.log('updated');
+};
+
 
   const columns = [
-    { field: 'ItemID', headerName: 'Item ID', width: 90 },
+    { field: 'ItemID', headerName: 'Item ID', width: 200 },
     {
       field: 'ItemName',
       headerName: 'Item Name',
-      width: 150,
+      width: 200,
       editable: false,
     },
     {
       field: 'Price',
       headerName: 'Price',
-      width: 150,
+      width: 200,
       editable: false,
     },
     {
       field: 'Stock',
       headerName: 'Stock',
       type: 'number',
-      width: 110,
+      width: 200,
       editable: false,
-    },
-    {
-      field: 'Image',
-      headerName: 'Image',
-      sortable: false,
-      width: 160,
-      valueGetter: (params) =>
-        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    },
+    }
   ];
-  
 
   if (state === "employeelanding") {
     return (
@@ -973,8 +1029,9 @@ export default function EmployeeLanding() {
 
               <TextField
                 required
-                id="itemAddName"
+                id="itemAddName"  
                 label="Item Name"
+                onChange={handleAddGSNameChange}
                 variant='outlined'
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
@@ -982,6 +1039,7 @@ export default function EmployeeLanding() {
                 required
                 id="itemAddPrice"
                 label="Item Price"
+                onChange={handleAddGSPriceChange}
                 variant='outlined'
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
@@ -989,18 +1047,20 @@ export default function EmployeeLanding() {
                 required
                 id="itemAddStock"
                 label="Current Stock"
+                onChange={handleAddGSStockChange}
                 variant='outlined'
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <TextField
                 required
-                id="itemAddMaxStock"
-                label="Maximum Stock"
+                id="itemAddImage"
+                label="Image URL"
+                onChange={handleAddGSImageURLChange}
                 variant='outlined'
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <br />
-              <Button variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
+              <Button id='AddItemBtn' onClick={onClickAddGiftShopItem} variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
                 Add
               </Button>
 
@@ -1022,6 +1082,7 @@ export default function EmployeeLanding() {
                 required
                 id="itemUpdateID"
                 label="Item ID"
+                onChange={handleUpdateGSIDChange}
                 variant='outlined'
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
@@ -1030,6 +1091,7 @@ export default function EmployeeLanding() {
                 required
                 id="itemUpdateName"
                 label="Item Name"
+                onChange={handleUpdateGSNameChange}
                 variant='outlined'
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
@@ -1037,6 +1099,7 @@ export default function EmployeeLanding() {
                 required
                 id="itemUpdatePrice"
                 label="Item Price"
+                onChange={handleUpdateGSPriceChange}
                 variant='outlined'
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
@@ -1044,18 +1107,12 @@ export default function EmployeeLanding() {
                 required
                 id="itemUpdateStock"
                 label="Current Stock"
-                variant='outlined'
-                sx={{ paddingRight: 1, paddingBottom: 1 }}
-              />
-              <TextField
-                required
-                id="itemUpdateMaxStock"
-                label="Maximum Stock"
+                onChange={handleUpdateGSStockChange}
                 variant='outlined'
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <br />
-              <Button variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
+              <Button onClick={onClickUpdateGiftShopItem} variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
                 Update
               </Button>
 
@@ -1073,7 +1130,20 @@ export default function EmployeeLanding() {
                 View All Items
               </Typography>
               
-
+              <DataGrid
+              rows={giftshoprow}
+              getRowId={(giftshoprow) => giftshoprow.ItemID}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 10,
+                  },
+                },
+              }}
+              pageSizeOptions={[10]}
+              disableRowSelectionOnClick> 
+              </DataGrid>
             </Box>
 
           </Box>
