@@ -15,12 +15,14 @@ import ShopIcon from '@mui/icons-material/Shop';
 import TextField from '@mui/material/TextField'
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { getAllGiftShopItems, addGiftShopItem, updateGiftShopItem } from '../backend/Giftshop.api';
-import { getAllEmployeeInfo } from '../backend/Employee.api';
+import { getAllEmployeeInfo, getOneEmployeeInfo } from '../backend/Employee.api';
 import '../styles/EmployeeLandingStyles.css'
+import { getAllArtCollections, addArtCollection } from '../backend/ArtCollections.api';
 
 //rows for displaying giftshop table
 var giftshoprow = await getAllGiftShopItems();
-var employeeinforow = await getAllEmployeeInfo();
+var artcollectionrow = await getAllArtCollections();
+//var employeeinforow = await getOneEmployeeInfo();
 
 //this is the page where the employees can access the different functions that they are allowed to modify the database with
 export default function EmployeeLanding() {
@@ -46,6 +48,51 @@ export default function EmployeeLanding() {
   const OnClickEmployeeGiftShop = async () => {
     setState("employeeGiftShop");
   };
+
+//hooks for adding art collections
+const [ACAddName, setACAddName] = useState('');
+const [ACAddLocation, setACAddLocation] = useState('');
+const [ACAddStart, setACAddStart] = useState('');
+const [ACAddEnd, setACAddEnd] = useState('');
+const [ACAddIncluded, setACAddIncluded] = useState('');
+const [ACAddSupplier, setACAddSupplier] = useState('');
+const [ACAddArchived, setACAddArchived] = useState('');
+
+const handleSetACAddName = (event) => {
+setACAddName(event.target.value);
+}
+const handleSetACAddLocation = (event) => {
+setACAddName(event.target.value);
+}
+const handleSetACAddStart = (event) => {
+setACAddName(event.target.value);
+}
+const handleSetACAddEnd= (event) => {
+setACAddName(event.target.value);
+}
+const handleSetACAddIncluded = (event) => {
+setACAddName(event.target.value);
+}
+const handleSetACAddSupplier = (event) => {
+setACAddName(event.target.value);
+}
+const handleSetACAddArchived = (event) => {
+setACAddName(event.target.value);
+}
+//add art collection button click
+const onClickAddArtCollection = () => {
+  const newArtCollection = {
+    CollectionName: ACAddName,
+    Location: ACAddLocation,
+    StartDate: ACAddStart,
+    EndDate: ACAddEnd,
+    ArtworksIncluded: ACAddIncluded,
+    SuppliedBy: ACAddSupplier,
+    isArchived: ACAddArchived
+  }
+  //addArtCollection(newArtCollection); server api needs to be fixed
+}
+
 //hooks for adding giftshop item
 const [itemAddGSName, setItemAddGSName] = useState('');
 const [itemAddGSPrice, setItemAddGSPrice] = useState('');
@@ -180,6 +227,57 @@ const onClickUpdateGiftShopItem = () => {
       type: 'number',
       editable: false,
     }
+  ];
+
+  const artcollectioncolumns = [
+    { field: 'CollectionID', headerName: 'ID', flex: 1 },
+    {
+      field: 'CollectionName',
+      headerName: 'Name',
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: 'Location',
+      headerName: 'Location',
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: 'StartDate',
+      headerName: 'Start Date',
+      flex: 1,
+      type: 'number',
+      editable: false,
+    },
+    {
+      field: 'EndDate',
+      headerName: 'End Date',
+      flex: 1,
+      type: 'number',
+      editable: false,
+    },
+    {
+      field: 'ArtworksIncluded',
+      headerName: 'Artworks Included',
+      flex: 1,
+      type: 'number',
+      editable: false,
+    },
+    {
+      field: 'SuppliedBy',
+      headerName: 'Supplier ID',
+      flex: 1,
+      type: 'number',
+      editable: false,
+    },
+    {
+      field: 'isArchived',
+      headerName: 'Archived?',
+      flex: 1,
+      type: 'number',
+      editable: false,
+    },
   ];
 
   const giftshopcolumns = [
@@ -380,27 +478,7 @@ const onClickUpdateGiftShopItem = () => {
                 View Employee Information
               </Typography>
 
-              <DataGrid
-              rows={employeeinforow}
-              getRowId={(employeeinforow) => employeeinforow.EmployeeID}
-              columns={employeecolumns}
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 10,
-                  },
-                },
-              }}
-              pageSizeOptions={[10]}
-              disableRowSelectionOnClick
-              getRowHeight={() => 'auto'}
-              sx={{
-                [`& .${gridClasses.cell}`]: {
-                  py: 1,
-                },
-              }}
-              > 
-              </DataGrid>
+              
             </Box>
 
           </Box>
@@ -841,6 +919,7 @@ const onClickUpdateGiftShopItem = () => {
                 id="collectionAddName"
                 label="Collection Name"
                 variant='outlined'
+                onChange={ handleSetACAddName}
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <TextField
@@ -848,6 +927,31 @@ const onClickUpdateGiftShopItem = () => {
                 id="collectionAddLocation"
                 label="Collection Location"
                 variant='outlined'
+                onChange={ handleSetACAddLocation}
+                sx={{ paddingRight: 1, paddingBottom: 1 }}
+              />
+              <TextField
+                required
+                id="collectionAddStartDate"
+                label="Start Date"
+                variant='outlined'
+                onChange={ handleSetACAddStart}
+                sx={{ paddingRight: 1, paddingBottom: 1 }}
+              />
+              <TextField
+                required
+                id="collectionAddEndDate"
+                label="End Date"
+                variant='outlined'
+                onChange={ handleSetACAddEnd}
+                sx={{ paddingRight: 1, paddingBottom: 1 }}
+              />
+              <TextField
+                required
+                id="collectionAddArtsIncluded"
+                label="Artworks Included"
+                variant='outlined'
+                onChange={ handleSetACAddIncluded}
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <TextField
@@ -855,10 +959,19 @@ const onClickUpdateGiftShopItem = () => {
                 id="collectionAddSupplier"
                 label="Supplied By"
                 variant='outlined'
+                onChange={ handleSetACAddSupplier}
+                sx={{ paddingRight: 1, paddingBottom: 1 }}
+              />
+              <TextField
+                required
+                id="collectionAddIsArchived"
+                label="Archived?"
+                variant='outlined'
+                onChange={ handleSetACAddArchived }
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <br />
-              <Button variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
+              <Button onClick={ onClickAddArtCollection } variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
                 Add
               </Button>
 
@@ -875,6 +988,27 @@ const onClickUpdateGiftShopItem = () => {
               >
                 View All Art Collections
               </Typography>
+
+              <DataGrid
+              rows={artcollectionrow}
+              getRowId={(artcollectionrow) => artcollectionrow.ArtCollectionID}
+              columns={artcollectioncolumns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 10,
+                  },
+                },
+              }}
+              pageSizeOptions={[10]}
+              disableRowSelectionOnClick
+              getRowHeight={() => 'auto'}
+              sx={{
+                [`& .${gridClasses.cell}`]: {
+                  py: 1,
+                },
+              }}> 
+              </DataGrid>
 
             </Box>
 
