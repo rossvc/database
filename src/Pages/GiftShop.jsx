@@ -16,7 +16,7 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
-import { getAllGiftShopItems } from '../backend/GiftShop.api';
+import { getAllGiftShopItems } from '../backend/Giftshop.api';
 
 // Gift shop page, users can buy gifts
 // 3 stages:
