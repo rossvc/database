@@ -60,11 +60,11 @@ const onClickAddExhibition = () => {
     StartDate: ExAddStart,
     EndDate: ExAddEnd,
     Location: ExAddLocation,
-    ArtworksIncluded: ExAddIncluded,
-    isArchived: ExAddArchived
+    ArtworksIncluded: Number(ExAddIncluded),
+    isArchived: (ExAddArchived === 'true')
   }
   console.log(JSON.stringify(newExhibition));
-  //addExhibition(newExhibition); SERVER API ERROR MIGHT NEED TO BE FIXED
+  addExhibition(newExhibition); 
 }
 
 const exhibitioncolumns = [

@@ -18,7 +18,7 @@ import '../styles/EmployeePageStyles.css'
 import { getAllArtCollections, addArtCollection } from '../backend/ArtCollections.api';
 
 //rows for displaying giftshop table
-var artcollectionrow = await getAllArtCollections();
+var artcollectionrow = await getAllArtCollections();  
 
 export default function EmployeeArtCollections() {
 
@@ -54,17 +54,21 @@ export default function EmployeeArtCollections() {
     }
     //add art collection button click
     const onClickAddArtCollection = () => {
+      var truth1;
+      var truth2;
+      if (ACAddIncluded === 'NULL' || ACAddIncluded === 'null') {truth1 = null} else {truth1 = Number(ACAddIncluded)}
+      if (ACAddSupplier === 'NULL' || ACAddSupplier === 'null') {truth2 = null} else {truth2 = Number(ACAddSupplier)}
       const newArtCollection = {
         CollectionName: ACAddName,
         Location: ACAddLocation,
         StartDate: ACAddStart,
         EndDate: ACAddEnd,
-        ArtworksIncluded: ACAddIncluded,
-        SuppliedBy: ACAddSupplier,
-        isArchived: ACAddArchived
+        ArtworksIncluded: truth1,
+        SuppliedBy: truth2,
+        isArchived: (ACAddArchived === 'true')
       }
       console.log(newArtCollection);
-      addArtCollection(newArtCollection); //SERVER API MIGHT NEED TO BE FIXED
+      addArtCollection(newArtCollection);
     }
 
     const artcollectioncolumns = [
@@ -289,7 +293,7 @@ return (
 
               <DataGrid
               rows={artcollectionrow}
-              getRowId={(artcollectionrow) => artcollectionrow.ArtCollectionID}
+              getRowId={(artcollectionrow) => artcollectionrow.CollectionID}
               columns={artcollectioncolumns}
               initialState={{
                 pagination: {
