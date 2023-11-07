@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -16,27 +15,6 @@ import Footer from "./Components/Footer";
 import DefaultAppBar from "./Components/DefaultAppBar";
 import NotFound from "./Pages/NotFound";
 import EmployeeLanding from "./Pages/EmployeeLanding";
-=======
-import React from 'react';
-import {  BrowserRouter as Router,  Routes,  Route} from "react-router-dom";
-import { useState, useEffect } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import FrontPage from './Pages/FrontPage';
-import Admission from './Pages/Admission';
-import GiftShop from './Pages/GiftShop';
-import Exhibition from './Pages/Exhibition';
-import Artworks from './Pages/Artworks';
-import Login from './Components/Login';
-import Footer from './Components/Footer';
-import DefaultAppBar from './Components/DefaultAppBar';
-import NotFound from './Pages/NotFound';
-import EmployeeLanding from './Pages/EmployeeLanding';
-import EmployeeInfo from './Pages/EmployeeInfo';
-import EmployeeArtworks from './Pages/EmployeeArtworks';
-import EmployeeArtCollections from './Pages/EmployeeArtCollections';
-import EmployeeExhibitions from './Pages/EmployeeExhibitions';
-import EmployeeGiftShop from './Pages/EmployeeGiftShop';
->>>>>>> 3a69e33991c53e18342bf85bd8086c101de56ae5
 
 //This is app, this shows the website, in order for the website to be viewed you must include it in this file
 
@@ -87,7 +65,6 @@ function App() {
           onClose={closeLoginModal}
           onLogin={handleLogin}
         />
-<<<<<<< HEAD
         <Router>
           <Routes>
             {" "}
@@ -105,26 +82,6 @@ function App() {
           </Routes>
         </Router>
         <Footer />
-=======
-          <Router>
-            <Routes> {/*TODO: Add user auth in element sections*/}
-              <Route path="/" element={<FrontPage />} /> 
-              <Route path="/admission" element={<Admission />} />
-              <Route path="/giftshop" element={<GiftShop />} />
-              <Route path="/exhibition" element={<Exhibition />} />
-              <Route path="/artworks" element={<Artworks />} />
-              <Route path="*" element={<NotFound />} />
-              <Route path="/employeelanding" element={<EmployeeLanding />} />
-              <Route path='/employeeinfo' element={<EmployeeInfo />}></Route>
-              <Route path='/employeeartworks' element={<EmployeeArtworks />}></Route>
-              <Route path='/employeeartcollections' element={<EmployeeArtCollections />}></Route>
-              <Route path='/employeeexhibitions' element={<EmployeeExhibitions />}></Route>
-              <Route path='/employeegiftshop' element={<EmployeeGiftShop />}></Route>
-
-            </Routes>
-          </Router>
-        <Footer/>
->>>>>>> 3a69e33991c53e18342bf85bd8086c101de56ae5
       </ThemeProvider>
     </div>
   );
