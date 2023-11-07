@@ -1,22 +1,36 @@
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogTitle, TextField, Button, IconButton } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Dialog, DialogContent, DialogTitle, TextField, Button, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { loginRequest } from '../backend/Login.api';
 
 // This function takes in props and updates them based on user input
+
 const LoginModal = ({ open, onClose, onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState(false);
 
-  const handleLogin = () => {
-    // Call the onLogin function with the entered username and password
+  const handleLogin = async () => {
     const logininfo = {
       Username: username,
       Password: password
+    };
+  
+    try {
+      const response = await loginRequest(logininfo);
+      console.log(response);
+  
+      if (response != null) {
+        sessionStorage.setItem("currentUser", JSON.stringify(response[0]));
+        // console.log(JSON.parse(sessionStorage.getItem("currentUser")));
+        onClose();
+      } else {
+        setLoginError(true);
+      }
+    } catch (error) {
+      console.error('Login request error:', error);
+      setLoginError(true);
     }
-    /*loginRequest(logininfo);
-      THIS FUNCTION IS CURRENTLY BROKEN, ERROR IS "TypeError: NetworkError when attempting to fetch resource."*/
-    onClose(); // Close the modal
   };
 
   return (
@@ -36,6 +50,9 @@ const LoginModal = ({ open, onClose, onLogin }) => {
         </IconButton>
       </DialogTitle>
       <DialogContent>
+        <Typography style={{ display: loginError ? 'block' : 'none' }} component="h6" color="red">
+          Invalid login credentials, try again
+        </Typography>
         <TextField
           label="Username"
           value={username}
@@ -51,7 +68,7 @@ const LoginModal = ({ open, onClose, onLogin }) => {
           fullWidth
           margin="normal"
         />
-        <Button href='/employeelanding' variant="contained" color="primary" onClick={handleLogin}>
+        <Button  variant="contained" color="primary" onClick={handleLogin}>
           Login
         </Button>
       </DialogContent>

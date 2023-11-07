@@ -42,6 +42,7 @@ export default function DefaultAppBar(props) {
             <Button href="/giftshop" color="inherit">Gift Shop</Button>
             <Button href="/exhibition" color="inherit">Exhibitions</Button>
             <Button href="/artworks" color="inherit">Artworks</Button>
+            {/* Here we add an if else, if user is logged in, show log out, else, show */}
             <Button
               variant="outlined"
               color="inherit"
