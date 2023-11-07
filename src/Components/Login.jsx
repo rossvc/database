@@ -5,7 +5,7 @@ import { loginRequest } from '../backend/Login.api';
 
 // This function takes in props and updates them based on user input
 
-const LoginModal = ({ open, onClose, onLogin }) => {
+const LoginModal = ({ open, onClose, setLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
@@ -18,11 +18,12 @@ const LoginModal = ({ open, onClose, onLogin }) => {
   
     try {
       const response = await loginRequest(logininfo);
-      console.log(response);
+      //console.log(response);
   
       if (response != null) {
         sessionStorage.setItem("currentUser", JSON.stringify(response[0]));
         // console.log(JSON.parse(sessionStorage.getItem("currentUser")));
+        setLoggedIn();
         onClose();
       } else {
         setLoginError(true);

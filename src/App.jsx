@@ -1,5 +1,5 @@
 import React from 'react';
-import {  BrowserRouter as Router,  Routes,  Route} from "react-router-dom";
+import {  BrowserRouter as Router,  Routes,  Route, Navigate} from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FrontPage from './Pages/FrontPage';
@@ -11,6 +11,7 @@ import Login from './Components/Login';
 import Footer from './Components/Footer';
 import DefaultAppBar from './Components/DefaultAppBar';
 import NotFound from './Pages/NotFound';
+import NotAuthorized from './Pages/NotAuthorized';
 import EmployeeLanding from './Pages/EmployeePages/EmployeeLanding';
 import EmployeeInfo from './Pages/EmployeePages/EmployeeInfo';
 import EmployeeArtworks from './Pages/EmployeePages/EmployeeArtworks';
@@ -44,6 +45,10 @@ function App() {
   });
 
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("currentUser")));
+  const [loggedIn, setLoggedIn] = useState(
+    JSON.parse(sessionStorage.getItem("currentUser")) != null ? true : false
+    );
 
   const openLoginModal = () => {
     setLoginModalOpen(true);
@@ -53,19 +58,31 @@ function App() {
     setLoginModalOpen(false);
   };
 
-  const handleLogin = async (username, password) => {
-    // Add login in logic
+  const handleLogOut = () => {
+    sessionStorage.removeItem("currentUser");
+    setUser({});
+    setLoggedIn(false);
   };
 
-  //Here we store user info, handle log in and log out logic
+  const handleLogin = () => {
+    setLoggedIn(true);
+    setUser(JSON.parse(sessionStorage.getItem("currentUser")));
+  };
+
+  //console.log(user);
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <DefaultAppBar onLogin={openLoginModal} />
+        <DefaultAppBar 
+          onLogin={openLoginModal} 
+          onLogOut={handleLogOut} 
+          isLoggedIn={loggedIn} 
+        />
         <Login
           open={isLoginModalOpen}
           onClose={closeLoginModal}
-          onLogin={handleLogin}
+          setLoggedIn={handleLogin}
         />
           <Router>
             <Routes> {/*TODO: Add user auth in element sections*/}
@@ -74,13 +91,13 @@ function App() {
               <Route path="/giftshop" element={<GiftShop />} />
               <Route path="/exhibition" element={<Exhibition />} />
               <Route path="/artworks" element={<Artworks />} />
+              <Route path="/employeelanding" element={ loggedIn === true ? <EmployeeLanding />:<NotAuthorized /> } />
+              <Route path='/employeeinfo' element={ loggedIn === true ? <EmployeeInfo />:<NotAuthorized /> }></Route>
+              <Route path='/employeeartworks' element={ loggedIn === true ? <EmployeeArtworks />:<NotAuthorized /> }></Route>
+              <Route path='/employeeartcollections' element={ loggedIn === true ? <EmployeeArtCollections />:<NotAuthorized /> }></Route>
+              <Route path='/employeeexhibitions' element={ loggedIn === true ? <EmployeeExhibitions />:<NotAuthorized /> }></Route>
+              <Route path='/employeegiftshop' element={ loggedIn === true ? <EmployeeGiftShop />:<NotAuthorized /> }></Route>
               <Route path="*" element={<NotFound />} />
-              <Route path="/employeelanding" element={<EmployeeLanding />} />
-              <Route path='/employeeinfo' element={<EmployeeInfo />}></Route>
-              <Route path='/employeeartworks' element={<EmployeeArtworks />}></Route>
-              <Route path='/employeeartcollections' element={<EmployeeArtCollections />}></Route>
-              <Route path='/employeeexhibitions' element={<EmployeeExhibitions />}></Route>
-              <Route path='/employeegiftshop' element={<EmployeeGiftShop />}></Route>
 
             </Routes>
           </Router>
