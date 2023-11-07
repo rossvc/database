@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";   
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -41,7 +40,7 @@ export default function AdminPage() {
     fetchEmployees();
   }, []);
 
- const fetchEmployees = () => {
+  const fetchEmployees = () => {
     fetch("/api/employees")
       .then((response) => {
         if (!response.ok) {
@@ -150,70 +149,70 @@ export default function AdminPage() {
   const addEmployee = () => {
     if (validateForm()) {
       fetch("/api/employees", {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(newEmployee)
+        body: JSON.stringify(newEmployee),
       })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else if (response.status === 409) {
-          throw new Error('Employee already exists');
-        } else {
-          throw new Error('Failed to add employee');
-        }
-      })
-      .then(data => {
-        fetchEmployees();
-        toggleAddForm();
-      })
-      .catch((error) => {
-        console.error(error.message);
-        setErrors(prevErrors => ({ ...prevErrors, Email: error.message }));
-      });
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else if (response.status === 409) {
+            throw new Error("Employee already exists");
+          } else {
+            throw new Error("Failed to add employee");
+          }
+        })
+        .then((data) => {
+          fetchEmployees();
+          toggleAddForm();
+        })
+        .catch((error) => {
+          console.error(error.message);
+          setErrors((prevErrors) => ({ ...prevErrors, Email: error.message }));
+        });
     }
   };
 
-   const updateEmployee = (employeeToUpdate) => {
+  const updateEmployee = (employeeToUpdate) => {
     fetch(`/api/employees/${employeeToUpdate.id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(employeeToUpdate)
+      body: JSON.stringify(employeeToUpdate),
     })
-    .then(response => {
-      if (response.ok) {
-        fetchEmployees();
-      } else if (response.status === 404) {
-        throw new Error('Employee not found');
-      } else {
-        throw new Error('Failed to update employee');
-      }
-    })
-    .catch((error) => {
-      console.error(error.message);
-    });
+      .then((response) => {
+        if (response.ok) {
+          fetchEmployees();
+        } else if (response.status === 404) {
+          throw new Error("Employee not found");
+        } else {
+          throw new Error("Failed to update employee");
+        }
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
   };
 
   const removeEmployee = (employeeToRemove) => {
     fetch(`/api/employees/${employeeToRemove.id}`, {
-      method: 'DELETE'
+      method: "DELETE",
     })
-    .then(response => {
-      if (response.ok) {
-        fetchEmployees();
-      } else if (response.status === 404) {
-        throw new Error('Employee not found');
-      } else {
-        throw new Error('Failed to remove employee');
-      }
-    })
-    .catch((error) => {
-      console.error(error.message);
-    });
+      .then((response) => {
+        if (response.ok) {
+          fetchEmployees();
+        } else if (response.status === 404) {
+          throw new Error("Employee not found");
+        } else {
+          throw new Error("Failed to remove employee");
+        }
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
   };
 
   return (
@@ -236,7 +235,7 @@ export default function AdminPage() {
             onClick={toggleAddForm}
             style={{ marginBottom: "1rem" }}
           >
-            {showAddForm ? "Cancel" : "Add User"}
+            {showAddForm ? "Cancel" : "Add Employee"}
           </Button>
 
           {showAddForm && (

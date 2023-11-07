@@ -7,7 +7,9 @@ import Admission from "./Pages/Admission";
 import GiftShop from "./Pages/GiftShop";
 import Exhibition from "./Pages/Exhibition";
 import Artworks from "./Pages/Artworks";
-import Administrator from "./Pages/Administrator";
+import Admin from "./Pages/Admin";
+import Manageemployee from "./Pages/Manageemployee";
+import Reports from "./Pages/Reports";
 import Login from "./Components/Login";
 import Footer from "./Components/Footer";
 import DefaultAppBar from "./Components/DefaultAppBar";
@@ -68,7 +70,9 @@ function App() {
             {" "}
             {/*TODO: Add user auth in element sections*/}
             <Route path="/" element={<FrontPage />} />
-            <Route path="/administrator" element={<Administrator />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/manageemployee" element={<Manageemployee />} />
+            <Route path="/reports" element={<Reports />} />
             <Route path="/admission" element={<Admission />} />
             <Route path="/giftshop" element={<GiftShop />} />
             <Route path="/exhibition" element={<Exhibition />} />
