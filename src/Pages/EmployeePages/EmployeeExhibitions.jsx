@@ -14,8 +14,8 @@ import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ShopIcon from '@mui/icons-material/Shop';
 import TextField from '@mui/material/TextField'
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import '../styles/EmployeePageStyles.css'
-import { addExhibition, getAllExhibitions } from '../backend/Exhibition.api';
+import '../../styles/EmployeePageStyles.css'
+import { addExhibition, getAllExhibitions } from '../../backend/Exhibition.api';
 
 //rows for displaying giftshop table
 

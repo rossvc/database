@@ -11,12 +11,12 @@ import Login from './Components/Login';
 import Footer from './Components/Footer';
 import DefaultAppBar from './Components/DefaultAppBar';
 import NotFound from './Pages/NotFound';
-import EmployeeLanding from './Pages/EmployeeLanding';
-import EmployeeInfo from './Pages/EmployeeInfo';
-import EmployeeArtworks from './Pages/EmployeeArtworks';
-import EmployeeArtCollections from './Pages/EmployeeArtCollections';
-import EmployeeExhibitions from './Pages/EmployeeExhibitions';
-import EmployeeGiftShop from './Pages/EmployeeGiftShop';
+import EmployeeLanding from './Pages/EmployeePages/EmployeeLanding';
+import EmployeeInfo from './Pages/EmployeePages/EmployeeInfo';
+import EmployeeArtworks from './Pages/EmployeePages/EmployeeArtworks';
+import EmployeeArtCollections from './Pages/EmployeePages/EmployeeArtCollections';
+import EmployeeExhibitions from './Pages/EmployeePages/EmployeeExhibitions';
+import EmployeeGiftShop from './Pages/EmployeePages/EmployeeGiftShop';
 
 //This is app, this shows the website, in order for the website to be viewed you must include it in this file
 

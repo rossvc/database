@@ -14,7 +14,7 @@ import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ShopIcon from '@mui/icons-material/Shop';
 import TextField from '@mui/material/TextField'
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import '../styles/EmployeePageStyles.css'
+import '../../styles/EmployeePageStyles.css'
 
 export default function EmployeeArtworks() {
     return (

@@ -14,8 +14,8 @@ import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ShopIcon from '@mui/icons-material/Shop';
 import TextField from '@mui/material/TextField'
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import { getAllGiftShopItems, addGiftShopItem, updateGiftShopItem } from '../backend/Giftshop.api';
-import '../styles/EmployeePageStyles.css'
+import { getAllGiftShopItems, addGiftShopItem, updateGiftShopItem } from '../../backend/Giftshop.api';
+import '../../styles/EmployeePageStyles.css'
 
 //rows for displaying giftshop table
 var giftshoprow = await getAllGiftShopItems();
