@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogTitle, TextField, Button, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { loginRequest } from '../backend/Login.api';
 
 // This function takes in props and updates them based on user input
 const LoginModal = ({ open, onClose, onLogin }) => {
@@ -9,7 +10,12 @@ const LoginModal = ({ open, onClose, onLogin }) => {
 
   const handleLogin = () => {
     // Call the onLogin function with the entered username and password
-    onLogin(username, password);
+    const logininfo = {
+      Username: username,
+      Password: password
+    }
+    /*loginRequest(logininfo);
+      THIS FUNCTION IS CURRENTLY BROKEN, ERROR IS "TypeError: NetworkError when attempting to fetch resource."*/
     onClose(); // Close the modal
   };
 
