@@ -18,10 +18,10 @@ import '../styles/EmployeePageStyles.css'
 import { addExhibition, getAllExhibitions } from '../backend/Exhibition.api';
 
 //rows for displaying giftshop table
+
 var exhibitionrow = await getAllExhibitions();
 
 export default function EmployeeExhibitions() {
-
 //hooks for adding exhibitions
 const [ExAddName, setExAddName] = useState('');
 const [ExAddDescription, setExAddDescription] = useState('');

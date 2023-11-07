@@ -337,7 +337,6 @@ export default function EmployeeArtworks() {
                 >
                   View All Artworks
                 </Typography>
-  
               </Box>
   
             </Box>
