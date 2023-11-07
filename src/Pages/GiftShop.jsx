@@ -16,6 +16,7 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
+import { getAllGiftShopItems } from '../backend/Giftshop.api';
 
 // Gift shop page, users can buy gifts
 // 3 stages:
@@ -23,20 +24,19 @@ import TextField from '@mui/material/TextField';
 // Checkout: Users can delete items the no longer want, must input email to recieve recipt
 // Confirmation: If all goes well, user will see a confirmation page that will redirect them to the front page, else, they will get an error page
 
-// TODO LATER: Once database logic is in. Fix this to include database data, Add email confirmation function
-// TODO: add database logic, add order getter page to allow users to get orders 
+// TODO: Add feature to change stock when items are purchased, add page to allow users to view their orders, Add email confirmation function
 
-const cards = [1, 2, 3, 4];
-const cardContent = {
-  1:{"title": "Book about art", "description":"Learn more about art", "price":10, 
-    "image":"https://www.sup.org/img/covers/large/pid_26885.jpg" },
-  2:{"title": "Greek Statue Figurine", "description":"Cool a greek statue figurine, perfect for decorating ","price":15, 
-    "image":"https://m.media-amazon.com/images/I/51D6yD7C5yL._AC_UF894,1000_QL80_.jpg"},
-  3:{"title": "Print of creation of adam", "description":"Take this iconic 20\"x20\"piece home", "price":20, 
-    "image":"https://upload.wikimedia.org/wikipedia/commons/5/5b/Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg"},
-  4:{"title": "Keychain", "description":"Keychain!", "price":6, 
-    "image":"https://m.media-amazon.com/images/I/41lgBnemM7L.jpg"}
-};
+const data = await getAllGiftShopItems();
+
+var increment = 1; 
+var cardContent = {} // "Price", "Image", "ItemName"
+for(let d of data){
+  //console.log(increment,d);
+  cardContent[increment] = d;
+  increment+=1;
+}
+
+const cards = Array(increment-1).fill(1).map((n, i) => n + i);
 
 export default function GiftShop() {
   //console.log('render');
@@ -44,11 +44,12 @@ export default function GiftShop() {
   const [state, setState] = useState("default"); // handles what view we have, default, checkout, confirmation
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
+  const [giftShopItems, setGiftShopItems] = useState([]);
   
   const onClickButton = async (card, price) => {
     // Store each ticket in cart, be lazy, just store each one and price, add up price at checkout 
     //console.log(card, type);
-    setCart([...cart, {key:cart.length, title:cardContent[card]["title"], price:price }]);
+    setCart([...cart, {key:cart.length, title:cardContent[card]["ItemName"], price:price }]);
     //console.log(cart);
   };
 
@@ -125,18 +126,15 @@ export default function GiftShop() {
                       // 16:9
                       pt: '56.25%',
                     }}
-                    image={cardContent[card]["image"]}
+                    image={cardContent[card]["Image"]}
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {cardContent[card]["title"]}
-                    </Typography>
-                    <Typography>
-                      {cardContent[card]["description"]}
+                      {cardContent[card]["ItemName"]}
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button onClick={() => { onClickButton(card, cardContent[card]["price"]) }} size="small">${cardContent[card]["price"]} - Add to Cart</Button>
+                    <Button onClick={() => { onClickButton(card, cardContent[card]["Price"]) }} size="small">${cardContent[card]["Price"]} - Add to Cart</Button>
                   </CardActions>
                 </Card>
               </Grid>
