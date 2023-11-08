@@ -221,7 +221,7 @@ return (
                 id="collectionAddName"
                 label="Collection Name"
                 variant='outlined'
-                onChange={ handleSetACAddLocation }
+                onChange={ handleSetACAddName }
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <TextField
@@ -229,7 +229,7 @@ return (
                 id="collectionAddLocation"
                 label="Collection Location"
                 variant='outlined'
-                onChange={ handleSetACAddName } 
+                onChange={ handleSetACAddLocation } 
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <TextField
