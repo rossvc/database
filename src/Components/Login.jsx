@@ -22,7 +22,7 @@ const LoginModal = ({ open, onClose, setLoggedIn }) => {
   
       if (response != null) {
         sessionStorage.setItem("currentUser", JSON.stringify(response[0]));
-        // console.log(JSON.parse(sessionStorage.getItem("currentUser")));
+        //console.log(Object.values(JSON.parse(sessionStorage.getItem("currentUser"))));
         setLoggedIn();
         onClose();
       } else {

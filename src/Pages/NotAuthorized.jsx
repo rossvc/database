@@ -28,7 +28,7 @@ export default function NotAuthorized() {
             Not Authorized
           </Typography>
           <Typography variant="h5" align="center" color="text.secondary" paragraph>
-            You do not have the right credentials to access this page, please log in or use a differnet login.
+            You do not have the right credentials to access this page, please log in or use a different login.
           </Typography>
           <Stack
             sx={{ pt: 4 }}

@@ -13,83 +13,19 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ShopIcon from '@mui/icons-material/Shop';
 import TextField from '@mui/material/TextField'
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { getAllEmployeeInfo, getOneEmployeeInfo } from '../../backend/Employee.api';
 import '../../styles/EmployeePageStyles.css'
 
+
 export default function EmployeeInfo() {
 
-    const employeecolumns = [
-        { field: 'EmployeeID', headerName: 'ID', flex: 1 },
-        {
-          field: 'FirstName',
-          headerName: 'First Name',
-          flex: 1,
-          editable: false,
-        },
-        {
-          field: 'LastName',
-          headerName: 'Last Name',
-          flex: 1,
-          editable: false,
-        },
-        {
-          field: 'PhoneNumber',
-          headerName: 'Phone Number',
-          flex: 1,
-          type: 'number',
-          editable: false,
-        },
-        {
-          field: 'Wage',
-          headerName: 'Wage',
-          flex: 1,
-          type: 'number',
-          editable: false,
-        },
-        {
-          field: 'DateHired',
-          headerName: 'Date Hired',
-          flex: 1,
-          type: 'number',
-          editable: false,
-        },
-        {
-          field: 'Position',
-          headerName: 'Position',
-          flex: 1,
-          type: 'number',
-          editable: false,
-        },
-        {
-          field: 'Email',
-          headerName: 'Email',
-          flex: 1,
-          type: 'number',
-          editable: false,
-        },
-        {
-          field: 'Username',
-          headerName: 'Username',
-          flex: 1,
-          type: 'number',
-          editable: false,
-        },
-        {
-          field: 'Password',
-          headerName: 'Password',
-          flex: 1,
-          type: 'number',
-          editable: false,
-        },
-        {
-          field: 'isAdmin',
-          headerName: 'Admin?',
-          flex: 1,
-          type: 'number',
-          editable: false,
-        }
-    ];
+    var employeedata = Object.values(JSON.parse(sessionStorage.getItem("currentUser")));
+    console.log(Object.values(JSON.parse(sessionStorage.getItem("currentUser"))));
 
     return (
         <main>
@@ -185,6 +121,113 @@ export default function EmployeeInfo() {
                 View Employee Information
               </Typography>
 
+              <Box sx={{ float:'left', minWidth: "13%", maxWidth: "13%"}}>
+                <Typography lineHeight={2.9} sx={{display:"inline", paddingBottom: "2px", fontSize:"20px"}}>Employee ID:</Typography> <br />
+                <Typography lineHeight={2.9} sx={{display:"inline", paddingBottom: "2px", fontSize:"20px"}}>First Name:</Typography> <br />
+                <Typography lineHeight={2.9} sx={{display:"inline", paddingBottom: "2px", fontSize:"20px"}}>Last Name:</Typography> <br />   
+                <Typography lineHeight={2.9} sx={{display:"inline", paddingBottom: "2px", fontSize:"20px"}}>Phone Number:</Typography> <br />   
+                <Typography lineHeight={2.9} sx={{display:"inline", paddingBottom: "2px", fontSize:"20px"}}>Wage:</Typography> <br />     
+                <Typography lineHeight={2.9} sx={{display:"inline", paddingBottom: "2px", fontSize:"20px"}}>Date Hired:</Typography> <br />       
+                <Typography lineHeight={2.9} sx={{display:"inline", paddingBottom: "2px", fontSize:"20px"}}>Position:</Typography> <br />       
+                <Typography lineHeight={2.9} sx={{display:"inline", paddingBottom: "2px", fontSize:"20px"}}>Email:</Typography> <br />       
+                <Typography lineHeight={2.9} sx={{display:"inline", paddingBottom: "2px", fontSize:"20px"}}>Username:</Typography> <br />       
+                <Typography lineHeight={2.9} sx={{display:"inline", paddingBottom: "2px", fontSize:"20px"}}>Password:</Typography> <br />       
+                <Typography lineHeight={2.9} sx={{display:"inline", paddingBottom: "2px", fontSize:"20px"}}>Admin Status:</Typography> <br />          
+              </Box>
+
+              <Box sx={{ float:'right', minWidth: "87%", maxWidth: "87%", marginRight: "0px"}}>
+              <TextField
+                defaultValue={employeedata[0]}
+                sx={{ paddingLeft:"10pt", paddingBottom: "2px", "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }, fontSize: "40px"}}
+                fullWidth
+                disabled
+                variant='standard'
+                inputProps={{style: {fontSize: "20px", height: "47px", marginBottom: "-15px", paddingBottom: "20px"}}} // font size of input text
+              />
+              <TextField
+                defaultValue={employeedata[1]}
+                sx={{ paddingLeft:"10pt", paddingBottom: "2px", "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }}}
+                fullWidth
+                disabled
+                variant='standard'
+                inputProps={{style: {fontSize: "20px", height: "47px", marginBottom: "-15px", paddingBottom: "20px"}}} // font size of input text
+              />
+              <TextField
+                defaultValue={employeedata[2]}
+                sx={{ paddingLeft:"10pt", paddingBottom: "2px", "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }}}
+                fullWidth
+                disabled
+                variant='standard'
+                inputProps={{style: {fontSize: "20px", height: "47px", marginBottom: "-15px", paddingBottom: "20px"}}} // font size of input text
+              />
+              <TextField
+                defaultValue={employeedata[3]}
+                sx={{ paddingLeft:"10pt", paddingBottom: "2px", "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }}}
+                fullWidth
+                disabled
+                variant='standard'
+                inputProps={{style: {fontSize: "20px", height: "47px", marginBottom: "-15px", paddingBottom: "20px"}}} // font size of input text
+              />
+              <TextField
+                defaultValue={employeedata[4]}
+                sx={{ paddingLeft:"10pt", paddingBottom: "2px", "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }}}
+                fullWidth
+                disabled
+                variant='standard'
+                inputProps={{style: {fontSize: "20px", height: "47px", marginBottom: "-15px", paddingBottom: "20px"}}} // font size of input text
+              />
+              <TextField
+                defaultValue={employeedata[5]}
+                sx={{ paddingLeft:"10pt", paddingBottom: "2px", "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }}}
+                fullWidth
+                disabled
+                variant='standard'
+                inputProps={{style: {fontSize: "20px", height: "47px", marginBottom: "-15px", paddingBottom: "20px"}}} // font size of input text
+              />
+              <TextField
+                defaultValue={employeedata[6]}
+                sx={{ paddingLeft:"10pt", paddingBottom: "2px", "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }}}
+                fullWidth
+                disabled
+                variant='standard'
+                inputProps={{style: {fontSize: "20px", height: "47px", marginBottom: "-15px", paddingBottom: "20px"}}} // font size of input text
+              />
+              <TextField
+                defaultValue={employeedata[7]}
+                sx={{ paddingLeft:"10pt", paddingBottom: "2px", "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }}}
+                fullWidth
+                disabled
+                variant='standard'
+                inputProps={{style: {fontSize: "20px", height: "47px", marginBottom: "-15px", paddingBottom: "20px"}}} // font size of input text
+              />
+              <TextField
+                defaultValue={employeedata[8]}
+                sx={{ paddingLeft:"10pt", paddingBottom: "2px", "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }}}
+                fullWidth
+                disabled
+                variant='standard'
+                inputProps={{style: {fontSize: "20px", height: "47px", marginBottom: "-15px", paddingBottom: "20px"}}} // font size of input text
+              />
+              <TextField
+                defaultValue={employeedata[9]}
+                sx={{ paddingLeft:"10pt", paddingBottom: "2px", "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }}}
+                fullWidth
+                disabled
+                variant='standard'
+                inputProps={{style: {fontSize: "20px", height: "47px", marginBottom: "-15px", paddingBottom: "20px"}}} // font size of input text
+              />
+              <TextField
+                defaultValue={employeedata[10]}
+                sx={{ paddingLeft:"10pt", paddingBottom: "2px", "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }, "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }}}
+                fullWidth
+                disabled
+                variant='standard'
+                inputProps={{style: {fontSize: "20px", height: "47px", marginBottom: "-15px", paddingBottom: "20px"}}} // font size of input text
+                
+              />
+               </Box>
+
+               
               
             </Box>
 
