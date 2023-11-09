@@ -23,7 +23,6 @@ export const getOneEmployeeInfo = async () => {
             throw new Error(`Fetch error: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data);
         return data.data;
     } catch (error) {
         console.error('Error getting employee', error);

@@ -14,6 +14,10 @@ import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ShopIcon from '@mui/icons-material/Shop';
 import TextField from '@mui/material/TextField'
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DateField } from '@mui/x-date-pickers/DateField';
 import '../../styles/EmployeePageStyles.css'
 import { getAllArtCollections, addArtCollection } from '../../backend/ArtCollections.api';
 
@@ -61,8 +65,8 @@ export default function EmployeeArtCollections() {
       const newArtCollection = {
         CollectionName: ACAddName,
         Location: ACAddLocation,
-        StartDate: ACAddStart,
-        EndDate: ACAddEnd,
+        StartDate: ACAddStart.toISOString().slice(0, 10),
+        EndDate: ACAddEnd.toISOString().slice(0, 10),
         ArtworksIncluded: truth1,
         SuppliedBy: truth2,
         isArchived: (ACAddArchived === 'true')
@@ -232,22 +236,12 @@ return (
                 onChange={ handleSetACAddLocation } 
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
-              <TextField
-                required
-                id="collectionAddStartDate"
-                label="Start Date"
-                variant='outlined'
-                onChange={ handleSetACAddStart}
-                sx={{ paddingRight: 1, paddingBottom: 1 }}
-              />
-              <TextField
-                required
-                id="collectionAddEndDate"
-                label="End Date"
-                variant='outlined'
-                onChange={ handleSetACAddEnd}
-                sx={{ paddingRight: 1, paddingBottom: 1 }}
-              />
+              <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <DateField format="YYYY-MM-DD" label="Start Date" sx={{ paddingRight: 1, paddingBottom: 1 }} onChange={ (date) => setACAddStart(date)}/>
+              </LocalizationProvider>
+              <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <DateField format='YYYY-MM-DD' label="End Date" sx={{ paddingRight: 1, paddingBottom: 1 }}  onChange={ (date) => setACAddEnd(date)}/>
+              </LocalizationProvider>
               <TextField
                 required
                 id="collectionAddArtsIncluded"

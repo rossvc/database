@@ -14,6 +14,10 @@ import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ShopIcon from '@mui/icons-material/Shop';
 import TextField from '@mui/material/TextField'
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DateField } from '@mui/x-date-pickers/DateField';
 import '../../styles/EmployeePageStyles.css'
 import { addExhibition, getAllExhibitions } from '../../backend/Exhibition.api';
 
@@ -57,13 +61,13 @@ const onClickAddExhibition = () => {
   const newExhibition = {
     ExhibitionName: ExAddName,
     Description: ExAddDescription,
-    StartDate: ExAddStart,
-    EndDate: ExAddEnd,
+    StartDate: ExAddStart.toISOString().slice(0, 10),
+    EndDate: ExAddEnd.toISOString().slice(0, 10),
     Location: ExAddLocation,
     ArtworksIncluded: Number(ExAddIncluded),
     isArchived: (ExAddArchived === 'true')
   }
-  console.log(JSON.stringify(newExhibition));
+  console.log(newExhibition);
   addExhibition(newExhibition); 
 }
 
@@ -228,28 +232,19 @@ return (
                 onChange={ handleSetExAddDescription }
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
-              <TextField
-                required
-                id="exhibitionAddStart"
-                label="Start Date"
-                variant='outlined'
-                onChange={ handleSetExAddStart }
-                sx={{ paddingRight: 1, paddingBottom: 1 }}
-              />
-              <TextField
-                required
-                id="exhibitionAddStart"
-                label="End Date"
-                variant='outlined'
-                onChange={ handleSetExAddEnd }
-                sx={{ paddingRight: 1, paddingBottom: 1 }}
-              />
-              <TextField
+
+              <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <DateField format="YYYY-MM-DD" label="Start Date" sx={{ paddingRight: 1, paddingBottom: 1 }} onChange={ (date) => setExAddStart(date)}/>
+              </LocalizationProvider>
+              <LocalizationProvider dateAdapter={AdapterDayjs} >
+                <DateField format='YYYY-MM-DD' label="End Date" sx={{ paddingRight: 1, paddingBottom: 1 }}  onChange={ (date) => setExAddEnd(date)}/>
+              </LocalizationProvider>
+              <TextField 
                 required
                 id="exhibitionAddLocation"
                 label="Location"
                 variant='outlined'
-                onChange={ handleSetExAddLocation }
+                onChange={ handleSetExAddLocation } 
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <TextField
