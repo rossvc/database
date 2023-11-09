@@ -26,7 +26,6 @@ export const getAllGiftShopItems = async () => {
             throw new Error(`Fetch error: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data.data);
         return data.data;
     } catch (error) {
         console.error('Error getting gift shop items:', error);
