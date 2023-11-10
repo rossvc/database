@@ -42,10 +42,31 @@ export default function DefaultAppBar(props) {
             <Button href="/giftshop" color="inherit">Gift Shop</Button>
             <Button href="/exhibition" color="inherit">Exhibitions</Button>
             <Button href="/artworks" color="inherit">Artworks</Button>
+
+            {/* If user is logged in, they see employee info, also add logic for admins later*/}
+            {props.isLoggedIn === true ? 
+            <>
+            <Button href="/employeelanding" color="inherit">Landing Page</Button>
+            {/* Here add an extra if else for admins*/}
             <Button
               variant="outlined"
               color="inherit"
-              onClick={props.onLogin} // TODO: add login logic
+              onClick={props.onLogOut} 
+              sx={{
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 191, 255, 0.3)',
+                },
+                marginLeft: 1,
+                marginBottom: "2px"
+              }}
+            >
+              Logout
+            </Button>
+            </>
+            : <Button
+              variant="outlined"
+              color="inherit"
+              onClick={props.onLogin}
               sx={{
                 '&:hover': {
                   backgroundColor: 'rgba(0, 191, 255, 0.3)',
@@ -55,7 +76,7 @@ export default function DefaultAppBar(props) {
               }}
             >
               Employee Login
-            </Button>
+            </Button>}
           </Box>
         </Toolbar>
       </AppBar>
