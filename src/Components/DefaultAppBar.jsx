@@ -42,6 +42,11 @@ export default function DefaultAppBar(props) {
             <Button href="/giftshop" color="inherit">Gift Shop</Button>
             <Button href="/exhibition" color="inherit">Exhibitions</Button>
             <Button href="/artworks" color="inherit">Artworks</Button>
+            
+            {/* If a customer, they can view old purchases in the recipt page*/}
+            {props.isLoggedIn === false ? 
+            <Button href="/receipts" color="inherit">Past Orders</Button>
+            : ""}
 
             {/* If user is logged in, they see employee info, also add logic for admins later*/}
             {props.isLoggedIn === true ? 
