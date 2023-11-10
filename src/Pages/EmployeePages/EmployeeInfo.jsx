@@ -24,9 +24,9 @@ import '../../styles/EmployeePageStyles.css'
 
 export default function EmployeeInfo() {
 
-    var employeedata = Object.values(JSON.parse(sessionStorage.getItem("currentUser")));
     console.log(Object.values(JSON.parse(sessionStorage.getItem("currentUser"))));
-
+var employeedata = Object.values(JSON.parse(sessionStorage.getItem("currentUser")));
+    
     return (
         <main>
         <Box sx={{ display: "flex", flexDirection: "row", height: "100%", width: "100%" }}>

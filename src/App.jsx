@@ -27,8 +27,6 @@ import EmployeeArtCollections from "./Pages/EmployeePages/EmployeeArtCollections
 import EmployeeExhibitions from "./Pages/EmployeePages/EmployeeExhibitions";
 import EmployeeGiftShop from "./Pages/EmployeePages/EmployeeGiftShop";
 
-//This is app, this shows the website, in order for the website to be viewed you must include it in this file
-
 function App() {
   const theme = createTheme({
     palette: {
@@ -56,9 +54,15 @@ function App() {
   const [user, setUser] = useState(
     JSON.parse(sessionStorage.getItem("currentUser"))
   );
-  const [loggedIn, setLoggedIn] = useState(
-    JSON.parse(sessionStorage.getItem("currentUser")) != null ? true : false
-  );
+  const [loggedIn, setLoggedIn] = useState(user != null);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (loggedIn) {
+      const employeeData = Object.values(user);
+      setIsAdmin(employeeData[employeeData.length - 1] === 1);
+    }
+  }, [loggedIn, user]);
 
   const openLoginModal = () => {
     setLoginModalOpen(true);
@@ -72,14 +76,13 @@ function App() {
     sessionStorage.removeItem("currentUser");
     setUser({});
     setLoggedIn(false);
+    setIsAdmin(false);
   };
 
   const handleLogin = () => {
     setLoggedIn(true);
     setUser(JSON.parse(sessionStorage.getItem("currentUser")));
   };
-
-  //console.log(user);
 
   return (
     <div className="App">
@@ -88,6 +91,7 @@ function App() {
           onLogin={openLoginModal}
           onLogOut={handleLogOut}
           isLoggedIn={loggedIn}
+          isAdmin={isAdmin}
         />
         <Login
           open={isLoginModalOpen}
@@ -96,53 +100,51 @@ function App() {
         />
         <Router>
           <Routes>
-            {" "}
-            {/*TODO: Add user auth in element sections*/}
+            {/* TODO: Add user auth in element sections */}
             <Route path="/" element={<FrontPage />} />
-            <Route path="/reports" element={<Reports />} />
-            <Route path="/manageemployee" element={<Manageemployee />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route
+              path="/reports"
+              element={loggedIn && isAdmin ? <Reports /> : <NotAuthorized />}
+            />
+            <Route
+              path="/manageemployee"
+              element={
+                loggedIn && isAdmin ? <Manageemployee /> : <NotAuthorized />
+              }
+            />
+            <Route
+              path="/admin"
+              element={loggedIn && isAdmin ? <Admin /> : <NotAuthorized />}
+            />
             <Route path="/admission" element={<Admission />} />
             <Route path="/giftshop" element={<GiftShop />} />
             <Route path="/exhibition" element={<Exhibition />} />
             <Route path="/artworks" element={<Artworks />} />
             <Route
               path="/employeelanding"
-              element={
-                loggedIn === true ? <EmployeeLanding /> : <NotAuthorized />
-              }
+              element={loggedIn ? <EmployeeLanding /> : <NotAuthorized />}
             />
             <Route
               path="/employeeinfo"
-              element={loggedIn === true ? <EmployeeInfo /> : <NotAuthorized />}
+              element={loggedIn ? <EmployeeInfo /> : <NotAuthorized />}
             ></Route>
             <Route
               path="/employeeartworks"
-              element={
-                loggedIn === true ? <EmployeeArtworks /> : <NotAuthorized />
-              }
+              element={loggedIn ? <EmployeeArtworks /> : <NotAuthorized />}
             ></Route>
             <Route
               path="/employeeartcollections"
               element={
-                loggedIn === true ? (
-                  <EmployeeArtCollections />
-                ) : (
-                  <NotAuthorized />
-                )
+                loggedIn ? <EmployeeArtCollections /> : <NotAuthorized />
               }
             ></Route>
             <Route
               path="/employeeexhibitions"
-              element={
-                loggedIn === true ? <EmployeeExhibitions /> : <NotAuthorized />
-              }
+              element={loggedIn ? <EmployeeExhibitions /> : <NotAuthorized />}
             ></Route>
             <Route
               path="/employeegiftshop"
-              element={
-                loggedIn === true ? <EmployeeGiftShop /> : <NotAuthorized />
-              }
+              element={loggedIn ? <EmployeeGiftShop /> : <NotAuthorized />}
             ></Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
