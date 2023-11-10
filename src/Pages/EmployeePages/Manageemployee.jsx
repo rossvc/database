@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";   
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -10,19 +10,25 @@ import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+const baseURL = "https://ross.fail:3001/";
+
 export default function AdminPage() {
   const [employees, setEmployees] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [editEmployee, setEditEmployee] = useState(null);
+  const [showEditForm, setShowEditForm] = useState(false);
+
   const [newEmployee, setNewEmployee] = useState({
     FirstName: "",
     LastName: "",
     PhoneNumber: "",
-    Wage: 0,
+    Wage: 0.1,
     DateHired: "",
     Position: "",
     Email: "",
     Username: "",
     Password: "",
+    isAdmin: 0,
   });
   const [errors, setErrors] = useState({
     FirstName: "",
@@ -34,6 +40,7 @@ export default function AdminPage() {
     Email: "",
     Username: "",
     Password: "",
+    isAdmin: 0,
   });
 
   useEffect(() => {
@@ -41,7 +48,7 @@ export default function AdminPage() {
   }, []);
 
   const fetchEmployees = () => {
-    fetch("/api/employees")
+    fetch(baseURL + "api/employees")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -61,12 +68,13 @@ export default function AdminPage() {
       FirstName: "",
       LastName: "",
       PhoneNumber: "",
-      Wage: 0,
+      Wage: 0.1,
       DateHired: "",
       Position: "",
       Email: "",
       Username: "",
       Password: "",
+      isAdmin: 0,
     });
     setErrors({
       FirstName: "",
@@ -78,6 +86,7 @@ export default function AdminPage() {
       Email: "",
       Username: "",
       Password: "",
+      isAdmin: "",
     });
   };
 
@@ -93,6 +102,7 @@ export default function AdminPage() {
       Email: "",
       Username: "",
       Password: "",
+      isAdmin: "",
     };
 
     if (newEmployee.FirstName.trim() === "") {
@@ -148,7 +158,8 @@ export default function AdminPage() {
 
   const addEmployee = () => {
     if (validateForm()) {
-      fetch("/api/employees", {
+      console.log("New Employee Data:", newEmployee); // This will log the newEmployee data to the console
+      fetch(baseURL + "api/employees", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -176,7 +187,7 @@ export default function AdminPage() {
   };
 
   const updateEmployee = (employeeToUpdate) => {
-    fetch(`/api/employees/${employeeToUpdate.id}`, {
+    fetch(baseURL + `api/employees/${employeeToUpdate.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -198,7 +209,7 @@ export default function AdminPage() {
   };
 
   const removeEmployee = (employeeToRemove) => {
-    fetch(`/api/employees/${employeeToRemove.id}`, {
+    fetch(baseURL + `api/employees/${employeeToRemove.EmployeeID}`, {
       method: "DELETE",
     })
       .then((response) => {
@@ -374,6 +385,40 @@ export default function AdminPage() {
                   }
                   error={!!errors.Username}
                   helperText={errors.Username}
+                  required
+                />
+              </div>
+              <div style={{ marginBottom: "1rem" }}>
+                <TextField
+                  label="Is Admin"
+                  variant="outlined"
+                  fullWidth
+                  value={newEmployee.isAdmin}
+                  onChange={(e) =>
+                    setNewEmployee({
+                      ...newEmployee,
+                      isAdmin: e.target.value,
+                    })
+                  }
+                  error={!!errors.isAdmin}
+                  helperText={errors.isAdmin}
+                  required
+                />
+              </div>
+              <div style={{ marginBottom: "1rem" }}>
+                <TextField
+                  label="Wage"
+                  variant="outlined"
+                  fullWidth
+                  value={newEmployee.Wage}
+                  onChange={(e) =>
+                    setNewEmployee({
+                      ...newEmployee,
+                      Wage: e.target.value,
+                    })
+                  }
+                  error={!!errors.Wage}
+                  helperText={errors.Wage}
                   required
                 />
               </div>
