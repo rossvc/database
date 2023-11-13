@@ -24,7 +24,6 @@ import '../../styles/EmployeePageStyles.css'
 
 export default function EmployeeInfo() {
 
-    console.log(Object.values(JSON.parse(sessionStorage.getItem("currentUser"))));
 var employeedata = Object.values(JSON.parse(sessionStorage.getItem("currentUser")));
     
     return (

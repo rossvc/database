@@ -15,8 +15,85 @@ import ShopIcon from '@mui/icons-material/Shop';
 import TextField from '@mui/material/TextField'
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import '../../styles/EmployeePageStyles.css'
+import { getAllArtworks } from '../../backend/Artworks.api';
+
+var artworkrow = await getAllArtworks();
 
 export default function EmployeeArtworks() {
+
+
+
+  const artworkcolumns = [
+    { field: 'ArtworkID', headerName: 'Artwork ID', width: 200 },
+    {
+      field: 'ArtistID',
+      headerName: 'Artist ID',
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: 'Title',
+      headerName: 'Title',
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: 'ArtworkLocation',
+      headerName: 'ArtworkLocation',
+      type: 'number',
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: 'Description',
+      headerName: 'Description',
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: 'CollectionID',
+      headerName: 'Collection ID',
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: 'ExhibitionID',
+      headerName: 'Exhibition ID',
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: 'Medium',
+      headerName: 'Medium',
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: 'Dimensions',
+      headerName: 'Dimensions',
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: 'Style',
+      headerName: 'Style',
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: 'SuppliedBy',
+      headerName: 'Supplied By',
+      flex: 1,
+      editable: false,
+    },
+    {
+      field: 'AcquisitionDate',
+      headerName: 'Acquisition Date',
+      flex: 1,
+      editable: false,
+    },
+  ];
+
     return (
         <main>
           <Box sx={{ display: "flex", flexDirection: "row", height: "100%", width: "100%" }}>
@@ -239,7 +316,6 @@ export default function EmployeeArtworks() {
                   sx={{ paddingRight: 1, paddingBottom: 1 }}
                 />
                 <TextField
-                  disabled
                   id="artUpdateDateAcquired"
                   label="Acquisition Date"
                   variant='outlined'
@@ -337,6 +413,28 @@ export default function EmployeeArtworks() {
                 >
                   View All Artworks
                 </Typography>
+
+                <DataGrid
+              rows={artworkrow}
+              getRowId={(artworkrow) => artworkrow.ArtworkID}
+              columns={artworkcolumns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 10,
+                  },
+                },
+              }}
+              pageSizeOptions={[10]}
+              disableRowSelectionOnClick
+              getRowHeight={() => 'auto'}
+              sx={{
+                [`& .${gridClasses.cell}`]: {
+                  py: 1,
+                },
+              }}> 
+              </DataGrid>
+
               </Box>
   
             </Box>
