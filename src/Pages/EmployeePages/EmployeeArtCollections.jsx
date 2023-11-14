@@ -7,6 +7,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -67,15 +68,13 @@ export default function EmployeeArtCollections() {
       if (ACAddStart === 'NULL' || ACAddStart === 'null' || ACAddStart === "") {truth3 = null} else {truth3 = ACAddStart}
       if (ACAddEnd === 'NULL' || ACAddEnd === 'null' || ACAddEnd === "") {truth4 = null} else {truth4 = ACAddEnd}
       if (ACAddLocation === 'NULL' || ACAddLocation === 'null' || ACAddLocation === "") {truth5 = null} else {truth5 = ACAddLocation }
-      if (ACAddIncluded === 'NULL' || ACAddIncluded === 'null' || ACAddIncluded === "") {truth6 = null} else {truth6 = Number(ACAddIncluded)}
-      if (ACAddArchived === 'false' || ACAddArchived === 'no' || ACAddArchived === "") {truth7 = false} else if (ACAddArchived === 'Yes' || ACAddArchived === 'yes') {truth7 = true}
+      if (ACAddArchived === 'No' || ACAddArchived === 'no' || ACAddArchived === "") {truth7 = false} else if (ACAddArchived === 'Yes' || ACAddArchived === 'yes') {truth7 = true}
       try {
         const newCollection = {
           CollectionName: truth1,
           Location: truth5,
           StartDate: truth3.toISOString().slice(0, 10),
           EndDate: truth4.toISOString().slice(0, 10),
-          ArtworksIncluded: truth6,
           SuppliedBy: truth2,
           isArchived: truth7
         }
@@ -93,14 +92,21 @@ export default function EmployeeArtCollections() {
         { field: 'CollectionID', headerName: 'ID', flex: 1 },
         {
           field: 'CollectionName',
-          headerName: 'Name',
+          headerName: 'Collection Name',
           flex: 1,
           editable: false,
         },
         {
-          field: 'Location',
-          headerName: 'Location',
+          field: 'ArtworkID',
+          headerName: 'Artwork ID',
           flex: 1,
+          editable: false,
+        },
+        {
+          field: 'Title',
+          headerName: 'Artwork Title',
+          flex: 1,
+          type: 'number',
           editable: false,
         },
         {
@@ -111,15 +117,15 @@ export default function EmployeeArtCollections() {
           editable: false,
         },
         {
-          field: 'EndDate',
-          headerName: 'End Date',
-          flex: 1,
-          type: 'number',
-          editable: false,
+        field: 'EndDate',
+        headerName: 'End Date',
+        flex: 1,
+        type: 'number',
+        editable: false,
         },
         {
-          field: 'ArtworksIncluded',
-          headerName: 'Artworks Included',
+          field: 'Location',
+          headerName: 'Location',
           flex: 1,
           type: 'number',
           editable: false,
@@ -208,6 +214,19 @@ return (
                 </ListItem>
               </List>
             </nav>
+            <Divider />
+            <nav aria-label="Employee Functions">
+              <List>
+                <ListItem disablePadding alignItems="flex-start">
+                  <ListItemIcon>
+                    <LocalShippingIcon fontSize='large' />
+                  </ListItemIcon>
+                  <ListItemButton href='/employeesuppliers' sx={{ borderRadius: "6px" }}>
+                    <ListItemText primary="Suppliers" secondary="view, edit, add" />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </nav>
           </Box>
 
           <Box sx={{ width: '85%', height: "100%", minHeight: 429, paddingBottom: 7, paddingTop: 11, bgcolor: 'background.paper', float: 'right', borderBottom: 1, borderLeft: 1, borderColor: 'primary', top: 0 }}>
@@ -257,13 +276,6 @@ return (
                 <DateField required format='YYYY-MM-DD' label="End Date" sx={{ paddingRight: 1, paddingBottom: 1 }}  onChange={ (date) => setACAddEnd(date)}/>
               </LocalizationProvider>
               <TextField
-                id="collectionAddArtsIncluded"
-                label="Artworks Included"
-                variant='outlined'
-                onChange={ handleSetACAddIncluded}
-                sx={{ paddingRight: 1, paddingBottom: 1 }}
-              />
-              <TextField
                 id="collectionAddSupplier"
                 label="Supplied By"
                 variant='outlined'
@@ -304,12 +316,12 @@ return (
 
               <DataGrid
               rows={artcollectionrow}
-              getRowId={(artcollectionrow) => artcollectionrow.CollectionID}
+              getRowId={(artcollectionrow) => artcollectionrow.ArtworkID}
               columns={artcollectioncolumns}
               initialState={{
                 pagination: {
                   paginationModel: {
-                    pageSize: 10,
+                    pageSize: 25,
                   },
                 },
               }}

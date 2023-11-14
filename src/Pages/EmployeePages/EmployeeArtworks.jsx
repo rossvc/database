@@ -8,6 +8,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import Divider from '@mui/material/Divider';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
@@ -20,7 +21,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DateField } from '@mui/x-date-pickers/DateField';
-import { addArtwork, getAllArtworks, updateArtwork } from '../../backend/Artworks.api';
+import { addArtwork, addArtworkToCollection, getAllArtworks, updateArtwork } from '../../backend/Artworks.api';
 
 var artworkrow = await getAllArtworks();
 
@@ -30,6 +31,8 @@ export default function EmployeeArtworks() {
     const [errorMessage1, setErrorMessage1] = React.useState("");
     const [showAlert2, setShowAlert2] = React.useState(false);
     const [errorMessage2, setErrorMessage2] = React.useState("");
+    const [showAlert3, setShowAlert3] = React.useState(false);
+    const [errorMessage3, setErrorMessage3] = React.useState("");
     //hooks for adding art collections
     const [AAddTitle, setAAddTitle] = useState('');
     const [AAddArtistID, setAAddID] = useState('');
@@ -196,6 +199,33 @@ export default function EmployeeArtworks() {
       }
 
     }
+    //hooks for adding to art collection
+    const [AAddToAArtworkID, setAAddToAArtworkID] = useState('');
+    const [AAddToACollectionID, setAAddToACollectionID] = useState('');
+
+    const handleSetAAddToAArtworkID = (event) => {
+      setAAddToAArtworkID(event.target.value);
+    }
+    const handleSetAAddToACollectionID = (event) => {
+      setAAddToACollectionID(event.target.value);
+    }
+
+    const onClickAddToArtCollection = async () => {
+      var artID; if (AAddToAArtworkID === "") {artID = null} else {artID = Number(AAddToAArtworkID)}
+      var collectionID; if (AAddToACollectionID === "") {collectionID = null} else {collectionID = Number(AAddToACollectionID)}
+      try {
+        const body = {
+          CollectionID: collectionID,
+          ArtworkID: artID
+        }
+        await addArtworkToCollection(body);
+        setShowAlert3(false);
+        setErrorMessage3('');
+      } catch (error) {
+        setErrorMessage3("Input error, please fix!");
+        setShowAlert3(true);
+      }
+    }
 
   const artworkcolumns = [
     { field: 'ArtworkID', headerName: 'Artwork ID', width: 200 },
@@ -332,6 +362,19 @@ export default function EmployeeArtworks() {
                   </ListItemIcon>
                   <ListItemButton href='/employeegiftshop' sx={{ borderRadius: "6px" }}>
                     <ListItemText primary="Gift Shop Inventory" secondary="view, edit, add" />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </nav>
+            <Divider />
+            <nav aria-label="Employee Functions">
+              <List>
+                <ListItem disablePadding alignItems="flex-start">
+                  <ListItemIcon>
+                    <LocalShippingIcon fontSize='large' />
+                  </ListItemIcon>
+                  <ListItemButton href='/employeesuppliers' sx={{ borderRadius: "6px" }}>
+                    <ListItemText primary="Suppliers" secondary="view, edit, add" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -564,6 +607,7 @@ export default function EmployeeArtworks() {
                   label="Artwork ID"
                   variant='outlined'
                   sx={{ paddingRight: 1, paddingBottom: 1 }}
+                  onChange={handleSetAAddToAArtworkID}
                 />
                 <TextField
                   required
@@ -571,11 +615,17 @@ export default function EmployeeArtworks() {
                   label="Art Collection ID"
                   variant='outlined'
                   sx={{ paddingRight: 1, paddingBottom: 1 }}
+                  onChange={handleSetAAddToACollectionID}
                 />
                 <br />
-                <Button variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
+                <Button onClick={onClickAddToArtCollection} variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
                   Add
                 </Button>
+                {showAlert3&& (
+                <Alert severity="error" onClose={() => setShowAlert3(false)} sx={{ marginTop: 0, marginBottom: 0 }}>
+                {errorMessage3}
+                </Alert>
+                )}
   
               </Box>
   

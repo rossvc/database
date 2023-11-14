@@ -9,6 +9,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ShopIcon from '@mui/icons-material/Shop';
@@ -102,7 +103,6 @@ const handleUpdateGSImageURLChange = (event) => {
 const onClickUpdateGiftShopItem = async () => {
   var truth1, truth2, truth3, truth4;
   var ID; if (itemUpdateGSID === "") { ID = null} else { ID = Number(itemUpdateGSID)}
-  console.log(ID)
 
   if (itemUpdateGSName === 'NULL' || itemUpdateGSName === 'null' || itemUpdateGSName === "") {truth1 = null} else {truth1 = itemUpdateGSName}
   if (itemUpdateGSPrice === 'NULL' || itemUpdateGSPrice === 'null' || itemUpdateGSPrice === "") {truth2 = null} else {truth2 = Number(itemUpdateGSPrice)}
@@ -211,6 +211,19 @@ return (
                   </ListItemIcon>
                   <ListItemButton href='/employeegiftshop' sx={{ borderRadius: "6px" }}>
                     <ListItemText primary="Gift Shop Inventory" secondary="view, edit, add" />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </nav>
+            <Divider />
+            <nav aria-label="Employee Functions">
+              <List>
+                <ListItem disablePadding alignItems="flex-start">
+                  <ListItemIcon>
+                    <LocalShippingIcon fontSize='large' />
+                  </ListItemIcon>
+                  <ListItemButton href='/employeesuppliers' sx={{ borderRadius: "6px" }}>
+                    <ListItemText primary="Suppliers" secondary="view, edit, add" />
                   </ListItemButton>
                 </ListItem>
               </List>

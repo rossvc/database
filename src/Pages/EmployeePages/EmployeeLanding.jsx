@@ -7,6 +7,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ShopIcon from '@mui/icons-material/Shop';
 import '../../styles/EmployeePageStyles.css'
@@ -82,9 +83,22 @@ export default function EmployeeLanding() {
                 </ListItem>
               </List>
             </nav>
+            <Divider />
+            <nav aria-label="Employee Functions">
+              <List>
+                <ListItem disablePadding alignItems="flex-start">
+                  <ListItemIcon>
+                    <LocalShippingIcon fontSize='large' />
+                  </ListItemIcon>
+                  <ListItemButton href='/employeesuppliers' sx={{ borderRadius: "6px" }}>
+                    <ListItemText primary="Suppliers" secondary="view, edit, add" />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </nav>
           </Box>
 
-          <Box sx={{ width: '85%', height: "100%", minHeight: 429, marginBottom: 30, paddingTop: 10, bgcolor: 'background.paper', float: 'right', borderLeft: 1, borderColor: 'primary' }}>
+          <Box sx={{ width: '85%', height: "100%", minHeight: 518, marginBottom: 30, paddingTop: 10, bgcolor: 'background.paper', float: 'right', borderLeft: 1, borderColor: 'primary' }}>
           </Box>
 
         </Box>

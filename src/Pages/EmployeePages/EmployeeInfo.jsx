@@ -12,6 +12,7 @@ import Divider from '@mui/material/Divider';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ShopIcon from '@mui/icons-material/Shop';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import TextField from '@mui/material/TextField'
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -90,6 +91,19 @@ var employeedata = Object.values(JSON.parse(sessionStorage.getItem("currentUser"
                   </ListItemIcon>
                   <ListItemButton href='/employeegiftshop' sx={{ borderRadius: "6px" }}>
                     <ListItemText primary="Gift Shop Inventory" secondary="view, edit, add" />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </nav>
+            <Divider />
+            <nav aria-label="Employee Functions">
+              <List>
+                <ListItem disablePadding alignItems="flex-start">
+                  <ListItemIcon>
+                    <LocalShippingIcon fontSize='large' />
+                  </ListItemIcon>
+                  <ListItemButton href='/employeesuppliers' sx={{ borderRadius: "6px" }}>
+                    <ListItemText primary="Suppliers" secondary="view, edit, add" />
                   </ListItemButton>
                 </ListItem>
               </List>
