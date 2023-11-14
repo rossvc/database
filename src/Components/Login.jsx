@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle, TextField, Button, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { loginRequest } from '../backend/Login.api';
+import { customerLogin } from '../backend/Customer.api';
 
 // This function takes in props and updates them based on user input
 
@@ -13,16 +14,24 @@ const LoginModal = ({ open, onClose, setLoggedIn }) => {
 
   const handleCustomerLogin = async () => {
     const logininfo = {
-      Username: username,
+      Email: username,
       Password: password
     };
     try {
-      // login logic
+      const response = await customerLogin(logininfo);
+      // console.log(response[0]);
+
+      if (response != null) {
+        sessionStorage.setItem("currentUser", JSON.stringify(response[0]));
+        setLoggedIn();
+        onClose();
+      } else {
+        setLoginError(true);
+      }
     } catch (error) {
       console.error('Login request error:', error);
       setLoginError(true);
     }
-    
   };
 
 
@@ -34,6 +43,7 @@ const LoginModal = ({ open, onClose, setLoggedIn }) => {
   
     try {
       const response = await loginRequest(logininfo);
+      // console.log(response[0]);
   
       if (response != null) {
         sessionStorage.setItem("currentUser", JSON.stringify(response[0]));
@@ -116,7 +126,7 @@ const LoginModal = ({ open, onClose, setLoggedIn }) => {
             Invalid login credentials, try again
           </Typography>
           <TextField
-            label="Username"
+            label="Email"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             fullWidth

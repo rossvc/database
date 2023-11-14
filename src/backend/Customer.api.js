@@ -7,7 +7,7 @@ export const customerLogin = async (itemBody) => {
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify(itemBody)
         }
-        const response = await fetch(baseURL+"api/customers", requestOptions);
+        const response = await fetch(baseURL+"api/customers/login", requestOptions);
         if (response.status === 200) {
           const data = await response.json();
           return data.results;

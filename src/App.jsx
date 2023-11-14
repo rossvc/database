@@ -57,12 +57,19 @@ function App() {
     JSON.parse(sessionStorage.getItem("currentUser"))
   );
   const [loggedIn, setLoggedIn] = useState(user != null);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(null); // true = admin, false = employee, null = customer
+
+  // console.log(isAdmin);
+  // console.log(user);
+  // console.log('isAdmin' in user);
 
   useEffect(() => {
-    if (loggedIn) {
+    if (loggedIn && 'isAdmin' in user ) {
       const employeeData = Object.values(user);
       setIsAdmin(employeeData[employeeData.length - 1] === 1);
+    }
+    else{
+      setIsAdmin(null);
     }
   }, [loggedIn, user]);
 

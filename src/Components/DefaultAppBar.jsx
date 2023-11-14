@@ -63,24 +63,28 @@ export default function DefaultAppBar(props) {
               Artworks
             </Button>
             
-            {/* UPDATE THIS, make it a customer page where they can see their orders and other stuff*/}
-            {props.isLoggedIn === false ? 
-            <Button href="/receipts" color="inherit">Past Orders</Button>
-            : ""}
+            {/* make it a customer page where they can see their orders and other stuff*/}
+
 
             {/* If user is logged in, they see employee info, also add logic for admins later*/}
             {props.isLoggedIn === true ? (
               <>
-                <Button href="/employeelanding" color="inherit">
-                  Landing Page
-                </Button>
-
-                {/* Conditional rendering based on the last element of employeedata */}
-                {employeedata[employeedata.length - 1] === 1 ? (
-                  <Button href="/admin" color="inherit">
-                    Admin Page
+                {props.isAdmin != null ? (
+                  <>
+                  <Button href="/employeelanding" color="inherit">
+                    Landing Page
                   </Button>
-                ) : null}
+
+                  {/* Conditional rendering based on the last element of employeedata */}
+                  {employeedata[employeedata.length - 1] === 1 ? (
+                    <Button href="/admin" color="inherit">
+                      Admin Page
+                    </Button>
+                  ) : null}
+                  </>
+                  ):(
+                    <Button href="/receipts" color="inherit">Account</Button>
+                  )}
 
                 <Button
                   variant="outlined"
