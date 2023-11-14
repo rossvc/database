@@ -9,8 +9,24 @@ const LoginModal = ({ open, onClose, setLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
+  const [loginState, setLoginState] = useState('employee'); // employee, customer
 
-  const handleLogin = async () => {
+  const handleCustomerLogin = async () => {
+    const logininfo = {
+      Username: username,
+      Password: password
+    };
+    try {
+      // login logic
+    } catch (error) {
+      console.error('Login request error:', error);
+      setLoginError(true);
+    }
+    
+  };
+
+
+  const handleEmployeeLogin = async () => {
     const logininfo = {
       Username: username,
       Password: password
@@ -18,11 +34,9 @@ const LoginModal = ({ open, onClose, setLoggedIn }) => {
   
     try {
       const response = await loginRequest(logininfo);
-      //console.log(response);
   
       if (response != null) {
         sessionStorage.setItem("currentUser", JSON.stringify(response[0]));
-        //console.log(Object.values(JSON.parse(sessionStorage.getItem("currentUser"))));
         setLoggedIn();
         onClose();
       } else {
@@ -34,47 +48,99 @@ const LoginModal = ({ open, onClose, setLoggedIn }) => {
     }
   };
 
-  return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>
-        Login
-        <IconButton
-          aria-label='close'
-          onClick={onClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
-      <DialogContent>
-        <Typography style={{ display: loginError ? 'block' : 'none' }} component="h6" color="red">
-          Invalid login credentials, try again
-        </Typography>
-        <TextField
-          label="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <Button  variant="contained" color="primary" onClick={handleLogin}>
-          Login
-        </Button>
-      </DialogContent>
-    </Dialog>
-  );
+  if(loginState === 'employee'){
+    return (
+      <Dialog open={open} onClose={onClose}>
+        <DialogTitle>
+          Employee Login
+          <IconButton
+            aria-label='close'
+            onClick={onClose}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <Typography style={{ display: loginError ? 'block' : 'none' }} component="h6" color="red">
+            Invalid login credentials, try again
+          </Typography>
+          <TextField
+            label="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+          <Button color="primary" onClick={() => setLoginState('customer')}>
+            Click here for Customer login
+          </Button> <br/><br/>
+          <Button  variant="contained" color="primary" onClick={handleEmployeeLogin}>
+            Login
+          </Button>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+  else{
+    return (
+      <Dialog open={open} onClose={onClose}>
+        <DialogTitle>
+          Customer Login
+          <IconButton
+            aria-label='close'
+            onClick={onClose}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <Typography style={{ display: loginError ? 'block' : 'none' }} component="h6" color="red">
+            Invalid login credentials, try again
+          </Typography>
+          <TextField
+            label="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+          <Button color="primary" onClick={() => setLoginState('employee')}>
+            Click here for Employee login
+          </Button> <br/><br/>
+          <Button  variant="contained" color="primary" onClick={handleCustomerLogin}>
+            Login
+          </Button>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
 };
 
 export default LoginModal;

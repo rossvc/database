@@ -63,7 +63,7 @@ export default function DefaultAppBar(props) {
               Artworks
             </Button>
             
-            {/* If a customer, they can view old purchases in the recipt page*/}
+            {/* UPDATE THIS, make it a customer page where they can see their orders and other stuff*/}
             {props.isLoggedIn === false ? 
             <Button href="/receipts" color="inherit">Past Orders</Button>
             : ""}
@@ -110,7 +110,7 @@ export default function DefaultAppBar(props) {
                   marginBottom: "2px",
                 }}
               >
-                Employee Login
+                Login
               </Button>
             )}
           </Box>
