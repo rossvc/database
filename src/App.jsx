@@ -26,6 +26,9 @@ import EmployeeArtworks from "./Pages/EmployeePages/EmployeeArtworks";
 import EmployeeArtCollections from "./Pages/EmployeePages/EmployeeArtCollections";
 import EmployeeExhibitions from "./Pages/EmployeePages/EmployeeExhibitions";
 import EmployeeGiftShop from "./Pages/EmployeePages/EmployeeGiftShop";
+import EmployeeSuppliers from "./Pages/EmployeePages/EmployeeSuppliers";
+import CustomerReciptSearch from './Pages/CustomerReceiptSearch';
+//This is app, this shows the website, in order for the website to be viewed you must include it in this file
 
 function App() {
   const theme = createTheme({
@@ -120,6 +123,7 @@ function App() {
             <Route path="/giftshop" element={<GiftShop />} />
             <Route path="/exhibition" element={<Exhibition />} />
             <Route path="/artworks" element={<Artworks />} />
+            <Route path="/receipts" element={<CustomerReciptSearch />} />
             <Route
               path="/employeelanding"
               element={loggedIn ? <EmployeeLanding /> : <NotAuthorized />}
@@ -146,6 +150,11 @@ function App() {
               path="/employeegiftshop"
               element={loggedIn ? <EmployeeGiftShop /> : <NotAuthorized />}
             ></Route>
+            <Route
+              path="/employeesuppliers"
+              element={loggedIn ? <EmployeeSuppliers /> : <NotAuthorized />}
+            ></Route>
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>

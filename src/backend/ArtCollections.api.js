@@ -21,7 +21,7 @@ export const addArtCollection = async (itemBody) => {
 
 export const getAllArtCollections = async () => {
     try {
-        const response = await fetch(baseURL+"api/collections");
+        const response = await fetch(baseURL+"api/collectionartworks");
         if (!response.ok) {
             throw new Error(`Fetch error: ${response.status}`);
         }
