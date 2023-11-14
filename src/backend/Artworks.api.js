@@ -14,6 +14,43 @@ export const getAllArtworks = async () => {
     }
 };
 
+export const addArtwork = async (itemBody) => {
+    try {
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(itemBody)
+        }
+        const response = await fetch(baseURL+"api/artworks", requestOptions);
+        if (!response.ok) {
+            throw new Error( `Fetch error: ${response.status}` )
+        }
+        const data = await response.json();
+        return data.data;
+    } catch (error) {
+        console.error('Error adding art collection:', error);
+        throw error;
+    }
+};
+
+export const updateArtwork = async (ID,itemBody) => {
+    try {
+        const requestOptions = {
+            method: 'PUT',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(itemBody)
+        }
+        const response = await fetch(baseURL+`api/artworks/${ID}`, requestOptions);
+        if (!response.ok) {
+            throw new Error(`Fetch error: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.data;
+    } catch (error) {
+        console.error('Error updating artwork:', error);
+        throw error;
+    }
+};
 
 export const getArtwork = async (itemID) => {
     try {

@@ -13,6 +13,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ShopIcon from '@mui/icons-material/Shop';
 import TextField from '@mui/material/TextField'
+import Alert from '@mui/material/Alert';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -25,7 +26,8 @@ import { getAllArtCollections, addArtCollection } from '../../backend/ArtCollect
 var artcollectionrow = await getAllArtCollections();  
 
 export default function EmployeeArtCollections() {
-
+    const [showAlert1, setShowAlert1] = React.useState(false);
+    const [errorMessage1, setErrorMessage1] = React.useState("");
     //hooks for adding art collections
     const [ACAddName, setACAddName] = useState('');
     const [ACAddLocation, setACAddLocation] = useState('');
@@ -57,22 +59,34 @@ export default function EmployeeArtCollections() {
     setACAddArchived(event.target.value);
     }
     //add art collection button click
-    const onClickAddArtCollection = () => {
-      var truth1;
-      var truth2;
-      if (ACAddIncluded === 'NULL' || ACAddIncluded === 'null') {truth1 = null} else {truth1 = Number(ACAddIncluded)}
-      if (ACAddSupplier === 'NULL' || ACAddSupplier === 'null') {truth2 = null} else {truth2 = Number(ACAddSupplier)}
-      const newArtCollection = {
-        CollectionName: ACAddName,
-        Location: ACAddLocation,
-        StartDate: ACAddStart.toISOString().slice(0, 10),
-        EndDate: ACAddEnd.toISOString().slice(0, 10),
-        ArtworksIncluded: truth1,
-        SuppliedBy: truth2,
-        isArchived: (ACAddArchived === 'true')
+    const onClickAddArtCollection = async () => {
+      var truth1, truth2, truth3, truth4, truth5, truth6, truth7;
+    
+      if (ACAddName === 'NULL' || ACAddName === 'null' || ACAddName === "") {truth1 = null} else {truth1 = ACAddName}
+      if (ACAddSupplier === 'NULL' || ACAddSupplier === 'null' || ACAddSupplier === "") {truth2 = null} else {truth2 =Number(ACAddSupplier)}
+      if (ACAddStart === 'NULL' || ACAddStart === 'null' || ACAddStart === "") {truth3 = null} else {truth3 = ACAddStart}
+      if (ACAddEnd === 'NULL' || ACAddEnd === 'null' || ACAddEnd === "") {truth4 = null} else {truth4 = ACAddEnd}
+      if (ACAddLocation === 'NULL' || ACAddLocation === 'null' || ACAddLocation === "") {truth5 = null} else {truth5 = ACAddLocation }
+      if (ACAddIncluded === 'NULL' || ACAddIncluded === 'null' || ACAddIncluded === "") {truth6 = null} else {truth6 = Number(ACAddIncluded)}
+      if (ACAddArchived === 'false' || ACAddArchived === 'no' || ACAddArchived === "") {truth7 = false} else if (ACAddArchived === 'Yes' || ACAddArchived === 'yes') {truth7 = true}
+      try {
+        const newCollection = {
+          CollectionName: truth1,
+          Location: truth5,
+          StartDate: truth3.toISOString().slice(0, 10),
+          EndDate: truth4.toISOString().slice(0, 10),
+          ArtworksIncluded: truth6,
+          SuppliedBy: truth2,
+          isArchived: truth7
+        }
+        await addArtCollection(newCollection);
+        setShowAlert1(false);
+        setErrorMessage1('');
+      } catch (error) {
+        setErrorMessage1("Input error, please fix!");
+        setShowAlert1(true);
       }
-      console.log(newArtCollection);
-      addArtCollection(newArtCollection);
+    
     }
 
     const artcollectioncolumns = [
@@ -237,13 +251,12 @@ return (
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <LocalizationProvider dateAdapter={AdapterDayjs} >
-                <DateField format="YYYY-MM-DD" label="Start Date" sx={{ paddingRight: 1, paddingBottom: 1 }} onChange={ (date) => setACAddStart(date)}/>
+                <DateField required format="YYYY-MM-DD" label="Start Date" sx={{ paddingRight: 1, paddingBottom: 1 }} onChange={ (date) => setACAddStart(date)}/>
               </LocalizationProvider>
-              <LocalizationProvider dateAdapter={AdapterDayjs} >
-                <DateField format='YYYY-MM-DD' label="End Date" sx={{ paddingRight: 1, paddingBottom: 1 }}  onChange={ (date) => setACAddEnd(date)}/>
+              <LocalizationProvider required dateAdapter={AdapterDayjs} >
+                <DateField required format='YYYY-MM-DD' label="End Date" sx={{ paddingRight: 1, paddingBottom: 1 }}  onChange={ (date) => setACAddEnd(date)}/>
               </LocalizationProvider>
               <TextField
-                required
                 id="collectionAddArtsIncluded"
                 label="Artworks Included"
                 variant='outlined'
@@ -251,7 +264,6 @@ return (
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <TextField
-                required
                 id="collectionAddSupplier"
                 label="Supplied By"
                 variant='outlined'
@@ -261,7 +273,7 @@ return (
               <TextField
                 required
                 id="collectionAddIsArchived"
-                label="Archived?"
+                label="Archived? (Yes/No)"
                 variant='outlined'
                 onChange={ handleSetACAddArchived }
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
@@ -270,6 +282,11 @@ return (
               <Button onClick={ onClickAddArtCollection } variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
                 Add
               </Button>
+              {showAlert1 && (
+                <Alert severity="error" onClose={() => setShowAlert1(false)} sx={{ marginTop: 0, marginBottom: 0 }}>
+                {errorMessage1}
+                </Alert>
+              )}
 
             </Box>
 
@@ -302,6 +319,7 @@ return (
               sx={{
                 [`& .${gridClasses.cell}`]: {
                   py: 1,
+                  
                 },
               }}> 
               </DataGrid>

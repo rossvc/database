@@ -13,6 +13,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import ShopIcon from '@mui/icons-material/Shop';
 import TextField from '@mui/material/TextField'
+import Alert from '@mui/material/Alert';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { getAllGiftShopItems, addGiftShopItem, updateGiftShopItem } from '../../backend/Giftshop.api';
 import '../../styles/EmployeePageStyles.css'
@@ -22,7 +23,11 @@ var giftshoprow = await getAllGiftShopItems();
 
 export default function EmployeeGiftShop() {
 
-    //hooks for adding giftshop item
+const [showAlert1, setShowAlert1] = React.useState(false);
+const [errorMessage1, setErrorMessage1] = React.useState("");
+const [showAlert2, setShowAlert2] = React.useState(false);
+const [errorMessage2, setErrorMessage2] = React.useState("");
+//hooks for adding giftshop item
 const [itemAddGSName, setItemAddGSName] = useState('');
 const [itemAddGSPrice, setItemAddGSPrice] = useState('');
 const [itemAddGSStock, setItemAddGSStock] = useState('');
@@ -44,20 +49,35 @@ const handleAddGSImageURLChange = (event) => {
 setItemAddGSImageURL(event.target.value);
 };
 //add giftshop item button click
-const onClickAddGiftShopItem = () => {
-  const newGSItem = {
-    ItemName: itemAddGSName,
-    Price: itemAddGSPrice,
-    Stock: itemAddGSStock,
-    Image: itemAddGSImageURL,
+const onClickAddGiftShopItem = async () => {
+  var truth1, truth2, truth3, truth4;
+
+  if (itemAddGSName === 'NULL' || itemAddGSName === 'null' || itemAddGSName === "") {truth1 = null} else {truth1 = itemAddGSName}
+  if (itemAddGSPrice === 'NULL' || itemAddGSPrice === 'null' || itemAddGSPrice === "") {truth2 = null} else {truth2 = Number(itemAddGSPrice)}
+  if (itemAddGSStock === 'NULL' || itemAddGSStock === 'null' || itemAddGSStock === "") {truth3 = null} else {truth3 = Number(itemAddGSStock)}
+  if (itemAddGSImageURL === 'NULL' || itemAddGSImageURL === 'null' || itemAddGSImageURL === "") {truth4 = null} else {truth4 = itemAddGSImageURL}
+  try {
+    const newItem = {
+      ItemName: truth1,
+      Price: truth2,
+      Stock: truth3,
+      Image: truth4,
+    }
+    await addGiftShopItem(newItem);
+    setShowAlert1(false);
+    setErrorMessage1('');
+  } catch (error) {
+    setErrorMessage1("Input error, please fix!");
+    setShowAlert1(true);
   }
-addGiftShopItem(newGSItem);
-};
+
+}
 //hooks for updating giftshop item
 const [itemUpdateGSID, setItemUpdateGSID] = useState('');
 const [itemUpdateGSName, setItemUpdateGSName] = useState('');
 const [itemUpdateGSPrice, setItemUpdateGSPrice] = useState('');
 const [itemUpdateGSStock, setItemUpdateGSStock] = useState('');
+const [itemUpdateGSImageURL, setItemUpdateGSImageURL] = useState('');
 
 const handleUpdateGSNameChange = (event) => {
 setItemUpdateGSName(event.target.value);
@@ -74,16 +94,34 @@ setItemUpdateGSStock(event.target.value);
 const handleUpdateGSIDChange = (event) => {
 setItemUpdateGSID(event.target.value);
 };
+
+const handleUpdateGSImageURLChange = (event) => {
+  setItemUpdateGSImageURL(event.target.value);
+};
 //Update giftshop item button click
-const onClickUpdateGiftShopItem = () => {
-  const ItemID = itemUpdateGSID;
-  const updatedGSItem = {
-    ItemName: itemUpdateGSName,
-    Price: itemUpdateGSPrice,
-    Stock: itemUpdateGSStock,
+const onClickUpdateGiftShopItem = async () => {
+  var truth1, truth2, truth3, truth4;
+  var ID; if (itemUpdateGSID === "") { ID = null} else { ID = Number(itemUpdateGSID)}
+  console.log(ID)
+
+  if (itemUpdateGSName === 'NULL' || itemUpdateGSName === 'null' || itemUpdateGSName === "") {truth1 = null} else {truth1 = itemUpdateGSName}
+  if (itemUpdateGSPrice === 'NULL' || itemUpdateGSPrice === 'null' || itemUpdateGSPrice === "") {truth2 = null} else {truth2 = Number(itemUpdateGSPrice)}
+  if (itemUpdateGSStock === 'NULL' || itemUpdateGSStock === 'null' || itemUpdateGSStock === "") {truth3 = null} else {truth3 = Number(itemUpdateGSStock)}
+  if (itemUpdateGSImageURL === 'NULL' || itemUpdateGSImageURL === 'null' || itemUpdateGSImageURL === "") {truth4 = null} else {truth4 = itemUpdateGSImageURL}
+  try {
+    const updatedItem = {
+      ItemName: truth1,
+      Price: truth2,
+      Stock: truth3,
+      Image: truth4,
+    }
+    await updateGiftShopItem(ID, updatedItem);
+    setShowAlert2(false);
+    setErrorMessage2('');
+  } catch (error) {
+    setErrorMessage2("Input error, please fix!");
+    setShowAlert2(true);
   }
-  updateGiftShopItem(ItemID, updatedGSItem);
-  console.log('updated');
 };
 
 const giftshopcolumns = [
@@ -228,7 +266,6 @@ return (
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <TextField
-                required
                 id="itemAddImage"
                 label="Image URL"
                 onChange={handleAddGSImageURLChange}
@@ -239,6 +276,11 @@ return (
               <Button id='AddItemBtn' onClick={onClickAddGiftShopItem} variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
                 Add
               </Button>
+              {showAlert1 && (
+                <Alert severity="error" onClose={() => setShowAlert1(false)} sx={{ marginTop: 2, marginBottom: 0 }}>
+                {errorMessage1}
+                </Alert>
+                )}
 
             </Box>
 
@@ -287,10 +329,22 @@ return (
                 variant='outlined'
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
+              <TextField
+                id="itemUpdateStock"
+                label="Image URL"
+                onChange={handleUpdateGSImageURLChange}
+                variant='outlined'
+                sx={{ paddingRight: 1, paddingBottom: 1 }}
+              />
               <br />
               <Button onClick={onClickUpdateGiftShopItem} variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
                 Update
               </Button>
+              {showAlert2 && (
+                <Alert severity="error" onClose={() => setShowAlert2(false)} sx={{ marginTop: 2, marginBottom: 0 }}>
+                {errorMessage2}
+                </Alert>
+              )}
 
             </Box>
 
