@@ -40,7 +40,7 @@ export default function Artworks() {
       {/* Your welcome message and introductory content */}
 
       {/* Search Bar */}
-      <Container sx={{ py: 4 }} maxWidth="md">
+      <Container sx={{ py: 20 }} maxWidth="md">
         <TextField
           label="Search Artworks"
           variant="outlined"
