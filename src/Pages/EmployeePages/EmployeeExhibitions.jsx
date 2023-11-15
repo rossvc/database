@@ -21,15 +21,29 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import '../../styles/EmployeePageStyles.css'
-import { addExhibition, getAllExhibitions } from '../../backend/Exhibition.api';
+import { addExhibition, deleteExhibitionRow, getAllExhibitions } from '../../backend/Exhibition.api';
 
 //rows for displaying giftshop table
 
 var exhibitionrow = await getAllExhibitions();
 
 export default function EmployeeExhibitions() {
+  var employeedata = [];
+  const currentUserData = sessionStorage.getItem("currentUser");
+
+  if (currentUserData) {
+    try {
+      employeedata = Object.values(JSON.parse(currentUserData));
+      var is_admin = employeedata[employeedata.length - 1] === 1;
+    } catch (error) {
+      // Handle JSON parsing error
+      console.error("Error parsing currentUser data:", error);
+    }
+  }
 const [showAlert1, setShowAlert1] = React.useState(false);
 const [errorMessage1, setErrorMessage1] = React.useState("");
+const [showAlert2, setShowAlert2] = React.useState(false);
+const [errorMessage2, setErrorMessage2] = React.useState("");
 //hooks for adding exhibitions
 const [ExAddName, setExAddName] = useState('');
 const [ExAddDescription, setExAddDescription] = useState('');
@@ -90,6 +104,35 @@ const onClickAddExhibition = async () => {
   }
 
 }
+
+  const [ExdeleterowExhibitionID, setExdeleterowExhibitionID] = useState('');
+  const [ExdeleterowArtID, setExdeleterowArtID] = useState('');
+
+  const handleSetExdeleterowExhibitionID = (event) => {
+  setExdeleterowExhibitionID(event.target.value);
+  }
+  const handleSetExdeleterowArtID = (event) => {
+  setExdeleterowArtID(event.target.value);
+  }
+
+  const onClickDeleteExhibitionRow = async () => {
+    var artID; if (ExdeleterowArtID === "") {artID = null} else {artID = Number(ExdeleterowArtID)}
+    var exhibitionID; if (ExdeleterowExhibitionID === "") {exhibitionID = null} else {exhibitionID = Number(ExdeleterowExhibitionID)}
+  
+    try {
+      const body = {
+          ExhibitionID: exhibitionID,
+          ArtworkID: artID
+      }
+      await deleteExhibitionRow(body);
+      setShowAlert2(false);
+      setErrorMessage2('');
+    } catch (error) {
+      setErrorMessage2("Input error, please fix!");
+      setShowAlert2(true);
+    }
+  
+  }
 
 const exhibitioncolumns = [
   { field: 'ExhibitionID', headerName: 'Exhibition ID', flex: 1 },
@@ -153,7 +196,7 @@ return (
                     <AccountCircleIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeinfo' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Employee Information" secondary="view, edit" />
+                    <ListItemText primary="Employee Information" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -166,7 +209,7 @@ return (
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeartworks' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Artworks" secondary="view, edit, add" />
+                    <ListItemText primary="Artworks" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -179,7 +222,7 @@ return (
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeartcollections' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Art Collections" secondary="view, edit" />
+                    <ListItemText primary="Art Collections" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -192,7 +235,7 @@ return (
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeexhibitions' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Exhibitions" secondary="view, edit" />
+                    <ListItemText primary="Exhibitions" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -205,7 +248,7 @@ return (
                     <ShopIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeegiftshop' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Gift Shop Inventory" secondary="view, edit, add" />
+                    <ListItemText primary="Gift Shop Inventory" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -218,7 +261,7 @@ return (
                     <LocalShippingIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeesuppliers' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Suppliers" secondary="view, edit, add" />
+                    <ListItemText primary="Suppliers" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -306,6 +349,47 @@ return (
               )}
 
             </Box>
+
+            {is_admin && (
+            <Box sx={{ width: "90%", minHeight: "100px", paddingLeft: "5%", paddingRight: "5%", borderTop: 5, paddingTop: 2 }}>
+            <Typography
+                component="h2"
+                variant="h4"
+                align="left"
+                color="Black"
+                gutterBottom
+                overflow={false}
+              >
+                Delete Exhibition Row
+              </Typography>
+
+              <TextField
+                required
+                id="collectionAddName"
+                label="Exhibition ID"
+                variant='outlined'
+                onChange={handleSetExdeleterowExhibitionID}
+                sx={{ paddingRight: 1, paddingBottom: 1 }}
+              />
+               <TextField
+                required
+                id="collectionAddName"
+                label="Artwork ID"
+                variant='outlined'
+                onChange={handleSetExdeleterowArtID}
+                sx={{ paddingRight: 1, paddingBottom: 1 }}
+              />
+              <br />
+              <Button onClick={onClickDeleteExhibitionRow} variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
+                Delete
+              </Button>
+              {showAlert2 && (
+                <Alert severity="error" onClose={() => setShowAlert2(false)} sx={{ marginTop: 0, marginBottom: 0 }}>
+                {errorMessage2}
+                </Alert>
+              )}
+            </Box>
+            )}
 
             <Box sx={{ width: "90%", minHeight: "100px", paddingLeft: "5%", paddingRight: "5%", borderTop: 5, paddingTop: 2 }}>
               <Typography
