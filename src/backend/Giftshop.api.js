@@ -66,23 +66,3 @@ export const updateGiftShopItem = async (ID,itemBody) => {
         throw error;
     }
 };
-export const deleteGiftShopItem = async (id) => {
-    try {
-        const response = await fetch(baseURL + `api/giftshop/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`Fetch error: ${response.status}`);
-        }
-        const responseData = await response.json();
-
-        return responseData;
-    } catch (error) {
-        console.error('Error deleting gift shop item:', error);
-        throw error;
-    }
-};

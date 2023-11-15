@@ -21,28 +21,14 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import '../../styles/EmployeePageStyles.css'
-import { getAllArtCollections, addArtCollection, deleteArtCollectionRow } from '../../backend/ArtCollections.api';
+import { getAllArtCollections, addArtCollection } from '../../backend/ArtCollections.api';
 
 //rows for displaying giftshop table
 var artcollectionrow = await getAllArtCollections();  
 
 export default function EmployeeArtCollections() {
-  var employeedata = [];
-  const currentUserData = sessionStorage.getItem("currentUser");
-
-  if (currentUserData) {
-    try {
-      employeedata = Object.values(JSON.parse(currentUserData));
-      var is_admin = employeedata[employeedata.length - 1] === 1;
-    } catch (error) {
-      // Handle JSON parsing error
-      console.error("Error parsing currentUser data:", error);
-    }
-  }
     const [showAlert1, setShowAlert1] = React.useState(false);
     const [errorMessage1, setErrorMessage1] = React.useState("");
-    const [showAlert2, setShowAlert2] = React.useState(false);
-    const [errorMessage2, setErrorMessage2] = React.useState("");
     //hooks for adding art collections
     const [ACAddName, setACAddName] = useState('');
     const [ACAddLocation, setACAddLocation] = useState('');
@@ -100,35 +86,6 @@ export default function EmployeeArtCollections() {
       } catch (error) {
         setErrorMessage1("Input error, please fix!");
         setShowAlert1(true);
-      }
-    
-    }
-
-    const [ACdeleterowCollectionID, setACdeleterowCollectionID] = useState('');
-    const [ACdeleterowArtID, setACdeleterowArtID] = useState('');
-
-    const handleSetACdeleterowCollectionID = (event) => {
-      setACdeleterowCollectionID(event.target.value);
-    }
-    const handleSetACdeleterowArtID = (event) => {
-      setACdeleterowArtID(event.target.value);
-    }
-
-    const onClickDeleteCollectionRow = async () => {
-      var artID; if (ACdeleterowArtID === "") {artID = null} else {artID = Number(ACdeleterowArtID)}
-      var collectionID; if (ACdeleterowCollectionID === "") {collectionID = null} else {collectionID = Number(ACdeleterowCollectionID)}
-    
-      try {
-        const body = {
-            CollectionID: collectionID,
-            ArtworkID: artID
-        }
-        await deleteArtCollectionRow(body);
-        setShowAlert2(false);
-        setErrorMessage2('');
-      } catch (error) {
-        setErrorMessage2("Input error, please fix!");
-        setShowAlert2(true);
       }
     
     }
@@ -202,7 +159,7 @@ return (
                     <AccountCircleIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeinfo' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Employee Information" />
+                    <ListItemText primary="Employee Information" secondary="view, edit" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -215,7 +172,7 @@ return (
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeartworks' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Artworks"  />
+                    <ListItemText primary="Artworks" secondary="view, edit, add" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -228,7 +185,7 @@ return (
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeartcollections' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Art Collections" />
+                    <ListItemText primary="Art Collections" secondary="view, edit" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -241,7 +198,7 @@ return (
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeexhibitions' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Exhibitions" />
+                    <ListItemText primary="Exhibitions" secondary="view, edit" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -254,7 +211,7 @@ return (
                     <ShopIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeegiftshop' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Gift Shop Inventory" />
+                    <ListItemText primary="Gift Shop Inventory" secondary="view, edit, add" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -267,7 +224,7 @@ return (
                     <LocalShippingIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeesuppliers' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Suppliers" />
+                    <ListItemText primary="Suppliers" secondary="view, edit, add" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -356,47 +313,6 @@ return (
 
             </Box>
 
-            {is_admin && (
-            <Box sx={{ width: "90%", minHeight: "100px", paddingLeft: "5%", paddingRight: "5%", borderTop: 5, paddingTop: 2 }}>
-            <Typography
-                component="h2"
-                variant="h4"
-                align="left"
-                color="Black"
-                gutterBottom
-                overflow={false}
-              >
-                Delete Art Collection Row
-              </Typography>
-
-              <TextField
-                required
-                id="collectionAddName"
-                label="Art Collection ID"
-                variant='outlined'
-                onChange={handleSetACdeleterowCollectionID}
-                sx={{ paddingRight: 1, paddingBottom: 1 }}
-              />
-               <TextField
-                required
-                id="collectionAddName"
-                label="Artwork ID"
-                variant='outlined'
-                onChange={handleSetACdeleterowArtID}
-                sx={{ paddingRight: 1, paddingBottom: 1 }}
-              />
-              <br />
-              <Button onClick={onClickDeleteCollectionRow} variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
-                Delete
-              </Button>
-              {showAlert2 && (
-                <Alert severity="error" onClose={() => setShowAlert2(false)} sx={{ marginTop: 0, marginBottom: 0 }}>
-                {errorMessage2}
-                </Alert>
-              )}
-            </Box>
-            )}
-            
             <Box sx={{ width: "90%", minHeight: "100px", paddingLeft: "5%", paddingRight: "5%", borderTop: 5, paddingTop: 2 }}>
               <Typography
                 component="h2"

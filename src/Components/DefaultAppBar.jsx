@@ -62,26 +62,25 @@ export default function DefaultAppBar(props) {
             <Button href="/artworks" color="inherit">
               Artworks
             </Button>
+            
+            {/* If a customer, they can view old purchases in the recipt page*/}
+            {props.isLoggedIn === false ? 
+            <Button href="/receipts" color="inherit">Past Orders</Button>
+            : ""}
 
             {/* If user is logged in, they see employee info, also add logic for admins later*/}
             {props.isLoggedIn === true ? (
               <>
-                {props.isAdmin != null ? (
-                  <>
-                  <Button href="/employeelanding" color="inherit">
-                    Landing Page
-                  </Button>
+                <Button href="/employeelanding" color="inherit">
+                  Employee Page
+                </Button>
 
-                  {/* Conditional rendering based on the last element of employeedata */}
-                  {employeedata[employeedata.length - 1] === 1 ? (
-                    <Button href="/admin" color="inherit">
-                      Admin Page
-                    </Button>
-                  ) : null}
-                  </>
-                  ):( 
-                    <Button href="/user-details" color="inherit">Account</Button>
-                  )}
+                {/* Conditional rendering based on the last element of employeedata */}
+                {employeedata[employeedata.length - 1] === 1 ? (
+                  <Button href="/admin" color="inherit">
+                    Admin Page
+                  </Button>
+                ) : null}
 
                 <Button
                   variant="outlined"
@@ -111,7 +110,7 @@ export default function DefaultAppBar(props) {
                   marginBottom: "2px",
                 }}
               >
-                Login
+                Employee Login
               </Button>
             )}
           </Box>
