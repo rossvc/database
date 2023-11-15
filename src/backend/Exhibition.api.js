@@ -38,16 +38,23 @@ export const deleteExhibitionRow = async (itemBody) => {
     }
 };
 
-export const getAllExhibitions = async () => {
+export const getAllExhibitions = async (startDate = '') => {
     try {
-        const response = await fetch(baseURL+"api/exhibitionartworks");
+        let url = baseURL + "api/exhibitions";
+        
+        if (startDate) {
+            url += `?StartDate=${startDate}`;
+        }
+
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Fetch error: ${response.status}`);
         }
         const data = await response.json();
-        return data.data;
+        return data; // Modify the return to match the expected structure
     } catch (error) {
         console.error('Error getting all exhibitions:', error);
         throw error;
     }
 };
+
