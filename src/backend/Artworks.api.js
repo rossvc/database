@@ -104,6 +104,25 @@ export const getArtwork = async (itemID) => {
     }
 };  
 
+export const searchArtworks = async (query) => {
+    
+    try {
+      const response = await fetch(`${baseURL}api/search/artworks?title=${query}`);
+      console.log(response);
+      if (!response.ok) {
+        throw new Error(`Fetch error: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log(data);
+      return data.data;
+    } catch (error) {
+      console.error('Error searching artworks:', error);
+      throw error;
+    }
+  };
+
+
 export const deleteArtwork = async (itemID) => {
     try {
         const response = await fetch(baseURL + "api/artworks/" + itemID, {
