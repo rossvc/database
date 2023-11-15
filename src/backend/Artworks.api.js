@@ -128,7 +128,7 @@ export const deleteArtwork = async (itemID) => {
 
 export const searchArtworks = async (query) => {
     try {
-      const response = await fetch(`${baseURL}api/artworks?name=${name}`);
+      const response = await fetch(`${baseURL}api/artworks?name=${query}`);
       
       if (!response.ok) {
         throw new Error(`Fetch error: ${response.status}`);
