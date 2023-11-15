@@ -45,3 +45,18 @@ export const customerRegistration = async (itemBody) => {
       throw error;
   }
 };
+
+export const getCustomerRecepits = async (userEmail) => {
+  try {
+      const response = await fetch(baseURL + "api/receipts?email=" + userEmail);
+      if (!response.ok) {
+          throw new Error(`Fetch error: ${response.status}`);
+      }
+      const data = await response.json();
+      // console.log(data);
+      return data.data;
+  } catch (error) {
+      console.error('Error getting all exhibits:', error);
+      throw error;
+  }
+};
