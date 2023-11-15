@@ -38,7 +38,21 @@ export const deleteExhibitionRow = async (itemBody) => {
     }
 };
 
-export const getAllExhibitions = async (startDate = '') => {
+export const getAllExhibitions = async () => {
+    try {
+        const response = await fetch(baseURL+"api/exhibitionartworks");
+        if (!response.ok) {
+            throw new Error(`Fetch error: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.data;
+    } catch (error) {
+        console.error('Error getting all exhibitions:', error);
+        throw error;
+    }
+};
+
+export const getAllExhibitions2 = async (startDate = '') => {
     try {
         let url = baseURL + "api/exhibitions";
         
