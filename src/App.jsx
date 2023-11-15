@@ -118,6 +118,18 @@ function App() {
               element={loggedIn && isAdmin ? <Reports /> : <NotAuthorized />}
             />
             <Route
+              path="/totalsalesreport"
+              element={
+                loggedIn && isAdmin ? <Totalsalesreport /> : <NotAuthorized />
+              }
+            />
+            <Route
+              path="/giftshopreport"
+              element={
+                loggedIn && isAdmin ? <Giftshopreport /> : <NotAuthorized />
+              }
+            />
+            <Route
               path="/manageemployee"
               element={
                 loggedIn && isAdmin ? <Manageemployee /> : <NotAuthorized />
@@ -139,8 +151,8 @@ function App() {
               path="/admin"
               element={loggedIn && isAdmin ? <Admin /> : <NotAuthorized />}
             />
-            <Route path="/admission" element={<Admission />} />
-            <Route path="/giftshop" element={<GiftShop />} />
+            <Route path="/admission" element={<Admission isLoggedIn={loggedIn} user={user}/>} />
+            <Route path="/giftshop" element={<GiftShop isLoggedIn={loggedIn} user={user}/>} />
             <Route path="/exhibition" element={<Exhibition />} />
             <Route path="/artworks" element={<Artworks />} />
             <Route

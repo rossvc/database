@@ -62,7 +62,9 @@ export default function AdminPage() {
                 backgroundColor: "#205723",
               },
             }}
-            onClick={handleReports}
+            onClick={() => {
+              navigate("/reports"); // Change the route to "/giftshopreport"
+            }}
             fullWidth
           >
             Ticket Sales Report

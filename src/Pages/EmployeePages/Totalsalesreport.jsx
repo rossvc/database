@@ -23,6 +23,7 @@ export default function CombinedSalesReportPage() {
   const [tableData, setTableData] = useState([]);
   const [totalPurchaseAmount, setTotalPurchaseAmount] = useState(0);
 
+
   const handleDateRangeChange = (event) => {
     setDateRange(event.target.value);
   };
