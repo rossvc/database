@@ -62,22 +62,19 @@ export default function Exhibition() {
             variant="h2"
             align="center"
             color="salmon"
-            gutterBottom
           >
-            Welcome to Museum of Fine Arts Houston
-          </Typography>
-          <Typography variant="h5" align="center" color="text.secondary" paragraph>
-            Welcome to the Museum of Fine Arts, Houston. I hope you find mfah.org an inspiring guide 
-            to the wonderful experiences in store for you at the Museum, and I invite you to explore 
-            all of the exceptional exhibitions, installations, and virtual programming.
+            Exhibitions at Museum of Fine Arts Houston
           </Typography>
         </Container>
       </Box>
 
-      <Container sx={{ py: 4 }} maxWidth="md">
+      <Container sx={{ py: 4 }} maxWidth="md" align='center'> 
+        <Typography variant="h5" align="center" color="text.secondary" paragraph>
+          Select the date you would like to visit and find active exhibits
+        </Typography>
         <TextField
-          id="start-date"
-          label="Start Date"
+          id="select-date"
+          label="Select Date"
           type="date"
           value={startDateFilter}
           onChange={(e) => handleDateFilter(e.target.value)}
@@ -85,18 +82,13 @@ export default function Exhibition() {
             shrink: true,
           }}
         />
-      </Container>
-
-      <Container sx={{ py: 2 }} maxWidth="md">
+        <Button disabled/>
         <Button variant="outlined" onClick={handleResetFilter}>
           Reset
         </Button>
       </Container>
 
       <Container sx={{ py: 8 }} maxWidth="md">
-        <Typography variant="h5" color="salmon" paragraph>
-          Exhibitions
-        </Typography>
         <Grid container spacing={4}>
           {filteredExhibitions.map((exhibition) => (
             <Grid item key={exhibition._id} xs={12} sm={6} md={4}>
@@ -109,6 +101,9 @@ export default function Exhibition() {
                   </Typography>
                   <Typography>
                     Start Date: {exhibition.StartDate.substr(0, 10)}
+                  </Typography>
+                  <Typography>
+                    End Date: {exhibition.EndDate.substr(0, 10)}
                   </Typography>
                 </CardContent>
               </Card>

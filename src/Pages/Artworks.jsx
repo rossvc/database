@@ -52,12 +52,10 @@ export default function Artworks() {
             color="salmon"
             gutterBottom
           >
-            Welcome to Museum of Fine Arts Houston
+            Art at Museum of Fine Arts Houston
           </Typography>
           <Typography variant="h5" align="center" color="text.secondary" paragraph>
-            Welcome to the Museum of Fine Arts, Houston. I hope you find mfah.org an inspiring guide 
-            to the wonderful experiences in store for you at the Museum, and I invite you to explore 
-            all of the exceptional artworks
+            Embark on an exhilarating exploration through our extensive art inventory, where each stroke and hue unveils captivating stories of unparalleled beauty and creativity.
           </Typography>
         </Container>
       </Box>
