@@ -62,9 +62,6 @@ export default function DefaultAppBar(props) {
             <Button href="/artworks" color="inherit">
               Artworks
             </Button>
-            
-            {/* make it a customer page where they can see their orders and other stuff*/}
-
 
             {/* If user is logged in, they see employee info, also add logic for admins later*/}
             {props.isLoggedIn === true ? (
@@ -82,8 +79,8 @@ export default function DefaultAppBar(props) {
                     </Button>
                   ) : null}
                   </>
-                  ):(
-                    <Button href="/receipts" color="inherit">Account</Button>
+                  ):( 
+                    <Button href="/user-details" color="inherit">Account</Button>
                   )}
 
                 <Button

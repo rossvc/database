@@ -26,7 +26,7 @@ import EmployeeArtworks from "./Pages/EmployeePages/EmployeeArtworks";
 import EmployeeArtCollections from "./Pages/EmployeePages/EmployeeArtCollections";
 import EmployeeExhibitions from "./Pages/EmployeePages/EmployeeExhibitions";
 import EmployeeGiftShop from "./Pages/EmployeePages/EmployeeGiftShop";
-import CustomerReciptSearch from './Pages/CustomerReceiptSearch';
+import CustomerLanding from './Pages/CustomerLanding';
 //This is app, this shows the website, in order for the website to be viewed you must include it in this file
 
 function App() {
@@ -129,7 +129,9 @@ function App() {
             <Route path="/giftshop" element={<GiftShop />} />
             <Route path="/exhibition" element={<Exhibition />} />
             <Route path="/artworks" element={<Artworks />} />
-            <Route path="/receipts" element={<CustomerReciptSearch />} />
+            <Route 
+              path="/user-details" 
+              element={loggedIn ? <CustomerLanding /> : <NotAuthorized />} />
             <Route
               path="/employeelanding"
               element={loggedIn ? <EmployeeLanding /> : <NotAuthorized />}
