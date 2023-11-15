@@ -78,7 +78,7 @@ const onClickAddExhibition = async () => {
       StartDate: truth3.toISOString().slice(0, 10),
       EndDate: truth4.toISOString().slice(0, 10),
       Location: truth5,
-      ArtworksIncluded: truth6,
+      InitialArtwork: truth6,
       isArchived: truth7
     }
     await addExhibition(newExhibition);
@@ -92,55 +92,55 @@ const onClickAddExhibition = async () => {
 }
 
 const exhibitioncolumns = [
-    { field: 'ExhibitionID', headerName: 'ID', flex: 1 },
-    {
-      field: 'ExhibitionName',
-      headerName: 'Name',
-      flex: 1,
-      editable: false,
-    },
-    {
-      field: 'Description',
-      headerName: 'Description',
-      flex: 1,
-      editable: false,
-    },
-    {
-      field: 'StartDate',
-      headerName: 'Start Date',
-      flex: 1,
-      type: 'number',
-      editable: false,
-    },
-    {
-      field: 'EndDate',
-      headerName: 'End Date',
-      flex: 1,
-      type: 'number',
-      editable: false,
-    },
-    {
-      field: 'Location',
-      headerName: 'Location',
-      flex: 1,
-      type: 'number',
-      editable: false,
-    },
-    {
-      field: 'ArtworksIncluded',
-      headerName: 'Artworks Included',
-      flex: 1,
-      type: 'number',
-      editable: false,
-    },
-    {
-      field: 'isArchived',
-      headerName: 'Archived?',
-      flex: 1,
-      type: 'number',
-      editable: false,
-    },
-  ];
+  { field: 'ExhibitionID', headerName: 'Exhibition ID', flex: 1 },
+  {
+    field: 'ExhibitionName',
+    headerName: 'Exhibition Name',
+    flex: 1,
+    editable: false,
+  },
+  {
+    field: 'ArtworkID',
+    headerName: 'Artwork ID',
+    flex: 1,
+    editable: false,
+  },
+  {
+    field: 'Title',
+    headerName: 'Artwork Title',
+    flex: 1,
+    type: 'number',
+    editable: false,
+  },
+  {
+    field: 'StartDate',
+    headerName: 'Start Date',
+    flex: 1,
+    type: 'number',
+    editable: false,
+  },
+  {
+  field: 'EndDate',
+  headerName: 'End Date',
+  flex: 1,
+  type: 'number',
+  editable: false,
+  },
+  {
+    field: 'Location',
+    headerName: 'Location',
+    flex: 1,
+    type: 'number',
+    editable: false,
+  },
+  {
+    field: 'isArchived',
+    headerName: 'Archived?',
+    flex: 1,
+    type: 'number',
+    editable: false,
+  },
+];
 
 return (
     <main>
@@ -280,8 +280,9 @@ return (
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <TextField
+                required
                 id="exhibitionAddArtworksIncluded"
-                label="Artworks Included"
+                label="Initial Artwork ID"
                 variant='outlined'
                 onChange={ handleSetExAddIncluded }
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
@@ -319,7 +320,7 @@ return (
               </Typography>
               <DataGrid
               rows={exhibitionrow}
-              getRowId={(exhibitionrow) => exhibitionrow.ExhibitionID}
+              getRowId={(exhibitionrow) => exhibitionrow.ArtworkID}
               columns={exhibitioncolumns}
               initialState={{
                 pagination: {

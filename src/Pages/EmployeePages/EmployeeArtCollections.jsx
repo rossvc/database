@@ -68,6 +68,7 @@ export default function EmployeeArtCollections() {
       if (ACAddStart === 'NULL' || ACAddStart === 'null' || ACAddStart === "") {truth3 = null} else {truth3 = ACAddStart}
       if (ACAddEnd === 'NULL' || ACAddEnd === 'null' || ACAddEnd === "") {truth4 = null} else {truth4 = ACAddEnd}
       if (ACAddLocation === 'NULL' || ACAddLocation === 'null' || ACAddLocation === "") {truth5 = null} else {truth5 = ACAddLocation }
+      if (ACAddIncluded === 'NULL' || ACAddIncluded === 'null' || ACAddIncluded === "") {truth6 = null} else {truth6 = Number(ACAddIncluded)}
       if (ACAddArchived === 'No' || ACAddArchived === 'no' || ACAddArchived === "") {truth7 = false} else if (ACAddArchived === 'Yes' || ACAddArchived === 'yes') {truth7 = true}
       try {
         const newCollection = {
@@ -76,6 +77,7 @@ export default function EmployeeArtCollections() {
           StartDate: truth3.toISOString().slice(0, 10),
           EndDate: truth4.toISOString().slice(0, 10),
           SuppliedBy: truth2,
+          InitialArtwork: truth6,
           isArchived: truth7
         }
         await addArtCollection(newCollection);
@@ -89,7 +91,7 @@ export default function EmployeeArtCollections() {
     }
 
     const artcollectioncolumns = [
-        { field: 'CollectionID', headerName: 'ID', flex: 1 },
+        { field: 'CollectionID', headerName: 'Collection ID', flex: 1 },
         {
           field: 'CollectionName',
           headerName: 'Collection Name',
@@ -276,10 +278,19 @@ return (
                 <DateField required format='YYYY-MM-DD' label="End Date" sx={{ paddingRight: 1, paddingBottom: 1 }}  onChange={ (date) => setACAddEnd(date)}/>
               </LocalizationProvider>
               <TextField
+                required
                 id="collectionAddSupplier"
                 label="Supplied By"
                 variant='outlined'
                 onChange={ handleSetACAddSupplier}
+                sx={{ paddingRight: 1, paddingBottom: 1 }}
+              />
+              <TextField
+                required
+                id="collectionArtworkIncluded"
+                label="Initial Artwork ID"
+                variant='outlined'
+                onChange={ handleSetACAddIncluded }
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <TextField

@@ -23,7 +23,7 @@ import '../../styles/EmployeePageStyles.css'
 var giftshoprow = await getAllGiftShopItems();
 
 export default function EmployeeGiftShop() {
-
+sessionStorage.getItem()
 const [showAlert1, setShowAlert1] = React.useState(false);
 const [errorMessage1, setErrorMessage1] = React.useState("");
 const [showAlert2, setShowAlert2] = React.useState(false);
@@ -290,13 +290,13 @@ return (
                 Add
               </Button>
               {showAlert1 && (
-                <Alert severity="error" onClose={() => setShowAlert1(false)} sx={{ marginTop: 2, marginBottom: 0 }}>
+                <Alert severity="error" onClose={() => setShowAlert1(false)} sx={{ marginTop: 0, marginBottom: 0 }}>
                 {errorMessage1}
                 </Alert>
                 )}
 
             </Box>
-
+              
             <Box sx={{ width: "90%", minHeight: "100px", paddingLeft: "5%", paddingRight: "5%", borderTop: 5, paddingTop: 2 }}>
               <Typography
                 component="h2"
@@ -354,7 +354,7 @@ return (
                 Update
               </Button>
               {showAlert2 && (
-                <Alert severity="error" onClose={() => setShowAlert2(false)} sx={{ marginTop: 2, marginBottom: 0 }}>
+                <Alert severity="error" onClose={() => setShowAlert2(false)} sx={{ marginTop: 0, marginBottom: 0 }}>
                 {errorMessage2}
                 </Alert>
               )}
