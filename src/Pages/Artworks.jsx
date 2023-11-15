@@ -98,7 +98,7 @@ export default function Artworks() {
                     {artwork.Description}
                   </Typography>
                   <Typography>
-                    Artist: {artwork.Artist}
+                    Artist: {artwork.ArtistName}
                   </Typography>
                   <Typography>
                     Medium: {artwork.Medium}

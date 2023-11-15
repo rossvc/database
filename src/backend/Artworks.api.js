@@ -29,7 +29,7 @@ export const getAllArtworks2 = async () => {
           Title: artwork.Title,
           Description: artwork.Description,
           Image: artwork.Image,
-          Artist: artwork.Artist,
+          ArtistName: artwork.ArtistName,
           Medium: artwork.Medium,
           Dimensions: artwork.Dimensions,
           Style: artwork.Style

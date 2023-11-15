@@ -54,10 +54,10 @@ export const getAllExhibitions = async () => {
 
 export const getAllExhibitions2 = async (startDate = '') => {
     try {
-        let url = baseURL + "api/exhibitions";
+        let url = baseURL + "api/exhibition";
         
         if (startDate) {
-            url += `?StartDate=${startDate}`;
+            url += url.includes('?') ? `&startDate=${startDate}` : `?startDate=${startDate}`;
         }
 
         const response = await fetch(url);
@@ -71,4 +71,21 @@ export const getAllExhibitions2 = async (startDate = '') => {
         throw error;
     }
 };
+
+export const resetAllValues = async () => {
+    try {
+      const response = await fetch(baseURL + "api/exhibitions");
+      if (!response.ok) {
+        throw new Error(`Fetch error: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error resetting values:', error);
+      throw error;
+    }
+  };
+  
+
+
 

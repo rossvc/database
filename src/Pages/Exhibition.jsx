@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllExhibitions2 } from '../backend/Exhibition.api';
+import { getAllExhibitions2, resetAllValues } from '../backend/Exhibition.api';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -16,29 +16,35 @@ export default function Exhibition() {
   const [startDateFilter, setStartDateFilter] = useState('');
 
   useEffect(() => {
-    getAllExhibitions2()
+    handleResetFilter(); // Fetch data initially after mounting
+  }, []);
+
+  const fetchAllExhibitions = (startDate = '') => {
+    getAllExhibitions2(startDate)
       .then((data) => {
         setExhibitions(data.data);
         setFilteredExhibitions(data.data);
       })
       .catch((error) => console.error(error));
-  }, []);
+  };
 
   const handleDateFilter = (date) => {
     setStartDateFilter(date);
-
-    // Fetch exhibitions based on the selected date
     getAllExhibitions2(date)
-        .then((data) => {
-            setFilteredExhibitions(data.data);
-        })
-        .catch((error) => console.error(error));
-};
-
+      .then((data) => {
+        setFilteredExhibitions(data.data);
+      })
+      .catch((error) => console.error(error));
+  };
 
   const handleResetFilter = () => {
     setStartDateFilter('');
-    setFilteredExhibitions(exhibitions);
+    resetAllValues()
+      .then((data) => {
+        setExhibitions(data.data);
+        setFilteredExhibitions(data.data);
+      })
+      .catch((error) => console.error(error));
   };
 
   return (
@@ -68,7 +74,6 @@ export default function Exhibition() {
         </Container>
       </Box>
 
-      {/* Date Entry for Filtering */}
       <Container sx={{ py: 4 }} maxWidth="md">
         <TextField
           id="start-date"
@@ -82,14 +87,12 @@ export default function Exhibition() {
         />
       </Container>
 
-      {/* Reset Button */}
       <Container sx={{ py: 2 }} maxWidth="md">
         <Button variant="outlined" onClick={handleResetFilter}>
           Reset
         </Button>
       </Container>
 
-      {/* Exhibitions */}
       <Container sx={{ py: 8 }} maxWidth="md">
         <Typography variant="h5" color="salmon" paragraph>
           Exhibitions
@@ -103,7 +106,6 @@ export default function Exhibition() {
                 <CardMedia
                   component="div"
                   sx={{
-                    // 16:9
                     pt: '56.25%',
                   }}
                   image={exhibition.imageUrl}
@@ -115,7 +117,6 @@ export default function Exhibition() {
                   <Typography>
                     Start Date: {exhibition.StartDate}
                   </Typography>
-                  {/* Display other exhibition details */}
                 </CardContent>
               </Card>
             </Grid>
@@ -125,3 +126,4 @@ export default function Exhibition() {
     </main>
   );
 }
+
