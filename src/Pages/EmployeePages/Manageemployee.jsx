@@ -9,6 +9,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 const baseURL = "https://ross.fail:3001/";
 
@@ -389,17 +391,20 @@ export default function AdminPage() {
                 />
               </div>
               <div style={{ marginBottom: "1rem" }}>
-                <TextField
-                  label="Is Admin"
-                  variant="outlined"
-                  fullWidth
-                  value={newEmployee.isAdmin}
-                  onChange={(e) =>
-                    setNewEmployee({
-                      ...newEmployee,
-                      isAdmin: e.target.value,
-                    })
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={newEmployee.isAdmin === "1"} // '1' corresponds to true
+                      onChange={(e) => {
+                        const newValue = e.target.checked ? "1" : "0"; // Convert to '1' or '0'
+                        setNewEmployee({
+                          ...newEmployee,
+                          isAdmin: newValue,
+                        });
+                      }}
+                    />
                   }
+                  label="Is Admin"
                   error={!!errors.isAdmin}
                   helperText={errors.isAdmin}
                   required
