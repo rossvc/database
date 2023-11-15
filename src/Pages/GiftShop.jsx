@@ -18,6 +18,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { getAllGiftShopItems } from '../backend/Giftshop.api';
+import { addGiftshopSales } from '../backend/GiftShopSales.api';
 
 // Gift shop page, users can buy gifts
 // 3 stages:
@@ -68,17 +69,22 @@ export default function GiftShop(props) {
       //check out their order
       let today = new Date().toISOString().split('T')[0];
 
-      const orderSummary = { //update for gifts
-        // CustomerID: props.user[CustomerID],
-        // EmployeeID: 12,
-        // PurchaseDate: today,
-        // TicketDate: cart[0].item[TicketDate],
-        // PurchaseAmount: cart.reduce((n, {price}) => n + price, 0),
-        // TicketPaymentMethod: payment,
-        // TicketTypeID: TicketTypeID,
+      const orderSummary = {
+        EmployeeID: 12,
+        ItemID: cart[0].item.ItemID,
+        SaleDate: today,
+        SaleAmount: cart.reduce((n, {price}) => n + price, 0),
+        GiftShopPaymentMethod: payment,
+        CustomerID: props.user.CustomerID
       };
-      console.log(orderSummary);
-      setState("confirmation");
+      //console.log(orderSummary);
+      const response = await addGiftshopSales(orderSummary);
+      // console.log(response);
+      if (response === true) {
+        setState("confirmation");
+      } else {
+        setState("error");
+      }
     }
     else{ setError(true); }
   };

@@ -17,7 +17,8 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { getAllTickets } from '../backend/GetTicketTypes.api';
+import { getAllTickets } from '../backend/TicketTypes.api';
+import { addTicketSale } from '../backend/TicketSales.api';
 
 // Admissions page, should show ticket info and other stuff
 // 3 stages:
@@ -66,17 +67,24 @@ export default function Admission(props) {
       //check out their order
       let today = new Date().toISOString().split('T')[0];
 
-      const orderSummary = {
-        // CustomerID: props.user[CustomerID],
-        // EmployeeID: 12,
-        // PurchaseDate: today,
-        // TicketDate: cart[0].item[TicketDate],
-        // PurchaseAmount: cart.reduce((n, {price}) => n + price, 0),
-        // TicketPaymentMethod: payment,
-        // TicketTypeID: TicketTypeID,
+      const orderSummary = { // fix later
+        CustomerID: props.user.CustomerID,
+        EmployeeID: 12,
+        PurchaseDate: today,
+        TicketDate: cart[0].item.TicketDate.substr(0, 10),
+        PurchaseAmount: cart.reduce((n, {price}) => n + price, 0),
+        TicketPaymentMethod: payment,
+        TicketTypeID: cart[0].item.TicketTypeID
       };
-      console.log(orderSummary);
-      setState("confirmation");
+      //console.log(orderSummary);
+      const response = await addTicketSale(orderSummary);
+      //console.log(response);
+
+      if (response === true) {
+        setState("confirmation");
+      } else {
+        setState("error");
+      }
     }
     else{ setError(true); }
   };

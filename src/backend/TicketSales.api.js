@@ -22,11 +22,11 @@ export const addTicketSale = async (itemBody) => {
             body: JSON.stringify(itemBody)
         }
         const response = await fetch(baseURL+"api/ticketsales", requestOptions);
-        console.log(response);
+        //console.log(response);
         if (response.status === 200) {
             return true;
         } else if (response.status === 409) {
-            console.log("Error adding sale");
+            //console.log("Error adding sale");
             return false;
         } else {
             throw new Error(`Fetch error: ${response.status}`);
