@@ -157,7 +157,7 @@ function App() {
             <Route path="/artworks" element={<Artworks />} />
             <Route
               path="/user-details"
-              element={loggedIn ? <CustomerLanding /> : <NotAuthorized />}
+              element={loggedIn ? <CustomerLanding isLoggedIn={loggedIn} /> : <NotAuthorized />}
             />
             <Route
               path="/employeelanding"
