@@ -15,8 +15,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import TextField from '@mui/material/TextField';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { getAllGiftShopItems } from '../backend/Giftshop.api';
+import { addGiftshopSales } from '../backend/GiftShopSales.api';
 
 // Gift shop page, users can buy gifts
 // 3 stages:
@@ -38,18 +40,18 @@ for(let d of data){
 
 const cards = Array(increment-1).fill(1).map((n, i) => n + i);
 
-export default function GiftShop() {
+export default function GiftShop(props) {
   //console.log('render');
   const [cart, setCart] = useState([]); // Stores items in cart
   const [state, setState] = useState("default"); // handles what view we have, default, checkout, confirmation
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
-  const [giftShopItems, setGiftShopItems] = useState([]);
+  const [payment, setPayment] = useState('');
   
   const onClickButton = async (card, price) => {
     // Store each ticket in cart, be lazy, just store each one and price, add up price at checkout 
     //console.log(card, type);
-    setCart([...cart, {key:cart.length, title:cardContent[card]["ItemName"], price:price }]);
+    setCart([...cart, {key:cart.length, title:cardContent[card]["ItemName"], price:price, item: cardContent[card]}]);
     //console.log(cart);
   };
 
@@ -61,18 +63,34 @@ export default function GiftShop() {
   };
 
   const onClickConfirmation = async () => {
+    // check if user is logged in
     setError(false);
-    var validRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-    if(email !== "" && validRegex.test(email)){
-      // console.log(cart);
-      setState("confirmation");
-      //console.log(state);
+    if(props.isLoggedIn === true && payment != ''){
+      //check out their order
+      let today = new Date().toISOString().split('T')[0];
+
+      const orderSummary = {
+        EmployeeID: 12,
+        ItemID: cart[0].item.ItemID,
+        SaleDate: today,
+        SaleAmount: cart.reduce((n, {price}) => n + price, 0),
+        GiftShopPaymentMethod: payment,
+        CustomerID: props.user.CustomerID
+      };
+      //console.log(orderSummary);
+      const response = await addGiftshopSales(orderSummary);
+      // console.log(response);
+      if (response === true) {
+        setState("confirmation");
+      } else {
+        setState("error");
+      }
     }
     else{ setError(true); }
   };
 
   const deleteItem = async (key) => {
-    console.log(cart.key = key);
+    // console.log(cart.key = key);
     const updatedCart = cart.filter(item => item.key !== key);
     setCart(updatedCart);
   };
@@ -177,19 +195,32 @@ export default function GiftShop() {
               </ListItem>
               <br/><br/>
               <ListItem sx={{ py: 1, px: 0 }}>
-                <Grid container spacing={3}>
-                <Grid item xs={12} md={4} lg={3}>
-                  <ListItemText primary="Email" secondary={error === true? "Please input a valid email":""}/>
-                </Grid>
-                <Grid item xs={12} md={8} lg={9}>
-                  <TextField required id="outlined-basic" label="Email" variant="outlined" type="email" fullWidth
-                              error={error === true? true:false} placeholder={error === true? "Please input a valid email":""} 
-                              value={email} onChange={(event)=>{setEmail(event.target.value)}} />
-                </Grid>
-                </Grid>
+                {props.isLoggedIn === true ? (
+                  <>
+                  <ListItemText primary="Payment Type" />
+                  <ToggleButtonGroup
+                    value={payment}
+                    exclusive
+                    aria-label="text alignment"
+                  >
+                    <ToggleButton onClick={() => setPayment('Cash')} value="Cash" aria-label="left aligned">
+                      Cash
+                    </ToggleButton>
+                    <ToggleButton onClick={() => setPayment('Credit Card')} value="Credit Card" aria-label="centered">
+                      Credit Card
+                    </ToggleButton>
+                  </ToggleButtonGroup>
+                  </>
+                ) : (
+                  <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+                    Please login before proceeding
+                  </Typography>
+                )}
               </ListItem>
             </List>
             <br/>
+            <Button onClick={() => { setState('default') }} variant="contained">Go back</Button>
+            <Button disabled/>
             <Button onClick={() => { onClickConfirmation() }} variant="contained">Confirm</Button>
           </Container>
         </Box>
@@ -218,7 +249,7 @@ export default function GiftShop() {
               Success!
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Checkout your email inbox for ticket receipt. Come back soon!
+              Check your account for your recent purchase. Come back soon!
             </Typography>
             <Stack
               sx={{ pt: 4 }}

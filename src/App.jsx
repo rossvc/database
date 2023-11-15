@@ -139,8 +139,8 @@ function App() {
               path="/admin"
               element={loggedIn && isAdmin ? <Admin /> : <NotAuthorized />}
             />
-            <Route path="/admission" element={<Admission />} />
-            <Route path="/giftshop" element={<GiftShop />} />
+            <Route path="/admission" element={<Admission isLoggedIn={loggedIn} user={user}/>} />
+            <Route path="/giftshop" element={<GiftShop isLoggedIn={loggedIn} user={user}/>} />
             <Route path="/exhibition" element={<Exhibition />} />
             <Route path="/artworks" element={<Artworks />} />
             <Route
