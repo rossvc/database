@@ -40,7 +40,7 @@ export const deleteExhibitionRow = async (itemBody) => {
 
 export const getAllExhibitions = async () => {
     try {
-        const response = await fetch(baseURL+"api/exhibitions");
+        const response = await fetch(baseURL+"api/exhibitionartworks");
         if (!response.ok) {
             throw new Error(`Fetch error: ${response.status}`);
         }
