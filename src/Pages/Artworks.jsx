@@ -25,8 +25,6 @@ export default function Artworks() {
   };
 
   const handleSearch = (query) => {
-
-    
     setSearchQuery(query);
     if (query.trim() !== '') {
       searchArtworks(query)
@@ -90,7 +88,7 @@ export default function Artworks() {
                     // 16:9
                     pt: '56.25%',
                   }}
-                  image={artwork.imageUrl}
+                  image={artwork.Image}
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
@@ -99,6 +97,19 @@ export default function Artworks() {
                   <Typography>
                     {artwork.Description}
                   </Typography>
+                  <Typography>
+                    Artist: {artwork.Artist}
+                  </Typography>
+                  <Typography>
+                    Medium: {artwork.Medium}
+                  </Typography>
+                  <Typography>
+                    Dimensions: {artwork.Dimensions}
+                  </Typography>
+                  <Typography>
+                    Style: {artwork.Style}
+                  </Typography>
+                  {/* Display other artwork details */}
                 </CardContent>
               </Card>
             </Grid>
