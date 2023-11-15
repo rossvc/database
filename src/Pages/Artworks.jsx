@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllArtworks } from '../backend/connection.Api'; // Import API functions
+import { getAllArtworks } from '../backend/Artworks.api'; // Import API functions
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
