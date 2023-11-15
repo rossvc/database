@@ -23,7 +23,7 @@ import '../../styles/EmployeePageStyles.css'
 var giftshoprow = await getAllGiftShopItems();
 
 export default function EmployeeGiftShop() {
-sessionStorage.getItem()
+
 const [showAlert1, setShowAlert1] = React.useState(false);
 const [errorMessage1, setErrorMessage1] = React.useState("");
 const [showAlert2, setShowAlert2] = React.useState(false);
