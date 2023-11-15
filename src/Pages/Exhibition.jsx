@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllExhibitions } from '../backend/Exhibition.api';
+import { getAllExhibitions2 } from '../backend/Exhibition.api';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -16,7 +16,7 @@ export default function Exhibition() {
   const [startDateFilter, setStartDateFilter] = useState('');
 
   useEffect(() => {
-    getAllExhibitions()
+    getAllExhibitions2()
       .then((data) => {
         setExhibitions(data.data);
         setFilteredExhibitions(data.data);
@@ -28,7 +28,7 @@ export default function Exhibition() {
     setStartDateFilter(date);
 
     // Fetch exhibitions based on the selected date
-    getAllExhibitions(date)
+    getAllExhibitions2(date)
         .then((data) => {
             setFilteredExhibitions(data.data);
         })

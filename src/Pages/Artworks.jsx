@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllArtworks, searchArtworks } from '../backend/Artworks.api';
+import { getAllArtworks2, searchArtworks } from '../backend/Artworks.api';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -19,7 +19,7 @@ export default function Artworks() {
   }, []);
 
   const fetchAllArtworks = () => {
-    getAllArtworks()
+    getAllArtworks2()
       .then((data) => setArtworks(data))
       .catch((error) => console.error(error));
   };
