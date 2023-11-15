@@ -12,10 +12,6 @@ export default function AdminPage() {
     navigate("/manageemployee");
   };
 
-  const handleReports = () => {
-    navigate("/reports");
-  };
-
   return (
     <Container maxWidth="sm">
       <Box
@@ -55,10 +51,46 @@ export default function AdminPage() {
                 backgroundColor: "#205723",
               },
             }}
-            onClick={handleReports}
+            onClick={() => {
+              navigate("/reports"); // Change the route to "/giftshopreport"
+            }}
             fullWidth
           >
-            Reports
+            Tiicket Sales Report
+          </Button>
+          <Button
+            variant="contained"
+            size="large"
+            sx={{
+              backgroundColor: "#2e7d32",
+              padding: "10px 36px",
+              "&:hover": {
+                backgroundColor: "#205723",
+              },
+            }}
+            onClick={() => {
+              navigate("/giftshopreport");
+            }}
+            fullWidth
+          >
+            Giftshop Sales Report
+          </Button>
+          <Button
+            variant="contained"
+            size="large"
+            sx={{
+              backgroundColor: "#2e7d32",
+              padding: "10px 36px",
+              "&:hover": {
+                backgroundColor: "#205723",
+              },
+            }}
+            onClick={() => {
+              navigate("/totalsalesreport");
+            }}
+            fullWidth
+          >
+            Total Sales Report
           </Button>
         </Box>
       </Box>
