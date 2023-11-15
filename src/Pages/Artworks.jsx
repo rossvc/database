@@ -1,70 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import {
-  getAllArtworks,
-  addArtworkToCollection,
-  addArtworkToExhibition,
-  getArtwork,
-} from '../backend/connection.Api'; 
+import { getAllArtworks } from '../backend/connection.Api'; // Import API functions
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 export default function Artworks() {
   const [artworks, setArtworks] = useState([]);
-  const [filter, setFilter] = useState('All');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetchArtworksData(); 
+    fetchArtworksData(); // Fetch artwork data when the component mounts
   }, []);
 
   const fetchArtworksData = async () => {
     try {
-      const data = await getAllArtworks(); 
+      const data = await getAllArtworks(); // Use API function to get artworks
       setArtworks(data);
     } catch (error) {
       console.error('Error fetching artworks:', error);
     }
   };
 
-  const filteredArtworks = artworks.filter((artwork) => {
-    return filter === 'All' || artwork.Style === filter;
-  });
-
-  const handleFilter = (selectedFilter) => {
-    setFilter(selectedFilter);
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
   };
+
+  const filteredArtworks = artworks.filter((artwork) => {
+    return (
+      artwork.Title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      artwork.Description.toLowerCase().includes(searchTerm.toLowerCase())
+      // Add more criteria for search if needed
+    );
+  });
 
   return (
     <main>
-      <Box
-        sx={{
-          bgcolor: 'background.paper',
-          pt: 12,
-          pb: 6,
-        }}
-      >
-        {'Welcome to MFAH'}
-      </Box>
-
-      {/* Filter Buttons */}
       <Container sx={{ py: 4 }} maxWidth="md">
-        <div>
-          <Button onClick={() => handleFilter('All')}>All</Button>
-          {/* Add other filter buttons as per your categories */}
-        </div>
+        <TextField
+          label="Search Artworks"
+          variant="outlined"
+          fullWidth
+          value={searchTerm}
+          onChange={handleSearch}
+        />
       </Container>
 
-      {/* Artworks */}
       <Container sx={{ py: 4 }} maxWidth="md">
-        <Typography variant="h5" color="salmon" paragraph>
-          Artworks
-        </Typography>
         <Grid container spacing={4}>
           {filteredArtworks.map((artwork) => (
             <Grid item key={artwork.ArtworkID} xs={12} sm={6} md={4}>
@@ -78,12 +63,8 @@ export default function Artworks() {
                   image={artwork.imageUrl}
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {artwork.Title}
-                  </Typography>
-                  <Typography>
-                    {artwork.Description}
-                  </Typography>
+                  <h2>{artwork.Title}</h2>
+                  <p>{artwork.Description}</p>
                 </CardContent>
               </Card>
             </Grid>
