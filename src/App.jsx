@@ -9,6 +9,8 @@ import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import FrontPage from "./Pages/FrontPage";
 import Reports from "./Pages/EmployeePages/Reports";
+import Totalsalesreport from "./Pages/EmployeePages/Totalsalesreport";
+import Giftshopreport from "./Pages/EmployeePages/Giftshopreport";
 import Admission from "./Pages/Admission";
 import GiftShop from "./Pages/GiftShop";
 import Admin from "./Pages/Admin";
@@ -27,7 +29,7 @@ import EmployeeArtCollections from "./Pages/EmployeePages/EmployeeArtCollections
 import EmployeeExhibitions from "./Pages/EmployeePages/EmployeeExhibitions";
 import EmployeeGiftShop from "./Pages/EmployeePages/EmployeeGiftShop";
 import EmployeeSuppliers from "./Pages/EmployeePages/EmployeeSuppliers";
-import CustomerLanding from './Pages/CustomerLanding';
+import CustomerLanding from "./Pages/CustomerLanding";
 //This is app, this shows the website, in order for the website to be viewed you must include it in this file
 
 function App() {
@@ -65,11 +67,10 @@ function App() {
   // console.log('isAdmin' in user);
 
   useEffect(() => {
-    if (loggedIn && 'isAdmin' in user ) {
+    if (loggedIn && "isAdmin" in user) {
       const employeeData = Object.values(user);
       setIsAdmin(employeeData[employeeData.length - 1] === 1);
-    }
-    else{
+    } else {
       setIsAdmin(null);
     }
   }, [loggedIn, user]);
@@ -123,6 +124,18 @@ function App() {
               }
             />
             <Route
+              path="/totalsalesreport"
+              element={
+                loggedIn && isAdmin ? <Totalsalesreport /> : <NotAuthorized />
+              }
+            />
+            <Route
+              path="/giftshopreport"
+              element={
+                loggedIn && isAdmin ? <Giftshopreport /> : <NotAuthorized />
+              }
+            />
+            <Route
               path="/admin"
               element={loggedIn && isAdmin ? <Admin /> : <NotAuthorized />}
             />
@@ -130,9 +143,10 @@ function App() {
             <Route path="/giftshop" element={<GiftShop />} />
             <Route path="/exhibition" element={<Exhibition />} />
             <Route path="/artworks" element={<Artworks />} />
-            <Route 
-              path="/user-details" 
-              element={loggedIn ? <CustomerLanding /> : <NotAuthorized />} />
+            <Route
+              path="/user-details"
+              element={loggedIn ? <CustomerLanding /> : <NotAuthorized />}
+            />
             <Route
               path="/employeelanding"
               element={loggedIn ? <EmployeeLanding /> : <NotAuthorized />}

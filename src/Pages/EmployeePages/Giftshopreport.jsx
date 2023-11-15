@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -15,20 +10,25 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Bar } from "react-chartjs-2";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
 
 const baseURL = "https://ross.fail:3001/";
 
-export default function ReportPage() {
+export default function GiftShopReportPage() {
   const [dateRange, setDateRange] = useState("today");
   const [customDateRange, setCustomDateRange] = useState({ from: "", to: "" });
   const [reportData, setReportData] = useState([]);
-  const [totalPurchaseAmount, setTotalPurchaseAmount] = useState(0);
+  const [totalSaleAmount, setTotalSaleAmount] = useState(0);
   const [displayTable, setDisplayTable] = useState(true);
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
       {
-        label: "Purchase Amount",
+        label: "Sale Amount",
         data: [],
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)",
@@ -55,86 +55,83 @@ export default function ReportPage() {
 
   const fetchReportData = async () => {
     try {
-      let endpoint = "api/ticketsales";
-
-      let requestURL = baseURL + endpoint;
+      const endpoint = "api/giftshopsales";
+      const requestURL = baseURL + endpoint;
 
       const response = await fetch(requestURL);
       const data = await response.json();
 
       const filteredData = data.data.filter((item) => {
-        const purchaseDate = new Date(item.PurchaseDate);
+        const saleDate = new Date(item.SaleDate);
         const today = new Date();
         switch (dateRange) {
           case "today":
             return (
-              purchaseDate.toISOString().split("T")[0] ===
+              saleDate.toISOString().split("T")[0] ===
               today.toISOString().split("T")[0]
             );
           case "thisWeek":
             const sunday = new Date(today);
             sunday.setDate(today.getDate() - today.getDay());
-            return purchaseDate >= sunday;
+            return saleDate >= sunday;
           case "lastWeek":
             const lastSunday = new Date(today);
             lastSunday.setDate(today.getDate() - today.getDay() - 7);
             const lastSaturday = new Date(today);
             lastSaturday.setDate(today.getDate() - today.getDay() - 1);
-            return purchaseDate >= lastSunday && purchaseDate <= lastSaturday;
+            return saleDate >= lastSunday && saleDate <= lastSaturday;
           case "lastMonth":
             const lastMonth = new Date(today);
             lastMonth.setMonth(today.getMonth() - 1);
-            return purchaseDate >= lastMonth;
+            return saleDate >= lastMonth;
           case "lastQuarter":
             const lastQuarter = new Date(today);
             lastQuarter.setMonth(today.getMonth() - 3);
-            return purchaseDate >= lastQuarter;
+            return saleDate >= lastQuarter;
           case "thisYear":
             const thisYearStart = new Date(today);
             thisYearStart.setFullYear(today.getFullYear(), 0, 1);
             const thisYearEnd = new Date(today);
             thisYearEnd.setFullYear(today.getFullYear(), 11, 31);
-            return purchaseDate >= thisYearStart && purchaseDate <= thisYearEnd;
+            return saleDate >= thisYearStart && saleDate <= thisYearEnd;
           case "lastYear":
             const lastYearStart = new Date(today);
             lastYearStart.setFullYear(today.getFullYear() - 1, 0, 1);
             const lastYearEnd = new Date(today);
             lastYearEnd.setFullYear(today.getFullYear() - 1, 11, 31);
-            return purchaseDate >= lastYearStart && purchaseDate <= lastYearEnd;
+            return saleDate >= lastYearStart && saleDate <= lastYearEnd;
           case "allTime":
             return true;
           case "custom":
             const customFromDate = new Date(customDateRange.from);
             const customToDate = new Date(customDateRange.to);
-            return (
-              purchaseDate >= customFromDate && purchaseDate <= customToDate
-            );
+            return saleDate >= customFromDate && saleDate <= customToDate;
           default:
             return true;
         }
       });
 
       const totalAmount = filteredData.reduce((total, item) => {
-        return total + parseFloat(item.PurchaseAmount);
+        return total + parseFloat(item.SaleAmount);
       }, 0);
 
       setReportData(filteredData);
-      setTotalPurchaseAmount(totalAmount);
+      setTotalSaleAmount(totalAmount);
 
       // Update chart data
       const chartLabels = [];
       const chartDataPoints = [];
 
       filteredData.forEach((item) => {
-        chartLabels.push(item.PurchaseDate.substring(0, 10));
-        chartDataPoints.push(parseFloat(item.PurchaseAmount));
+        chartLabels.push(item.SaleDate.substring(0, 10));
+        chartDataPoints.push(parseFloat(item.SaleAmount));
       });
 
       setChartData({
         labels: chartLabels,
         datasets: [
           {
-            label: "Purchase Amount",
+            label: "Sale Amount",
             data: chartDataPoints,
             backgroundColor: "rgba(75,192,192,0.2)",
             borderColor: "rgba(75,192,192,1)",
@@ -147,12 +144,16 @@ export default function ReportPage() {
     }
   };
 
+  useEffect(() => {
+    fetchReportData();
+  }, [dateRange]);
+
   return (
     <Container maxWidth="lg">
       <Box sx={{ bgcolor: "background.paper", pt: 12, pb: 6 }}></Box>
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Generate Ticket Sales Report
+          Generate Gift Shop Report
         </Typography>
 
         <FormControl fullWidth sx={{ mt: 2 }}>
@@ -204,31 +205,31 @@ export default function ReportPage() {
             {reportData.length > 0 && (
               <Box sx={{ mt: 4 }}>
                 <Typography variant="h6" gutterBottom>
-                  Sales Report
+                  Gift Shop Sales Report
                 </Typography>
                 <TableContainer sx={{ overflowX: "auto" }}>
                   <Table sx={{ minWidth: 800 }}>
                     <TableHead>
                       <TableRow>
                         <TableCell>Date</TableCell>
-                        <TableCell>CustomerID</TableCell>
                         <TableCell>EmployeeID</TableCell>
-                        <TableCell>Purchase Amount</TableCell>
-                        <TableCell>Ticket Payment Method</TableCell>
-                        <TableCell>Ticket ID</TableCell>
+                        <TableCell>ItemID</TableCell>
+                        <TableCell>Sale Amount</TableCell>
+                        <TableCell>Gift Shop Payment Method</TableCell>
+                        <TableCell>CustomerID</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {reportData.map((item) => (
-                        <TableRow key={item.TicketID}>
+                        <TableRow key={item.SaleID}>
                           <TableCell>
-                            {item.PurchaseDate.substring(0, 10)}
+                            {item.SaleDate.substring(0, 10)}
                           </TableCell>
-                          <TableCell>{item.CustomerID}</TableCell>
                           <TableCell>{item.EmployeeID}</TableCell>
-                          <TableCell>{item.PurchaseAmount}</TableCell>
-                          <TableCell>{item.TicketPaymentMethod}</TableCell>
-                          <TableCell>{item.TicketID}</TableCell>
+                          <TableCell>{item.ItemID}</TableCell>
+                          <TableCell>{item.SaleAmount}</TableCell>
+                          <TableCell>{item.GiftShopPaymentMethod}</TableCell>
+                          <TableCell>{item.CustomerID}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -242,7 +243,7 @@ export default function ReportPage() {
             {reportData.length > 0 && (
               <>
                 <Typography variant="h6" gutterBottom>
-                  Sales Chart
+                  Gift Shop Sales Chart
                 </Typography>
                 <Bar
                   data={chartData}
@@ -261,7 +262,7 @@ export default function ReportPage() {
 
         <Box sx={{ mt: 2 }}>
           <Typography variant="h6" gutterBottom>
-            Total Purchase Amount: ${totalPurchaseAmount.toFixed(2)}
+            Total Sale Amount: ${totalSaleAmount.toFixed(2)}
           </Typography>
         </Box>
       </Box>

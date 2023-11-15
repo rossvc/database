@@ -16,6 +16,13 @@ export default function AdminPage() {
     navigate("/reports");
   };
 
+  const giftreports = () => {
+    navigate("/Giftshopreport");
+  };
+  const totalreports = () => {
+    navigate("/Totalsalesreport");
+  };
+
   return (
     <Container maxWidth="sm">
       <Box
@@ -58,7 +65,37 @@ export default function AdminPage() {
             onClick={handleReports}
             fullWidth
           >
-            Reports
+            Ticket Sales Report
+          </Button>
+          <Button
+            variant="contained"
+            size="large"
+            sx={{
+              backgroundColor: "#2e7d32",
+              padding: "10px 36px",
+              "&:hover": {
+                backgroundColor: "#205723",
+              },
+            }}
+            onClick={giftreports}
+            fullWidth
+          >
+            Gift Shop Sales Report
+          </Button>
+          <Button
+            variant="contained"
+            size="large"
+            sx={{
+              backgroundColor: "#2e7d32",
+              padding: "10px 36px",
+              "&:hover": {
+                backgroundColor: "#205723",
+              },
+            }}
+            onClick={totalreports}
+            fullWidth
+          >
+            Total Sales Report
           </Button>
         </Box>
       </Box>
