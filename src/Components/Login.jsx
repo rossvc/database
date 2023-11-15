@@ -230,6 +230,7 @@ const LoginModal = ({ open, onClose, setLoggedIn }) => {
           />
           <TextField
             label="Password"
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
