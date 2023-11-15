@@ -2,17 +2,33 @@ const baseURL = "https://ross.fail:3001/";
 
 export const getAllArtworks = async () => {
     try {
-        const response = await fetch(baseURL + "api/artworks");
-        if (!response.ok) {
-            throw new Error(`Fetch error: ${response.status}`);
-        }
-        const data = await response.json();
-        return data.data;
+      const response = await fetch(baseURL + "api/artworks");
+      if (!response.ok) {
+        throw new Error(`Fetch error: ${response.status}`);
+      }
+      const data = await response.json();
+      
+      // Modify the data received to include additional properties
+      const artworksWithData = data.data.map(artwork => {
+        return {
+          ArtworkID: artwork.ArtworkID,
+          Title: artwork.Title,
+          Description: artwork.Description,
+          Image: artwork.Image,
+          Artist: artwork.Artist,
+          Medium: artwork.Medium,
+          Dimensions: artwork.Dimensions,
+          Style: artwork.Style
+          // Add more properties here as needed
+        };
+      });
+  
+      return artworksWithData;
     } catch (error) {
-        console.error('Error getting all artworks:', error);
-        throw error;
+      console.error('Error getting all artworks:', error);
+      throw error;
     }
-};
+  };
 
 export const addArtwork = async (itemBody) => {
     try {
@@ -103,6 +119,25 @@ export const getArtwork = async (itemID) => {
         throw error;
     }
 };  
+
+export const searchArtworks = async (query) => {
+    
+    try {
+      const response = await fetch(`${baseURL}api/search/artworks?title=${query}`);
+      console.log(response);
+      if (!response.ok) {
+        throw new Error(`Fetch error: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log(data);
+      return data.data;
+    } catch (error) {
+      console.error('Error searching artworks:', error);
+      throw error;
+    }
+  };
+
 
 export const deleteArtwork = async (itemID) => {
     try {
