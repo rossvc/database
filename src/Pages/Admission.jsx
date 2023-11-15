@@ -15,6 +15,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { getAllTickets } from '../backend/GetTicketTypes.api';
 
 // Admissions page, should show ticket info and other stuff
@@ -42,7 +44,6 @@ export default function Admission(props) {
   const [state, setState] = useState("default"); // handles what view we have, default, checkout, confirmation
   const [error, setError] = useState(false);
   const [payment, setPayment] = useState('');
-  const user = JSON.parse(sessionStorage.getItem("currentUser"));
 
   const onClickButton = async (card, type) => {
     // Store each ticket in cart, be lazy, just store each one and price, add up price at checkout 
@@ -54,6 +55,8 @@ export default function Admission(props) {
     if(cart.length !== 0){
       setState("checkout");
     }
+    console.log(cart[0].item);
+    console.log(cart.reduce((n, {price}) => n + price, 0));
   };
 
   const onClickConfirmation = async () => {
@@ -61,7 +64,18 @@ export default function Admission(props) {
     setError(false);
     if(props.isLoggedIn === true && payment != ''){
       //check out their order
-      console.log(cart);
+      let today = new Date().toISOString().split('T')[0];
+
+      const orderSummary = {
+        // CustomerID: props.user[CustomerID],
+        // EmployeeID: 12,
+        // PurchaseDate: today,
+        // TicketDate: cart[0].item[TicketDate],
+        // PurchaseAmount: cart.reduce((n, {price}) => n + price, 0),
+        // TicketPaymentMethod: payment,
+        // TicketTypeID: TicketTypeID,
+      };
+      console.log(orderSummary);
       setState("confirmation");
     }
     else{ setError(true); }
@@ -187,9 +201,18 @@ export default function Admission(props) {
                 {props.isLoggedIn === true ? (
                   <>
                   <ListItemText primary="Payment Type" />
-                  <Button onClick={() => { setPayment('Cash') }} variant="outlined" >Cash</Button>
-                    <Button disabled/>
-                  <Button onClick={() => { setPayment('Credit Card') }} variant="outlined">Credit Card</Button>
+                  <ToggleButtonGroup
+                    value={payment}
+                    exclusive
+                    aria-label="text alignment"
+                  >
+                    <ToggleButton onClick={() => setPayment('Cash')} value="Cash" aria-label="left aligned">
+                      Cash
+                    </ToggleButton>
+                    <ToggleButton onClick={() => setPayment('Credit Card')} value="Credit Card" aria-label="centered">
+                      Credit Card
+                    </ToggleButton>
+                  </ToggleButtonGroup>
                   </>
                 ) : (
                   <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
@@ -229,7 +252,7 @@ export default function Admission(props) {
               Success!
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Check out your email inbox for your ticket receipt. See you soon!
+              Check your account to see your recent purchase. See you soon!
             </Typography>
             <Stack
               sx={{ pt: 4 }}

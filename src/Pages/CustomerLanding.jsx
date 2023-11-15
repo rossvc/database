@@ -38,7 +38,7 @@ const ticketRows = [
 ];
 
 const user = JSON.parse(sessionStorage.getItem("currentUser"));
-console.log(user);
+// console.log(user);
 
 export default function CustomerLanding() {
   return(
