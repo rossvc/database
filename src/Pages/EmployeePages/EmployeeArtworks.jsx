@@ -461,39 +461,12 @@ export default function EmployeeArtworks() {
       ID = Number(ADeleteArtworkID);
     }
     console.log(ID);
-
     try {
-      // Call the deleteArtwork function with the ID to delete the artwork
-      const response = await deleteArtwork(ID);
-
-      // Check if the response indicates a successful deletion
-      if (response.success) {
-        // Display a success message
-        setErrorMessage5("Artwork deleted successfully.");
-        setShowAlert5(true);
-
-        // Reset state and clear error messages after a short delay
-        setTimeout(() => {
-          setShowAlert5(false);
-          setErrorMessage5("");
-        }, 1000); // Wait for 1 second before resetting
-
-        // Reload the page after 1 second
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      } else {
-        // Handle other error cases, if any
-        setErrorMessage5(
-          "Cannot delete because it exists in an active exhibition! Please remove from exhibition first."
-        );
-        setShowAlert5(true);
-      }
+      await deleteArtwork(ID);
+      setShowAlert5(false);
+      setErrorMessage5("");
     } catch (error) {
-      // Handle errors and display error message
-      setErrorMessage5(
-        "Error deleting artwork, please try again or check if it's in an active exhibition."
-      );
+      setErrorMessage5("Input error, check if the artwork is in a collection or exhibition!");
       setShowAlert5(true);
     }
   };
@@ -840,64 +813,6 @@ export default function EmployeeArtworks() {
             )}
           </Box>
 
-          {is_admin && (
-            <Box
-              sx={{
-                width: "90%",
-                minHeight: "100px",
-                paddingLeft: "5%",
-                paddingRight: "5%",
-                borderTop: 5,
-                paddingTop: 2,
-              }}
-            >
-              <Typography
-                component="h2"
-                variant="h4"
-                align="left"
-                color="Black"
-                gutterBottom
-                overflow={false}
-              >
-                Delete Artwork
-              </Typography>
-
-              <TextField
-                required
-                id="artDeleteID"
-                label="Artwork ID to Delete"
-                variant="outlined"
-                sx={{ paddingRight: 1, paddingBottom: 1 }}
-                onChange={handleSetADeleteArtworkID}
-              />
-              <br />
-              <Button
-                onClick={onClickDeleteArtwork}
-                variant="outlined"
-                color="primary"
-                sx={{
-                  marginTop: 1,
-                  marginBottom: 2,
-                  maxWidth: "80px",
-                  maxHeight: "50px",
-                  minWidth: "80px",
-                  minHeight: "50px",
-                }}
-              >
-                Delete
-              </Button>
-              {showAlert5 && (
-                <Alert
-                  severity="error"
-                  onClose={() => setShowAlert5(false)}
-                  sx={{ marginTop: 0, marginBottom: 0 }}
-                >
-                  {errorMessage5}
-                </Alert>
-              )}
-            </Box>
-          )}
-
           <Box
             sx={{
               width: "90%",
@@ -1025,6 +940,64 @@ export default function EmployeeArtworks() {
               </Alert>
             )}
           </Box>
+
+          {is_admin && (
+            <Box
+              sx={{
+                width: "90%",
+                minHeight: "100px",
+                paddingLeft: "5%",
+                paddingRight: "5%",
+                borderTop: 5,
+                paddingTop: 2,
+              }}
+            >
+              <Typography
+                component="h2"
+                variant="h4"
+                align="left"
+                color="Black"
+                gutterBottom
+                overflow={false}
+              >
+                Delete Artwork
+              </Typography>
+
+              <TextField
+                required
+                id="artDeleteID"
+                label="Artwork ID to Delete"
+                variant="outlined"
+                sx={{ paddingRight: 1, paddingBottom: 1 }}
+                onChange={handleSetADeleteArtworkID}
+              />
+              <br />
+              <Button
+                onClick={onClickDeleteArtwork}
+                variant="outlined"
+                color="primary"
+                sx={{
+                  marginTop: 1,
+                  marginBottom: 2,
+                  maxWidth: "80px",
+                  maxHeight: "50px",
+                  minWidth: "80px",
+                  minHeight: "50px",
+                }}
+              >
+                Delete
+              </Button>
+              {showAlert5 && (
+                <Alert
+                  severity="error"
+                  onClose={() => setShowAlert5(false)}
+                  sx={{ marginTop: 0, marginBottom: 0 }}
+                >
+                  {errorMessage5}
+                </Alert>
+              )}
+            </Box>
+          )}
 
           <Box
             sx={{

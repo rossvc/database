@@ -26,19 +26,20 @@ import "../../styles/EmployeePageStyles.css";
 
 //rows for displaying giftshop table
 var giftshoprow = await getAllGiftShopItems();
-var employeedata = [];
-const currentUserData = sessionStorage.getItem("currentUser");
 
-if (currentUserData) {
-  try {
-    employeedata = Object.values(JSON.parse(currentUserData));
-    var is_admin = employeedata[employeedata.length - 1] === 1;
-  } catch (error) {
-    // Handle JSON parsing error
-    console.error("Error parsing currentUser data:", error);
-  }
-}
 export default function EmployeeGiftShop() {
+  var employeedata = [];
+  const currentUserData = sessionStorage.getItem("currentUser");
+
+  if (currentUserData) {
+    try {
+      employeedata = Object.values(JSON.parse(currentUserData));
+      var is_admin = employeedata[employeedata.length - 1] === 1;
+    } catch (error) {
+      // Handle JSON parsing error
+      console.error("Error parsing currentUser data:", error);
+    }
+  }
   const [showAlert3, setShowAlert3] = React.useState(false); // Define showAlert3
   const [errorMessage3, setErrorMessage3] = React.useState(""); // Define errorMessage3
 
@@ -67,37 +68,21 @@ export default function EmployeeGiftShop() {
   const handleAddGSImageURLChange = (event) => {
     setItemAddGSImageURL(event.target.value);
   };
+
+  const [itemDeleteID, setitemDeleteID] = useState("");
+  const handleItemDeleteID= (event) => {
+    setitemDeleteID(event.target.value);
+  };
+
   const onClickDeleteGiftShopItem = async () => {
-    const itemIDToDelete = document.getElementById("itemDeleteID").value;
+    var itemID; if (itemDeleteID === "") {itemID = null} else {itemID = Number(itemDeleteID)};
 
     try {
-      // Call your deleteGiftShopItem function with the itemIDToDelete
-      const response = await deleteGiftShopItem(itemIDToDelete);
-
-      // Check if the response indicates a successful deletion
-      if (response.success) {
-        // Display a success message
-        setErrorMessage3("Item deleted successfully.");
-        setShowAlert3(true);
-
-        // Reset state and clear error messages after a short delay
-        setTimeout(() => {
-          setShowAlert3(false);
-          setErrorMessage3("");
-        }, 1000); // Wait for 1 second before resetting
-
-        // Reload the page after 1 second
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      } else {
-        // Handle other error cases, if any
-        setErrorMessage3("Error deleting item, please try again.");
-        setShowAlert3(true);
-      }
+      await deleteGiftShopItem(itemID);
+      setShowAlert3(false);
+      setErrorMessage3("");
     } catch (error) {
-      // Handle errors and display error message
-      setErrorMessage3("Error deleting item, please try again.");
+      setErrorMessage3("Input error, please fix!");
       setShowAlert3(true);
     }
   };
@@ -231,10 +216,10 @@ export default function EmployeeGiftShop() {
     }
     try {
       const updatedItem = {
-        ItemName: truth1,
-        Price: truth2,
-        Stock: truth3,
-        Image: truth4,
+        ...(truth1!=null? {ItemName: truth1}:{}),
+        ...(truth2!=null? {Price: truth2}:{}),
+        ...(truth3!=null? {Stock: truth3}:{}),
+        ...(truth4!=null? {Image: truth4}:{}),
       };
       await updateGiftShopItem(ID, updatedItem);
       setShowAlert2(false);
@@ -571,13 +556,14 @@ export default function EmployeeGiftShop() {
                 id="itemDeleteID"
                 label="Item ID"
                 variant="outlined"
+                onChange={handleItemDeleteID}
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
               <br />
               <Button
                 onClick={onClickDeleteGiftShopItem}
                 variant="outlined"
-                color="error" // You can use a color that indicates deletion
+                color="primary" // You can use a color that indicates deletion
                 sx={{
                   marginTop: 1,
                   marginBottom: 2,

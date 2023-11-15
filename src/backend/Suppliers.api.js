@@ -59,23 +59,16 @@ export const deleteSupplier = async (id) => {
   try {
     const response = await fetch(baseURL + `api/suppliers/${id}`, {
       method: "DELETE",
+      headers: {'Content-Type':'application/json'}
     });
 
-    if (response.status === 200) {
-      // Supplier deleted successfully
-      return { success: "Supplier deleted successfully" };
-    } else if (response.status === 404) {
-      // Supplier not found
-      return { error: "Supplier not found" };
-    } else {
-      // Failed to delete supplier
-      return {
-        error:
-          "This supplier is linked to either an artwork or an art collection, therefore cannot be deleted!",
-      };
-    }
-  } catch (error) {
-    console.error("Error deleting supplier:", error);
-    throw error;
+    if (!response.ok) {
+      throw new Error( `Fetch error: ${response.status}` )
   }
+  const data = await response.json();
+  return data.data;
+} catch (error) {
+  console.error('Error adding art collection:', error);
+  throw error;
+}
 };

@@ -42,16 +42,17 @@ export default function EmployeeSuppliers() {
 
   // State for delete functionality
   const [deleteSupplierID, setDeleteSupplierID] = useState("");
-  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-  const [deleteErrorMessage, setDeleteErrorMessage] = useState("");
 
   const handleDeleteSupplierID = (event) => {
     setDeleteSupplierID(event.target.value);
   };
+
   const [showAlert1, setShowAlert1] = React.useState(false);
   const [errorMessage1, setErrorMessage1] = React.useState("");
   const [showAlert2, setShowAlert2] = React.useState(false);
   const [errorMessage2, setErrorMessage2] = React.useState("");
+  const [showAlert3, setShowAlert3] = React.useState(false);
+  const [errorMessage3, setErrorMessage3] = React.useState("");
 
   const [SupplierAddName, setSupplierAddName] = useState("");
   const [SupplierAddContact, setSupplierAddContact] = useState("");
@@ -63,26 +64,19 @@ export default function EmployeeSuppliers() {
   const handleSupplierAddContact = (event) => {
     setSupplierAddContact(event.target.value);
   };
+
   const onClickDeleteSupplier = async () => {
+    var supplierID; if (deleteSupplierID === "") {supplierID = null} else {supplierID = Number(deleteSupplierID)}
     try {
-      const result = await deleteSupplier(deleteSupplierID);
-
-      if (result.success) {
-        setDeleteErrorMessage("");
-        setShowDeleteAlert(true);
-
-        const updatedSuppliers = await getAllSuppliers();
-        supplierrow = updatedSuppliers;
-      } else {
-        setDeleteErrorMessage(result.error);
-        setShowDeleteAlert(true);
-      }
+      await deleteSupplier(supplierID);
+      setShowAlert3(false);
+      setErrorMessage3("");
     } catch (error) {
-      console.error("Error deleting supplier:", error);
-      setDeleteErrorMessage("Error deleting supplier, please try again.");
-      setShowDeleteAlert(true);
+      setErrorMessage3("Input error, please fix!");
+      setShowAlert3(true);
     }
   };
+
   const onClickAddSupplier = async () => {
     var truth1, truth2;
 
@@ -166,9 +160,8 @@ export default function EmployeeSuppliers() {
 
     try {
       const updatedSupplier = {
-        Name: truth1,
-        ContactInfo: truth2,
-        PiecesSupplied: null,
+        ...(truth1!=null? {Name: truth1}:{}),
+        ...(truth2!=null? {ContactInfo: truth2}:{}),
       };
       await updateSupplier(ID, updatedSupplier);
       setShowAlert2(false);
@@ -407,6 +400,7 @@ export default function EmployeeSuppliers() {
               </Alert>
             )}
           </Box>
+
           {is_admin && (
             <Box
               sx={{
@@ -440,7 +434,7 @@ export default function EmployeeSuppliers() {
               <Button
                 onClick={onClickDeleteSupplier}
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 sx={{
                   marginTop: 1,
                   marginBottom: 2,
@@ -452,17 +446,14 @@ export default function EmployeeSuppliers() {
               >
                 Delete
               </Button>
-              {showDeleteAlert && (
-                <Alert
-                  severity={deleteErrorMessage ? "error" : "success"}
-                  onClose={() => setShowDeleteAlert(false)}
-                  sx={{ marginTop: 0, marginBottom: 0 }}
-                >
-                  {deleteErrorMessage || "Supplier deleted successfully"}
+              {showAlert3 && (
+                <Alert severity="error" onClose={() => setShowAlert3(false)} sx={{ marginTop: 0, marginBottom: 0 }}>
+                {errorMessage3}
                 </Alert>
               )}
             </Box>
           )}
+
           <Box
             sx={{
               width: "90%",

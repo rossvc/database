@@ -28,6 +28,18 @@ import { addExhibition, deleteExhibitionRow, getAllExhibitions } from '../../bac
 var exhibitionrow = await getAllExhibitions();
 
 export default function EmployeeExhibitions() {
+  var employeedata = [];
+  const currentUserData = sessionStorage.getItem("currentUser");
+
+  if (currentUserData) {
+    try {
+      employeedata = Object.values(JSON.parse(currentUserData));
+      var is_admin = employeedata[employeedata.length - 1] === 1;
+    } catch (error) {
+      // Handle JSON parsing error
+      console.error("Error parsing currentUser data:", error);
+    }
+  }
 const [showAlert1, setShowAlert1] = React.useState(false);
 const [errorMessage1, setErrorMessage1] = React.useState("");
 const [showAlert2, setShowAlert2] = React.useState(false);
@@ -338,6 +350,7 @@ return (
 
             </Box>
 
+            {is_admin && (
             <Box sx={{ width: "90%", minHeight: "100px", paddingLeft: "5%", paddingRight: "5%", borderTop: 5, paddingTop: 2 }}>
             <Typography
                 component="h2"
@@ -347,7 +360,7 @@ return (
                 gutterBottom
                 overflow={false}
               >
-                Delete Art Collection Row
+                Delete Exhibition Row
               </Typography>
 
               <TextField
@@ -366,6 +379,7 @@ return (
                 onChange={handleSetExdeleterowArtID}
                 sx={{ paddingRight: 1, paddingBottom: 1 }}
               />
+              <br />
               <Button onClick={onClickDeleteExhibitionRow} variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
                 Delete
               </Button>
@@ -375,6 +389,7 @@ return (
                 </Alert>
               )}
             </Box>
+            )}
 
             <Box sx={{ width: "90%", minHeight: "100px", paddingLeft: "5%", paddingRight: "5%", borderTop: 5, paddingTop: 2 }}>
               <Typography

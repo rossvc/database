@@ -26,7 +26,7 @@ export default function EmployeeLanding() {
                     <AccountCircleIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeinfo' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Employee Information" secondary="view, edit" />
+                    <ListItemText primary="Employee Information"  />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -39,7 +39,7 @@ export default function EmployeeLanding() {
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeartworks' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Artworks" secondary="view, edit, add" />
+                    <ListItemText primary="Artworks" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -52,7 +52,7 @@ export default function EmployeeLanding() {
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeartcollections' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Art Collections" secondary="view, edit" />
+                    <ListItemText primary="Art Collections"  />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -65,7 +65,7 @@ export default function EmployeeLanding() {
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeexhibitions' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Exhibitions" secondary="view, edit" />
+                    <ListItemText primary="Exhibitions"  />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -78,7 +78,7 @@ export default function EmployeeLanding() {
                     <ShopIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeegiftshop' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Gift Shop Inventory" secondary="view, edit, add" />
+                    <ListItemText primary="Gift Shop Inventory"  />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -91,14 +91,14 @@ export default function EmployeeLanding() {
                     <LocalShippingIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeesuppliers' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Suppliers" secondary="view, edit, add" />
+                    <ListItemText primary="Suppliers" />
                   </ListItemButton>
                 </ListItem>
               </List>
             </nav>
           </Box>
 
-          <Box sx={{ width: '85%', height: "100%", minHeight: 518, marginBottom: 30, paddingTop: 10, bgcolor: 'background.paper', float: 'right', borderLeft: 1, borderColor: 'primary' }}>
+          <Box sx={{ width: '85%', height: "100%", minHeight: 374, marginBottom: 30, paddingTop: 10, bgcolor: 'background.paper', float: 'right', borderLeft: 1, borderColor: 'primary' }}>
           </Box>
 
         </Box>
