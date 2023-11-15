@@ -7,18 +7,19 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-
+// Fetch artwork data when the component mounts
+// Use API function to get artworks
 export default function Artworks() {
   const [artworks, setArtworks] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetchArtworksData(); // Fetch artwork data when the component mounts
+    fetchArtworksData(); 
   }, []);
 
   const fetchArtworksData = async () => {
     try {
-      const data = await getAllArtworks(); // Use API function to get artworks
+      const data = await getAllArtworks(); 
       setArtworks(data);
     } catch (error) {
       console.error('Error fetching artworks:', error);
@@ -33,7 +34,6 @@ export default function Artworks() {
     return (
       artwork.Title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       artwork.Description.toLowerCase().includes(searchTerm.toLowerCase())
-      // Add more criteria for search if needed
     );
   });
 
