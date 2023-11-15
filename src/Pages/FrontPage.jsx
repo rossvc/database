@@ -49,7 +49,7 @@ export default function FrontPage() {
             component="h1"
             variant="h2"
             align="center"
-            color="salmon"
+            color="white"
             gutterBottom
           >
             Welcome to Museum of Fine Arts Houston

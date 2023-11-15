@@ -72,7 +72,7 @@ export default function DefaultAppBar(props) {
             {props.isLoggedIn === true ? (
               <>
                 <Button href="/employeelanding" color="inherit">
-                  Landing Page
+                  Employee Page
                 </Button>
 
                 {/* Conditional rendering based on the last element of employeedata */}

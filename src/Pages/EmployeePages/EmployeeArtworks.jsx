@@ -21,7 +21,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DateField } from '@mui/x-date-pickers/DateField';
-import { addArtwork, addArtworkToCollection, getAllArtworks, updateArtwork } from '../../backend/Artworks.api';
+import { addArtwork, addArtworkToCollection, addArtworkToExhibition, getAllArtworks, updateArtwork } from '../../backend/Artworks.api';
 
 var artworkrow = await getAllArtworks();
 
@@ -33,6 +33,8 @@ export default function EmployeeArtworks() {
     const [errorMessage2, setErrorMessage2] = React.useState("");
     const [showAlert3, setShowAlert3] = React.useState(false);
     const [errorMessage3, setErrorMessage3] = React.useState("");
+    const [showAlert4, setShowAlert4] = React.useState(false);
+    const [errorMessage4, setErrorMessage4] = React.useState("");
     //hooks for adding art collections
     const [AAddTitle, setAAddTitle] = useState('');
     const [AAddArtistID, setAAddID] = useState('');
@@ -79,7 +81,7 @@ export default function EmployeeArtworks() {
     const onClickAddArtwork = async () => {
       var truth1, truth2, truth3, truth4, truth5, truth6, truth7, truth8, truth9, truth10;
 
-      if (AAddArtistID === 'NULL' || AAddArtistID === 'null' || AAddArtistID === "") {truth1 = null} else {truth1 = Number(AAddArtistID)}
+      if (AAddArtistID === 'NULL' || AAddArtistID === 'null' || AAddArtistID === "") {truth1 = null} else {truth1 = AAddArtistID}
       if (AAddTitle === 'NULL' || AAddTitle === 'null' || AAddTitle === "") {truth2 = null} else {truth2 = AAddTitle}
       if (AAddLocation === 'NULL' || AAddLocation === 'null' || AAddLocation === "") {truth3 = null} else {truth3 = AAddLocation}
       if (AAddDescription === 'NULL' || AAddDescription === 'null' || AAddDescription === "") {truth4 = null} else {truth4 = AAddDescription}
@@ -89,9 +91,10 @@ export default function EmployeeArtworks() {
       if (AAddSupplier === 'NULL' || AAddSupplier === 'null' || AAddSupplier === "") {truth8 = null} else {truth8 = Number(AAddSupplier)}
       if (AAddDateAcquired === 'NULL' || AAddDateAcquired === 'null' || AAddDateAcquired === "") {truth9 = null} else {truth9 = AAddDateAcquired}
       if (AAddImageURL === 'NULL' || AAddImageURL === 'null' || AAddImageURL === "") {truth10 = null} else {truth10 = AAddImageURL}
+      console.log(AAddArtistID);
       try {
         const newArtwork = {
-          ArtistID: truth1,
+          ArtistName: truth1,
           Title: truth2,
           ArtworkLocation: truth3,
           Description: truth4,
@@ -165,7 +168,7 @@ export default function EmployeeArtworks() {
       console.log(ID);
       var truth1, truth2, truth3, truth4, truth5, truth6, truth7, truth8, truth9, truth10;
 
-      if (AUpdateArtistID === 'NULL' || AUpdateArtistID === 'null' || AUpdateArtistID === "") {truth1 = null} else {truth1 = Number(AUpdateArtistID)}
+      if (AUpdateArtistID === 'NULL' || AUpdateArtistID === 'null' || AUpdateArtistID === "") {truth1 = null} else {truth1 = AUpdateArtistID}
       if (AUpdateTitle === 'NULL' || AUpdateTitle === 'null' || AUpdateTitle === "") {truth2 = null} else {truth2 = AUpdateTitle}
       if (AUpdateLocation === 'NULL' || AUpdateLocation === 'null' || AUpdateLocation === "") {truth3 = null} else {truth3 = AUpdateLocation}
       if (AUpdateDescription === 'NULL' || AUpdateDescription === 'null' || AUpdateDescription === "") {truth4 = null} else {truth4 = AUpdateDescription}
@@ -175,9 +178,10 @@ export default function EmployeeArtworks() {
       if (AUpdateSupplier === 'NULL' || AUpdateSupplier === 'null' || AUpdateSupplier === "") {truth8 = null} else {truth8 = Number(AUpdateSupplier)}
       if (AUpdateDateAcquired === 'NULL' || AUpdateDateAcquired === 'null' || AUpdateDateAcquired === "") {truth9 = null} else {truth9 = AUpdateDateAcquired}
       if (AUpdateImageURL === 'NULL' || AUpdateImageURL === 'null' || AUpdateImageURL === "") {truth10 = null} else {truth10 = AUpdateImageURL}
+      
       try {
         const updatedArtwork = {
-          ArtistID: truth1,
+          ArtistName: truth1,
           Title: truth2,
           ArtworkLocation: truth3,
           Description: truth4,
@@ -227,11 +231,38 @@ export default function EmployeeArtworks() {
       }
     }
 
+    const [AAddToEArtworkID, setAAddToEArtworkID] = useState('');
+    const [AAddToEExhibitionID, setAAddToEExhibitionID] = useState('');
+
+    const handleSetAAddToEArtworkID = (event) => {
+      setAAddToEArtworkID(event.target.value);
+    }
+    const handleSetAAddToEExhibitionID = (event) => {
+      setAAddToEExhibitionID(event.target.value);
+    }
+
+    const onClickAddToExhibition = async () => {
+      var artID; if (AAddToEArtworkID === "") {artID = null} else {artID = Number(AAddToEArtworkID)}
+      var exhibitionID; if (AAddToEExhibitionID === "") {exhibitionID = null} else {exhibitionID = Number(AAddToEExhibitionID)}
+      try {
+        const body = {
+          ExhibitionID: exhibitionID,
+          ArtworkID: artID
+        }
+        await addArtworkToExhibition(body);
+        setShowAlert4(false);
+        setErrorMessage4('');
+      } catch (error) {
+        setErrorMessage4("Input error, please fix!");
+        setShowAlert4(true);
+      }
+    }
+
   const artworkcolumns = [
     { field: 'ArtworkID', headerName: 'Artwork ID', width: 200 },
     {
-      field: 'ArtistID',
-      headerName: 'Artist ID',
+      field: 'ArtistName',
+      headerName: 'Artist Name',
       flex: 1,
       editable: false,
     },
@@ -254,18 +285,7 @@ export default function EmployeeArtworks() {
       flex: 1,
       editable: false,
     },
-    {
-      field: 'CollectionID',
-      headerName: 'Collection ID',
-      flex: 1,
-      editable: false,
-    },
-    {
-      field: 'ExhibitionID',
-      headerName: 'Exhibition ID',
-      flex: 1,
-      editable: false,
-    },
+
     {
       field: 'Medium',
       headerName: 'Medium',
@@ -413,7 +433,7 @@ export default function EmployeeArtworks() {
                 />
                 <TextField
                   id="Artist"
-                  label="Artist ID"
+                  label="Artist Name"
                   variant='outlined'
                   sx={{ paddingRight: 1, paddingBottom: 1 }}
                   onChange={handleSetAAddID}
@@ -516,7 +536,7 @@ export default function EmployeeArtworks() {
                 />
                 <TextField
                   id="artUpdateArtist"
-                  label="Artist"
+                  label="Artist Name"
                   variant='outlined'
                   sx={{ paddingRight: 1, paddingBottom: 1 }}
                   onChange={handleSetAUpdateID}
@@ -582,7 +602,7 @@ export default function EmployeeArtworks() {
                   Update
                 </Button>
                 {showAlert2 && (
-                <Alert severity="error" onClose={() => setShowAlert2(false)} sx={{ marginTop: 2, marginBottom: 0 }}>
+                <Alert severity="error" onClose={() => setShowAlert2(false)} sx={{ marginTop: 0, marginBottom: 0 }}>
                 {errorMessage2}
                 </Alert>
                 )}
@@ -646,6 +666,7 @@ export default function EmployeeArtworks() {
                   id="artAddToExhibitionID"
                   label="Artwork ID"
                   variant='outlined'
+                  onChange={handleSetAAddToEArtworkID}
                   sx={{ paddingRight: 1, paddingBottom: 1 }}
                 />
                 <TextField
@@ -653,12 +674,18 @@ export default function EmployeeArtworks() {
                   id="exhibitionAddToID"
                   label="Exhibition ID"
                   variant='outlined'
+                  onChange={handleSetAAddToEExhibitionID}
                   sx={{ paddingRight: 1, paddingBottom: 1 }}
                 />
                 <br />
-                <Button variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
+                <Button onClick={onClickAddToExhibition} variant="outlined" color="primary" sx={{ marginTop: 1, marginBottom: 2, maxWidth: '80px', maxHeight: '50px', minWidth: '80px', minHeight: '50px' }}>
                   Add
                 </Button>
+                {showAlert4 && (
+                <Alert severity="error" onClose={() => setShowAlert4(false)} sx={{ marginTop: 0, marginBottom: 0 }}>
+                {errorMessage4}
+                </Alert>
+                )}
   
               </Box>
   
@@ -681,7 +708,7 @@ export default function EmployeeArtworks() {
               initialState={{
                 pagination: {
                   paginationModel: {
-                    pageSize: 10,
+                    pageSize: 25,
                   },
                 },
               }}

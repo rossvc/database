@@ -26,6 +26,9 @@ import '../../styles/EmployeePageStyles.css'
 export default function EmployeeInfo() {
 
 var employeedata = Object.values(JSON.parse(sessionStorage.getItem("currentUser")));
+
+const [showPassword, setShowPassword] = useState('');
+const handleTogglePassword = () => setShowPassword(showPassword => !showPassword);
     
     return (
         <main>
@@ -223,20 +226,29 @@ var employeedata = Object.values(JSON.parse(sessionStorage.getItem("currentUser"
               />
               <TextField
                 defaultValue={employeedata[9]}
-                sx={{ paddingLeft:"10pt", paddingBottom: "2px", "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }}}
+                sx={{ float: "left", paddingLeft:"10pt", paddingBottom: "2px", "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }}}
                 fullWidth
                 disabled
                 variant='standard'
-                inputProps={{style: {fontSize: "20px", height: "47px", marginBottom: "-15px", paddingBottom: "20px"}}} // font size of input text
+                inputProps={{
+                  style: {fontSize: "20px", height: "47px", marginBottom: "-15px", paddingBottom: "20px"}} } // font size of input text
+                InputProps={{ 
+                  endAdornment: <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleTogglePassword}
+                  >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                }}
+                type={showPassword?"text":"password"}
               />
               <TextField
-                defaultValue={employeedata[10]}
+                defaultValue={employeedata[10] === 1 ? "Admin":"Non-Admin"}
                 sx={{ paddingLeft:"10pt", paddingBottom: "2px", "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }, "& .MuiInputBase-input.Mui-disabled": { WebkitTextFillColor: "black" }}}
                 fullWidth
                 disabled
                 variant='standard'
                 inputProps={{style: {fontSize: "20px", height: "47px", marginBottom: "-15px", paddingBottom: "20px"}}} // font size of input text
-                
               />
                </Box>
 
