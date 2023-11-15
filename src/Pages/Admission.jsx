@@ -15,7 +15,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import TextField from '@mui/material/TextField';
 import { getAllTickets } from '../backend/GetTicketTypes.api';
 
 // Admissions page, should show ticket info and other stuff
@@ -24,62 +23,46 @@ import { getAllTickets } from '../backend/GetTicketTypes.api';
 // Checkout: Users can delete items the no longer want, must input email to recieve recipt
 // Confirmation: If all goes well, user will see a confirmation page that will redirect them to the front page, else, they will get an error page
 
-// TODO LATER: Once database logic is in. Fix this to include database data, Add email confirmation function
-// TODO: add database logic, add order getter page to allow users to get orders 
-
 const data = await getAllTickets();
-console.log(data);
+// console.log(data);
 
-// var increment = 1; 
-// var cardContent = {} // "Price", "Image", "ItemName"
-// for(let d of data){
-//   //console.log(increment,d);
-//   cardContent[increment] = d;
-//   increment+=1;
-// }
+var increment = 1; 
+var cardContent = {} // "AdultTicketPrice", "ChildTicketPrice", "TicketImage", "TicketName", "TicketTypeID", "Description"
+for(let d of data){
+  //console.log(increment,d);
+  cardContent[increment] = d;
+  increment+=1;
+}
 
-// const cards = Array(increment-1).fill(1).map((n, i) => n + i);
+const cards = Array(increment-1).fill(1).map((n, i) => n + i);
 
-const cards = [1, 2, 3, 4]; 
-const cardContent = {
-  1:{"title": "General Admission", "description":"Get access to select pieces housed at MFAH", "adult":12, "child":8, 
-    "image":"https://www.gallerysystems.com/wp-content/uploads/MFAH.Beck-View-S-Interior.jpg" },
-  2:{"title": "Christmas Exhibit", "description":"Get access to general admission and the Christmas Exhibit", "adult":16, "child":11, 
-    "image":"https://images.squarespace-cdn.com/content/v1/586d154f03596e5605562ea7/1576587435737-35YCMHJC3F16V823WDX8/DSvh004915-JPG-Powerpoint-1500px-300dpi.jpg?format=2500w"},
-  3:{"title": "Bayou Bend Exhibit", "description":"Get access to general admission and the Bayou Bend Exhibit", "adult":16, "child":11, 
-    "image":"https://static.mfah.com/images/bayou-bend.13352912055242948009.jpg?width=1024"},
-  4:{"title": "All Exhibits", "description":"Get access to general admission and all exhibits at MFAH", "adult":25, "child":18, 
-    "image":"https://assets.simpleviewinc.com/simpleview/image/upload/crm/houston/Audrey-Jones-Beck-Building-interior-Photo-by-Jenny-Antill-0d329b5e9dae462_0d329dda-95cb-6317-c3eb33fa87f570b0.jpg"}
-};
-
-export default function Admission() {
+export default function Admission(props) {
   //console.log('render');
   const [cart, setCart] = useState([]); // Stores items in cart
   const [state, setState] = useState("default"); // handles what view we have, default, checkout, confirmation
-  const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
-  
+  const [payment, setPayment] = useState('');
+  const user = JSON.parse(sessionStorage.getItem("currentUser"));
+
   const onClickButton = async (card, type) => {
     // Store each ticket in cart, be lazy, just store each one and price, add up price at checkout 
-    //console.log(card, type);
-    setCart([...cart, {key:cart.length, title:cardContent[card]["title"], type:type, price:cardContent[card][type]}]);
+    setCart([...cart, {key:cart.length, title:cardContent[card]["TicketName"], type:type, price:cardContent[card][type], item: cardContent[card]}]);
     // console.log(cart);
   };
 
   const onClickCheckout = async () => {
     if(cart.length !== 0){
       setState("checkout");
-      //console.log(state);
     }
   };
 
   const onClickConfirmation = async () => {
+    // check if user is logged in
     setError(false);
-    var validRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-    if(email !== "" && validRegex.test(email)){
-      // console.log(cart);
+    if(props.isLoggedIn === true && payment != ''){
+      //check out their order
+      console.log(cart);
       setState("confirmation");
-      //console.log(state);
     }
     else{ setError(true); }
   };
@@ -146,19 +129,19 @@ export default function Admission() {
                       // 16:9
                       pt: '56.25%',
                     }}
-                    image={cardContent[card]["image"]}
+                    image={cardContent[card]["TicketImage"]}
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {cardContent[card]["title"]}
+                      {cardContent[card]["TicketName"]}
                     </Typography>
                     <Typography>
-                      {cardContent[card]["description"]}
+                      {cardContent[card]["Description"]}
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button onClick={() => { onClickButton(card, "adult") }} size="small">Adult - ${cardContent[card]["adult"]}</Button>
-                    <Button onClick={() => { onClickButton(card, "child") }} size="small">Child - ${cardContent[card]["child"]}</Button>
+                    <Button onClick={() => { onClickButton(card, "AdultTicketPrice") }} size="small">Adult - ${cardContent[card]["AdultTicketPrice"]}</Button>
+                    <Button onClick={() => { onClickButton(card, "ChildTicketPrice") }} size="small">Child - ${cardContent[card]["ChildTicketPrice"]}</Button>
                   </CardActions>
                 </Card>
               </Grid>
@@ -186,7 +169,7 @@ export default function Admission() {
             <List>
               {cart.map((item) => (
                 <ListItem key={item.key} sx={{ py: 1, px: 0 }}>
-                  <ListItemText primary={item.title} secondary={item.type}/>
+                  <ListItemText primary={item.title} secondary={ item.type === 'AdultTicketPrice' ? 'Adult': 'Child'}/>
                   <Typography variant="body2">{item.price}</Typography>
                   <IconButton onClick={() => {deleteItem(item.key)}}>
                     <DeleteIcon />
@@ -201,19 +184,23 @@ export default function Admission() {
               </ListItem>
               <br/><br/>
               <ListItem sx={{ py: 1, px: 0 }}>
-                <Grid container spacing={3}>
-                <Grid item xs={12} md={4} lg={3}>
-                  <ListItemText primary="Email" secondary={error === true? "Please input a valid email":""}/>
-                </Grid>
-                <Grid item xs={12} md={8} lg={9}>
-                  <TextField required id="outlined-basic" label="Email" variant="outlined" type="email" fullWidth
-                              error={error === true? true:false} placeholder={error === true? "Please input a valid email":""} 
-                              value={email} onChange={(event)=>{setEmail(event.target.value)}} />
-                </Grid>
-                </Grid>
+                {props.isLoggedIn === true ? (
+                  <>
+                  <ListItemText primary="Payment Type" />
+                  <Button onClick={() => { setPayment('Cash') }} variant="outlined" >Cash</Button>
+                    <Button disabled/>
+                  <Button onClick={() => { setPayment('Credit Card') }} variant="outlined">Credit Card</Button>
+                  </>
+                ) : (
+                  <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+                    Please login before proceeding
+                  </Typography>
+                )}
               </ListItem>
             </List>
             <br/>
+            <Button onClick={() => { setState('default') }} variant="contained">Go back</Button>
+            <Button disabled/>
             <Button onClick={() => { onClickConfirmation() }} variant="contained">Confirm</Button>
           </Container>
         </Box>
@@ -282,6 +269,7 @@ export default function Admission() {
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
               An error occured while handling your request, sorry!
+              Please try again.
             </Typography>
             <Stack
               sx={{ pt: 4 }}
