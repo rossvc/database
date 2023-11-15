@@ -124,3 +124,21 @@ export const deleteArtwork = async (itemID) => {
         throw error;
     }
 };
+
+
+export const searchArtworks = async (query) => {
+    try {
+      const response = await fetch(`${baseURL}api/artworks?name=${name}`);
+      
+      if (!response.ok) {
+        throw new Error(`Fetch error: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      return data.data;
+    } catch (error) {
+      console.error('Error searching artworks:', error);
+      throw error;
+    }
+  };
+  
