@@ -77,6 +77,11 @@ export default function Admission(props) {
         TicketTypeID: cart[0].item.TicketTypeID
       };
       //console.log(orderSummary);
+      if (props.user.CustomerID == null){
+        setState("error");
+        return;
+      }
+
       const response = await addTicketSale(orderSummary);
       //console.log(response);
 

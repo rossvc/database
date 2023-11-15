@@ -22,7 +22,7 @@ const ticketColumns = [
 
 var user = JSON.parse(sessionStorage.getItem("currentUser")) || { 'Email': "" };
 
-if (user && user.Email && !"isAdmin" in user) {
+if (user && user.Email && !("isAdmin" in user)) {
   var recipts = await getCustomerRecepits(user.Email);
 
   var increment = 1;

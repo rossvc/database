@@ -78,6 +78,11 @@ export default function GiftShop(props) {
         CustomerID: props.user.CustomerID
       };
       //console.log(orderSummary);
+      if (props.user.CustomerID == null){
+        setState("error");
+        return;
+      }
+
       const response = await addGiftshopSales(orderSummary);
       // console.log(response);
       if (response === true) {

@@ -100,20 +100,12 @@ export default function Exhibition() {
               <Card
                 sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
               >
-                <CardMedia
-                  component="div"
-                  sx={{
-                    // 16:9
-                    pt: '56.25%',
-                  }}
-                  image={exhibition.imageUrl}
-                />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
                     {exhibition.ExhibitionName}
                   </Typography>
                   <Typography>
-                    Start Date: {exhibition.StartDate}
+                    Start Date: {exhibition.StartDate.substr(0, 10)}
                   </Typography>
                   {/* Display other exhibition details */}
                 </CardContent>
