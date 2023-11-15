@@ -215,10 +215,6 @@ export default function CombinedSalesReportPage() {
           Generate Report
         </Button>
 
-        <Typography variant="h6" gutterBottom>
-          Total Purchase Amount: ${totalPurchaseAmount.toFixed(2)}
-        </Typography>
-
         {tableData.length > 0 && (
           <Box sx={{ mt: 4 }}>
             <Typography variant="h6" gutterBottom>
@@ -242,6 +238,9 @@ export default function CombinedSalesReportPage() {
                 </TableBody>
               </Table>
             </TableContainer>
+            <Typography variant="h6" gutterBottom>
+              Total Purchase Amount: ${totalPurchaseAmount.toFixed(2)}
+            </Typography>
           </Box>
         )}
       </Box>
