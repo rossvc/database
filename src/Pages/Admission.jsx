@@ -16,6 +16,7 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
+import { getAllTickets } from '../backend/GetTicketTypes.api';
 
 // Admissions page, should show ticket info and other stuff
 // 3 stages:
@@ -25,6 +26,19 @@ import TextField from '@mui/material/TextField';
 
 // TODO LATER: Once database logic is in. Fix this to include database data, Add email confirmation function
 // TODO: add database logic, add order getter page to allow users to get orders 
+
+const data = await getAllTickets();
+console.log(data);
+
+// var increment = 1; 
+// var cardContent = {} // "Price", "Image", "ItemName"
+// for(let d of data){
+//   //console.log(increment,d);
+//   cardContent[increment] = d;
+//   increment+=1;
+// }
+
+// const cards = Array(increment-1).fill(1).map((n, i) => n + i);
 
 const cards = [1, 2, 3, 4]; 
 const cardContent = {
