@@ -158,7 +158,7 @@ return (
                     <AccountCircleIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeinfo' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Employee Information" secondary="view, edit" />
+                    <ListItemText primary="Employee Information" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -171,7 +171,7 @@ return (
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeartworks' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Artworks" secondary="view, edit, add" />
+                    <ListItemText primary="Artworks" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -184,7 +184,7 @@ return (
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeartcollections' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Art Collections" secondary="view, edit" />
+                    <ListItemText primary="Art Collections" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -197,7 +197,7 @@ return (
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeexhibitions' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Exhibitions" secondary="view, edit" />
+                    <ListItemText primary="Exhibitions" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -210,7 +210,7 @@ return (
                     <ShopIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeegiftshop' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Gift Shop Inventory" secondary="view, edit, add" />
+                    <ListItemText primary="Gift Shop Inventory" />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -223,7 +223,7 @@ return (
                     <LocalShippingIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeesuppliers' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Suppliers" secondary="view, edit, add" />
+                    <ListItemText primary="Suppliers" />
                   </ListItemButton>
                 </ListItem>
               </List>

@@ -181,18 +181,17 @@ export default function EmployeeArtworks() {
       
       try {
         const updatedArtwork = {
-          ArtistName: truth1,
-          Title: truth2,
-          ArtworkLocation: truth3,
-          Description: truth4,
-          CollectionID: null,
-          ExhibitionID: null,
-          Medium: truth5,
-          Dimensions: truth6,
-          Style: truth7,
-          SuppliedBy: truth8,
-          AcquisitionDate: truth9.toISOString().slice(0, 10),
-          Image: truth10
+          
+          ...(truth1!=null? {ArtistName: truth1}: {}),
+          ...(truth2!=null? {Title: truth2}: {}),
+          ...(truth3!=null? {ArtworkLocation: truth3}: {}),
+          ...(truth4!=null? {Description: truth4}:{}),
+          ...(truth5!=null? {Medium: truth5}:{}),
+          ...(truth6!=null? {Dimensions: truth6}:{}),
+          ...(truth7!=null? {Style: truth7}:{}),
+          ...(truth8!=null? {SuppliedBy: truth8}:{}),
+          ...(truth9!=null? {AcquisitionDate: truth9.toISOString().slice(0, 10)}:{}),
+          ...(truth10!=null? {Image: truth10}:{})
         }
         await updateArtwork(ID, updatedArtwork);
         setShowAlert2(false);
@@ -329,7 +328,7 @@ export default function EmployeeArtworks() {
                     <AccountCircleIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeinfo' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Employee Information" secondary="view, edit" />
+                    <ListItemText primary="Employee Information"  />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -342,7 +341,7 @@ export default function EmployeeArtworks() {
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeartworks' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Artworks" secondary="view, edit, add" />
+                    <ListItemText primary="Artworks"  />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -355,7 +354,7 @@ export default function EmployeeArtworks() {
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeartcollections' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Art Collections" secondary="view, edit" />
+                    <ListItemText primary="Art Collections"  />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -368,7 +367,7 @@ export default function EmployeeArtworks() {
                     <ArtTrackIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeeexhibitions' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Exhibitions" secondary="view, edit" />
+                    <ListItemText primary="Exhibitions"  />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -381,7 +380,7 @@ export default function EmployeeArtworks() {
                     <ShopIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeegiftshop' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Gift Shop Inventory" secondary="view, edit, add" />
+                    <ListItemText primary="Gift Shop Inventory"  />
                   </ListItemButton>
                 </ListItem>
               </List>
@@ -394,7 +393,7 @@ export default function EmployeeArtworks() {
                     <LocalShippingIcon fontSize='large' />
                   </ListItemIcon>
                   <ListItemButton href='/employeesuppliers' sx={{ borderRadius: "6px" }}>
-                    <ListItemText primary="Suppliers" secondary="view, edit, add" />
+                    <ListItemText primary="Suppliers" />
                   </ListItemButton>
                 </ListItem>
               </List>
