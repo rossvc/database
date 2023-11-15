@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchExhibitions } from '../backend/connection.Api'; // Updated import for the API file
+import { getAllExhibitions } from '../backend/Exhibition.api'; // Updated import for the API file
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -16,7 +16,7 @@ export default function Exhibition() {
 
   useEffect(() => {
     // Fetch exhibition data when the component mounts
-    fetchExhibitions()
+    getAllExhibitions()
       .then((data) => setExhibitions(data))
       .catch((error) => console.error(error));
   }, []);

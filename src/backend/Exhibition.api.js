@@ -21,7 +21,7 @@ export const addExhibition = async (itemBody) => {
 
 export const getAllExhibitions = async () => {
     try {
-        const response = await fetch(baseURL+"api/exhibitionartworks");
+        const response = await fetch(baseURL+"api/exhibitions");
         if (!response.ok) {
             throw new Error(`Fetch error: ${response.status}`);
         }
