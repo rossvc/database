@@ -103,3 +103,24 @@ export const getArtwork = async (itemID) => {
         throw error;
     }
 };  
+
+export const deleteArtwork = async (itemID) => {
+    try {
+        const response = await fetch(baseURL + "api/artworks/" + itemID, {
+            method: 'DELETE',
+        });
+
+        if (response.status === 200) {
+            const data = await response.json();
+            return { success: data.success };
+        } else if (response.status === 404) {
+            const data = await response.json();
+            throw new Error(data.error);
+        } else {
+            throw new Error('Failed to delete artwork');
+        }
+    } catch (error) {
+        console.error('Error deleting artwork:', error);
+        throw error;
+    }
+};
