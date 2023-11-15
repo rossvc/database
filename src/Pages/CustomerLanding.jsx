@@ -13,8 +13,6 @@ import { getCustomerRecepits } from '../backend/Customer.api';
 // Here customers can use their email address to get a list of all of their purchases, including ticket sales and giftshop sales
 // They will be grouped by order
 
-
-
 const ticketColumns = [
   { field: 'SaleType', headerName: 'Purchase Made', width: 200, },
   { field: 'PurchaseDate', headerName: 'Sale Date', width: 250, },
@@ -24,7 +22,7 @@ const ticketColumns = [
 
 var user = JSON.parse(sessionStorage.getItem("currentUser")) || { 'Email': "" };
 
-if (user && user.Email) {
+if (user && user.Email && !"isAdmin" in user) {
   var recipts = await getCustomerRecepits(user.Email);
 
   var increment = 1;
