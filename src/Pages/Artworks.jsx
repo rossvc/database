@@ -1,60 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import { getAllArtworks, searchArtworks } from '../backend/Artworks.api';
+import { getAllArtworks } from '../backend/Artworks.api'; // Import API functions
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-
+// Fetch artwork data when the component mounts
+// Use API function to get artworks
 export default function Artworks() {
   const [artworks, setArtworks] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    // Fetch all artwork data when the component mounts
-    getAllArtworks()
-      .then((data) => setArtworks(data))
-      .catch((error) => console.error(error));
+    fetchArtworksData(); 
   }, []);
 
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-    if (query.trim() !== '') {
-      // Perform a search based on the query
-      searchArtworks(query)
-        .then((data) => setArtworks(data))
-        .catch((error) => console.error(error));
-    } else {
-      // If the search query is empty, fetch all artworks
-      getAllArtworks()
-        .then((data) => setArtworks(data))
-        .catch((error) => console.error(error));
+  const fetchArtworksData = async () => {
+    try {
+      const data = await getAllArtworks(); 
+      setArtworks(data);
+    } catch (error) {
+      console.error('Error fetching artworks:', error);
     }
   };
 
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredArtworks = artworks.filter((artwork) => {
+    return (
+      artwork.Title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      artwork.Description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
   return (
     <main>
-      {/* Your welcome message and introductory content */}
-
-      {/* Search Bar */}
-      <Container sx={{ py: 20 }} maxWidth="md">
+      <Container sx={{ py: 4 }} maxWidth="md">
         <TextField
           label="Search Artworks"
           variant="outlined"
           fullWidth
-          value={searchQuery}
-          onChange={(e) => handleSearch(e.target.value)}
+          value={searchTerm}
+          onChange={handleSearch}
         />
       </Container>
 
-      {/* Artworks */}
       <Container sx={{ py: 4 }} maxWidth="md">
-        <Typography variant="h5" color="salmon" paragraph>
-          Artworks
-        </Typography>
         <Grid container spacing={4}>
           {artworks.map((artwork) => (
             <Grid item key={artwork.ArtworkID} xs={12} sm={6} md={4}>
@@ -68,12 +63,8 @@ export default function Artworks() {
                   image={artwork.imageUrl}
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {artwork.Title}
-                  </Typography>
-                  <Typography>
-                    {artwork.Description}
-                  </Typography>
+                  <h2>{artwork.Title}</h2>
+                  <p>{artwork.Description}</p>
                 </CardContent>
               </Card>
             </Grid>
@@ -87,7 +78,7 @@ export default function Artworks() {
 
 
 // import React, { useState, useEffect } from 'react';
-// import { getAllArtworks } from '../backend/Artworks.api'; // Import the API function
+// import { fetchArtworks } from '../backend/connection.Api'; // Import the API function
 // import Button from '@mui/material/Button';
 // import Card from '@mui/material/Card';
 // import CardActions from '@mui/material/CardActions';
@@ -104,7 +95,7 @@ export default function Artworks() {
 
 //   useEffect(() => {
 //     // Fetch artwork data when the component mounts
-//     getAllArtworks()
+//     fetchArtworks()
 //       .then((data) => setArtworks(data))
 //       .catch((error) => console.error(error));
 //   }, []);
