@@ -61,7 +61,6 @@ export default function ReportPage() {
 
       const response = await fetch(requestURL);
       const data = await response.json();
-
       const filteredData = data.data.filter((item) => {
         const purchaseDate = new Date(item.PurchaseDate);
         const today = new Date();
@@ -224,8 +223,10 @@ export default function ReportPage() {
                           <TableCell>
                             {item.PurchaseDate.substring(0, 10)}
                           </TableCell>
-                          <TableCell>{item.CustomerID}</TableCell>
-                          <TableCell>{item.EmployeeID}</TableCell>
+                          <TableCell>
+                            {item.CustomerFirstName +' ' + item.CustomerLastName}
+                          </TableCell>
+                          <TableCell>{item.EmployeeFirstName+' ' + item.EmployeeFirstName}</TableCell>
                           <TableCell>{item.PurchaseAmount}</TableCell>
                           <TableCell>{item.TicketPaymentMethod}</TableCell>
                           <TableCell>{item.TicketID}</TableCell>

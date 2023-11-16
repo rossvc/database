@@ -225,11 +225,11 @@ export default function GiftShopReportPage() {
                           <TableCell>
                             {item.SaleDate.substring(0, 10)}
                           </TableCell>
-                          <TableCell>{item.EmployeeID}</TableCell>
+                          <TableCell>{item.EmployeeFirstName+' ' + item.EmployeeFirstName}</TableCell>
                           <TableCell>{item.ItemID}</TableCell>
                           <TableCell>{item.SaleAmount}</TableCell>
                           <TableCell>{item.GiftShopPaymentMethod}</TableCell>
-                          <TableCell>{item.CustomerID}</TableCell>
+                          {item.CustomerFirstName +' ' + item.CustomerLastName}
                         </TableRow>
                       ))}
                     </TableBody>
