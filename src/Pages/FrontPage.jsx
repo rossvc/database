@@ -73,14 +73,6 @@ export default function FrontPage() {
               <Card
                 sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
               >
-                <CardMedia
-                  component="div"
-                  sx={{
-                    // 16:9
-                    pt: '56.25%',
-                  }}
-                  image="https://source.unsplash.com/random?wallpapers" 
-                />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="h2">
                     {exhibitCardContent[card]["ExhibitionName"]}
