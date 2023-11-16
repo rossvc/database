@@ -210,8 +210,8 @@ export default function ReportPage() {
                     <TableHead>
                       <TableRow>
                         <TableCell>Date</TableCell>
-                        <TableCell>CustomerID</TableCell>
-                        <TableCell>EmployeeID</TableCell>
+                        <TableCell>Customer Name</TableCell>
+                        <TableCell>Employee Name</TableCell>
                         <TableCell>Purchase Amount</TableCell>
                         <TableCell>Ticket Payment Method</TableCell>
                         <TableCell>Ticket ID</TableCell>
@@ -224,9 +224,15 @@ export default function ReportPage() {
                             {item.PurchaseDate.substring(0, 10)}
                           </TableCell>
                           <TableCell>
-                            {item.CustomerFirstName +' ' + item.CustomerLastName}
+                            {item.CustomerFirstName +
+                              " " +
+                              item.CustomerLastName}
                           </TableCell>
-                          <TableCell>{item.EmployeeFirstName+' ' + item.EmployeeFirstName}</TableCell>
+                          <TableCell>
+                            {item.EmployeeFirstName +
+                              " " +
+                              item.EmployeeFirstName}
+                          </TableCell>
                           <TableCell>{item.PurchaseAmount}</TableCell>
                           <TableCell>{item.TicketPaymentMethod}</TableCell>
                           <TableCell>{item.TicketID}</TableCell>
