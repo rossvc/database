@@ -82,7 +82,7 @@ export default function FrontPage() {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small">View</Button>
+                  <Button href='/exhibition' size="small">View</Button>
                 </CardActions>
               </Card>
             </Grid>
@@ -118,7 +118,7 @@ export default function FrontPage() {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small">View</Button>
+                  <Button href='/artworks' size="small">View</Button>
                 </CardActions>
               </Card>
             </Grid>

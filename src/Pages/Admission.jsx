@@ -47,17 +47,42 @@ export default function Admission(props) {
   const [payment, setPayment] = useState('');
 
   const onClickButton = async (card, type) => {
-    // Store each ticket in cart, be lazy, just store each one and price, add up price at checkout 
-    setCart([...cart, {key:cart.length, title:cardContent[card]["TicketName"], type:type, price:cardContent[card][type], item: cardContent[card]}]);
-    // console.log(cart);
+    const updatedCart = [...cart];
+    const itemToUpdateIndex = updatedCart.findIndex(item => item.title === cardContent[card]["TicketName"] && item.type === type);
+  
+    if (itemToUpdateIndex !== -1) { 
+      updatedCart[itemToUpdateIndex].quantity += 1;
+    } else {
+      updatedCart.push({
+        key: updatedCart.length,
+        title: cardContent[card]["TicketName"],
+        type: type,
+        price: cardContent[card][type],
+        quantity: 1,
+        item: cardContent[card]
+      });
+    }
+  
+    setCart(updatedCart);
+  };  
+
+  const handleQuantityChange = (e, key) => {
+    const updatedCart = [...cart];
+    const itemIndex = updatedCart.findIndex((item) => item.key === key);
+  
+    if (itemIndex !== -1) {
+      updatedCart[itemIndex].quantity = parseInt(e.target.value, 10) || 1;
+      setCart(updatedCart);
+    }
   };
+  //console.log(cart);
 
   const onClickCheckout = async () => {
     if(cart.length !== 0){
       setState("checkout");
     }
-    console.log(cart[0].item);
-    console.log(cart.reduce((n, {price}) => n + price, 0));
+    // console.log(cart[0].item);
+    // console.log(cart.reduce((n, {price}) => n + price, 0));
   };
 
   const onClickConfirmation = async () => {
@@ -197,7 +222,10 @@ export default function Admission(props) {
               {cart.map((item) => (
                 <ListItem key={item.key} sx={{ py: 1, px: 0 }}>
                   <ListItemText primary={item.title} secondary={ item.type === 'AdultTicketPrice' ? 'Adult': 'Child'}/>
-                  <Typography variant="body2">{item.price}</Typography>
+                  <input type="number" id="quantity" name="quantity" min="1" max="9" value={item.quantity}
+                         onChange={(e) => handleQuantityChange(e, item.key)}></input>{/*Make the max teh stock*/}
+                  <Button disabled/>
+                  <Typography variant="body2">{item.price*item.quantity}</Typography>
                   <IconButton onClick={() => {deleteItem(item.key)}}>
                     <DeleteIcon />
                   </IconButton>
@@ -206,7 +234,7 @@ export default function Admission(props) {
               <ListItem sx={{ py: 1, px: 0 }}>
                 <ListItemText primary="Total" />
                 <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                  ${cart.reduce((n, {price}) => n + price, 0)}
+                  ${cart.reduce((n, {price,quantity}) => n + price*quantity, 0)}
                 </Typography>
               </ListItem>
               <br/><br/>

@@ -44,15 +44,37 @@ export default function GiftShop(props) {
   //console.log('render');
   const [cart, setCart] = useState([]); // Stores items in cart
   const [state, setState] = useState("default"); // handles what view we have, default, checkout, confirmation
-  const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
   const [payment, setPayment] = useState('');
   
   const onClickButton = async (card, price) => {
-    // Store each ticket in cart, be lazy, just store each one and price, add up price at checkout 
-    //console.log(card, type);
-    setCart([...cart, {key:cart.length, title:cardContent[card]["ItemName"], price:price, item: cardContent[card]}]);
-    //console.log(cart);
+    const updatedCart = [...cart];
+    const itemToUpdateIndex = updatedCart.findIndex(item => item.title === cardContent[card]["ItemName"]);
+  
+    if (itemToUpdateIndex !== -1) { 
+      updatedCart[itemToUpdateIndex].quantity += 1;
+    } else {
+      updatedCart.push({
+        key: updatedCart.length,
+        title: cardContent[card]["ItemName"],
+        price: price,
+        quantity: 1,
+        item: cardContent[card]
+      });
+    }
+  
+    setCart(updatedCart);
+  };  
+  console.log(cart);
+
+  const handleQuantityChange = (e, key) => {
+    const updatedCart = [...cart];
+    const itemIndex = updatedCart.findIndex((item) => item.key === key);
+  
+    if (itemIndex !== -1) {
+      updatedCart[itemIndex].quantity = parseInt(e.target.value, 10) || 1;
+      setCart(updatedCart);
+    }
   };
 
   const onClickCheckout = async () => {
@@ -186,7 +208,10 @@ export default function GiftShop(props) {
               {cart.map((item) => (
                 <ListItem key={item.key} sx={{ py: 1, px: 0 }}>
                   <ListItemText primary={item.title} secondary={item.type}/>
-                  <Typography variant="body2">{item.price}</Typography>
+                  <input type="number" id="quantity" name="quantity" min="1" max="9" value={item.quantity}
+                         onChange={(e) => handleQuantityChange(e, item.key)}></input>{/*Make the max teh stock*/}
+                  <Button disabled/>
+                  <Typography variant="body2">{item.price*item.quantity}</Typography>
                   <IconButton onClick={() => {deleteItem(item.key)}}>
                     <DeleteIcon />
                   </IconButton>
@@ -195,7 +220,7 @@ export default function GiftShop(props) {
               <ListItem sx={{ py: 1, px: 0 }}>
                 <ListItemText primary="Total" />
                 <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                  ${cart.reduce((n, {price}) => n + price, 0)}
+                  ${cart.reduce((n, {price,quantity}) => n + price*quantity, 0)}
                 </Typography>
               </ListItem>
               <br/><br/>
