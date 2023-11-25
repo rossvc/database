@@ -81,9 +81,10 @@ export default function Exhibition() {
           InputLabelProps={{
             shrink: true,
           }}
+          fullWidth  
         />
-        <Button disabled/>
-        <Button variant="outlined" onClick={handleResetFilter}>
+        <Button disabled fullWidth /> 
+        <Button variant="outlined" onClick={handleResetFilter} fullWidth>
           Reset
         </Button>
       </Container>
@@ -114,4 +115,3 @@ export default function Exhibition() {
     </main>
   );
 }
-

@@ -13,6 +13,7 @@ import TextField from '@mui/material/TextField';
 export default function Artworks() {
   const [artworks, setArtworks] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [expandedArtworks, setExpandedArtworks] = useState([]);
 
   useEffect(() => {
     fetchAllArtworks();
@@ -33,6 +34,16 @@ export default function Artworks() {
     } else {
       fetchAllArtworks();
     }
+  };
+
+  const handleToggleExpand = (artworkId) => {
+    setExpandedArtworks((prev) => {
+      if (prev.includes(artworkId)) {
+        return prev.filter((id) => id !== artworkId);
+      } else {
+        return [...prev, artworkId];
+      }
+    });
   };
 
   return (
@@ -92,22 +103,23 @@ export default function Artworks() {
                   <Typography gutterBottom variant="h5" component="h2">
                     {artwork.Title}
                   </Typography>
-                  <Typography>
-                    {artwork.Description}
-                  </Typography>
-                  <Typography>
-                    Artist: {artwork.ArtistName}
-                  </Typography>
-                  <Typography>
-                    Medium: {artwork.Medium}
-                  </Typography>
-                  <Typography>
-                    Dimensions: {artwork.Dimensions}
-                  </Typography>
-                  <Typography>
-                    Style: {artwork.Style}
-                  </Typography>
-                  {/* Display other artwork details */}
+                  <Button
+                    onClick={() => handleToggleExpand(artwork.ArtworkID)}
+                    size="small"
+                  >
+                    {expandedArtworks.includes(artwork.ArtworkID)
+                      ? 'Hide Details'
+                      : 'Show Details'}
+                  </Button>
+                  {expandedArtworks.includes(artwork.ArtworkID) && (
+                    <div>
+                      <Typography>{artwork.Description}</Typography>
+                      <Typography>Artist: {artwork.ArtistName}</Typography>
+                      <Typography>Medium: {artwork.Medium}</Typography>
+                      <Typography>Dimensions: {artwork.Dimensions}</Typography>
+                      <Typography>Style: {artwork.Style}</Typography>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </Grid>
