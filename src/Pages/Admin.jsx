@@ -22,6 +22,9 @@ export default function AdminPage() {
   const totalreports = () => {
     navigate("/Totalsalesreport");
   };
+  const supplierreports = () => {
+    navigate("/SupplierReport");
+  };
 
   return (
     <Container maxWidth="sm">
@@ -83,6 +86,21 @@ export default function AdminPage() {
             fullWidth
           >
             Gift Shop Sales Report
+          </Button>
+          <Button
+            variant="contained"
+            size="large"
+            sx={{
+              backgroundColor: "#2e7d32",
+              padding: "10px 36px",
+              "&:hover": {
+                backgroundColor: "#205723",
+              },
+            }}
+            onClick={supplierreports}
+            fullWidth
+          >
+            Suppliers Report
           </Button>
           <Button
             variant="contained"

@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import FrontPage from "./Pages/FrontPage";
 import Reports from "./Pages/EmployeePages/Reports";
 import Totalsalesreport from "./Pages/EmployeePages/Totalsalesreport";
+import SupplierReport from "./Pages/EmployeePages/SupplierReport";
 import Giftshopreport from "./Pages/EmployeePages/Giftshopreport";
 import Admission from "./Pages/Admission";
 import GiftShop from "./Pages/GiftShop";
@@ -124,6 +125,12 @@ function App() {
               }
             />
             <Route
+              path="/supplierreport"
+              element={
+                loggedIn && isAdmin ? <SupplierReport /> : <NotAuthorized />
+              }
+            />
+            <Route
               path="/giftshopreport"
               element={
                 loggedIn && isAdmin ? <Giftshopreport /> : <NotAuthorized />
@@ -151,13 +158,25 @@ function App() {
               path="/admin"
               element={loggedIn && isAdmin ? <Admin /> : <NotAuthorized />}
             />
-            <Route path="/admission" element={<Admission isLoggedIn={loggedIn} user={user}/>} />
-            <Route path="/giftshop" element={<GiftShop isLoggedIn={loggedIn} user={user}/>} />
+            <Route
+              path="/admission"
+              element={<Admission isLoggedIn={loggedIn} user={user} />}
+            />
+            <Route
+              path="/giftshop"
+              element={<GiftShop isLoggedIn={loggedIn} user={user} />}
+            />
             <Route path="/exhibition" element={<Exhibition />} />
             <Route path="/artworks" element={<Artworks />} />
             <Route
               path="/user-details"
-              element={loggedIn ? <CustomerLanding isLoggedIn={loggedIn} /> : <NotAuthorized />}
+              element={
+                loggedIn ? (
+                  <CustomerLanding isLoggedIn={loggedIn} />
+                ) : (
+                  <NotAuthorized />
+                )
+              }
             />
             <Route
               path="/employeelanding"
