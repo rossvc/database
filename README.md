@@ -1,3 +1,8 @@
+Information regarding the pages:
+
+Artworks page: The Artworks page displays a curated collection from the Museum of Fine Arts Houston. Users can search or browse through the artworks, each presented in a card with a "Show Details" option. Clicking this button reveals additional information, such as the artist's name, medium, dimensions, and style. The page features a search function for filtering by title, and the design ensures that expanded details remain visible while interacting with other artworks, providing a seamless exploration experience.
+
+Exhibition page: The Exhibitions page presents a selection of exhibitions at the Museum of Fine Arts Houston. Users can explore ongoing exhibits and filter them by start date, allowing them to plan visits based on their preferred timeframe. The page features a date selector for filtering exhibitions and a "Reset" button to clear filters. Each exhibition is showcased in a card format, displaying its name, start date, and end date. The design provides a straightforward and user-friendly interface for discovering and attending museum exhibitions based on individual preferences and schedules.
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
