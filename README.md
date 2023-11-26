@@ -16,6 +16,9 @@ Not Authorized Page: If users attempt to access pages without the necessary auth
 
 Not Found Page: In the event that a user enters a route that doesn't exist, they are redirected to the not found page. This notifies them that there might be an error in their route.
 
+Employee Pages (Landing Page): Pages that give employees and admins access to database CRUD operations. Allows employees to carry out their functions in relation to the database. Admins gain access to deletion requests to the database. while employees do not have this privilege. 
+
+--------------------------------------
 
 # Getting Started with Create React App
 
