@@ -97,7 +97,7 @@ export default function Admission(props) {
         EmployeeID: 12,
         PurchaseDate: today,
         TicketDate: cart[0].item.TicketDate.substr(0, 10),
-        PurchaseAmount: cart.reduce((n, {price}) => n + price, 0),
+        PurchaseAmount: cart.reduce((n, {price,quantity}) => n + price*quantity, 0),
         TicketPaymentMethod: payment,
         TicketTypeID: cart[0].item.TicketTypeID
       };

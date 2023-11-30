@@ -95,7 +95,7 @@ export default function GiftShop(props) {
         EmployeeID: 12,
         ItemID: cart[0].item.ItemID,
         SaleDate: today,
-        SaleAmount: cart.reduce((n, {price}) => n + price, 0),
+        SaleAmount: cart.reduce((n, {price,quantity}) => n + price*quantity, 0),
         GiftShopPaymentMethod: payment,
         CustomerID: props.user.CustomerID
       };
